@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.demotxt.myapp.myapplication.activities.AnimeActivity"
+    android:background="#303030">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbarlayout_id"
+        android:layout_width="match_parent"
+        android:layout_height="401dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <ImageView
+            android:id="@+id/aa_thumbnailNews"
+            android:layout_width="match_parent"
+            android:layout_height="303dp"
+            android:background="@drawable/loading_shape" />
+
+        <TextView
+            android:id="@+id/aa_titleNews"
+            android:layout_width="match_parent"
+            android:layout_height="51dp"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="Anime Title"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/aa_categorieNews"
+            android:layout_width="match_parent"
+            android:layout_height="34dp"
+            android:layout_marginTop="5dp"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="Category"
+            android:textColor="#A8A8A8" />
+
+
+    </android.support.design.widget.AppBarLayout>
+
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:padding="16dp"        >
+
+
+        <TextView
+            android:id="@+id/aa_descriptionNews"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Anime Description"
+            android:textColor="#fff"
+            android:textSize="16sp" />
+
+
+
+    </android.support.v4.widget.NestedScrollView>
+
+    
+</android.support.design.widget.CoordinatorLayout>

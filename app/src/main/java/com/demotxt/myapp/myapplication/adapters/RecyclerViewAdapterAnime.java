@@ -22,14 +22,14 @@ import java.util.List;
  * Created by Aws on 11/03/2018.
  */
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
+public class RecyclerViewAdapterAnime extends RecyclerView.Adapter<RecyclerViewAdapterAnime.MyViewHolder> {
 
     private Context mContext ;
     private List<Anime> mData ;
     RequestOptions option;
 
 
-    public RecyclerViewAdapter(Context mContext, List<Anime> mData) {
+    public RecyclerViewAdapterAnime(Context mContext, List<Anime> mData) {
         this.mContext = mContext;
         this.mData = mData;
 

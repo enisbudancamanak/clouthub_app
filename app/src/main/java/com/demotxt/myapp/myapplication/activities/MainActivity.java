@@ -1,9 +1,13 @@
 package com.demotxt.myapp.myapplication.activities;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.Button;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -13,7 +17,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.demotxt.myapp.myapplication.R;
-import com.demotxt.myapp.myapplication.adapters.RecyclerViewAdapter;
+import com.demotxt.myapp.myapplication.adapters.RecyclerViewAdapterAnime;
 import com.demotxt.myapp.myapplication.adapters.RecyclerViewAdapterFortniteNews;
 import com.demotxt.myapp.myapplication.model.Anime;
 import com.demotxt.myapp.myapplication.model.FortniteNews;
@@ -39,20 +43,21 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView ;
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        jsonrequestFortniteNews();
 
         lstAnime = new ArrayList<>() ;
         lstFortniteNews = new ArrayList<>() ;
         recyclerView = findViewById(R.id.recyclerviewid);
 
-        jsonrequestFortniteNews();
-
-
-
     }
+
+
 
     private void jsonrequestAnime() {
 
@@ -103,11 +108,12 @@ public class MainActivity extends AppCompatActivity {
     private void setuprecyclerview(List<Anime> lstAnime) {
 
 
-        RecyclerViewAdapter myadapter = new RecyclerViewAdapter(this,lstAnime) ;
+        RecyclerViewAdapterAnime myadapter = new RecyclerViewAdapterAnime(this,lstAnime) ;
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(myadapter);
 
     }
+
 
 
     private void jsonrequestFortniteNews() {
@@ -152,7 +158,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void setuprecyclerviewFortniteNews(List<FortniteNews> fortniteNews) {
-
 
         RecyclerViewAdapterFortniteNews myadapter = new RecyclerViewAdapterFortniteNews(this,fortniteNews) ;
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

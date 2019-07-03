@@ -10,7 +10,11 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,24 +41,29 @@ public class FortniteStatsShow extends AppCompatActivity {
     Toolbar toolbar;
     BottomNavigationView bottomNav;
 
+    ListView listViewNews;
+    int[] statsIcons = {R.drawable.ic_kills, R.drawable.ic_deaths, R.drawable.ic_wins, R.drawable.ic_kd};
+    static String[] statsValues;
+
     private JsonObjectRequest requestFortniteNews ;
     private RequestQueue requestQueue ;
     String url;
     String username;
+    FortniteStats fortniteStats;
 
-    EditText usernameInput;
-    TextView kills;
-    TextView deaths;
-    TextView playedGames;
-    TextView kd;
 
-    //ListViewTutorial= https://www.youtube.com/watch?v=5Tm--PHhbJo
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fortnite_stats_show);
 
+        username = getIntent().getExtras().getString("username");
+        url = getIntent().getExtras().getString("url") + username;
+
+        listViewNews = findViewById(R.id.listViewNews);
+        jsonrequestFortniteStats(url);
 
         bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
@@ -65,11 +74,14 @@ public class FortniteStatsShow extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
+        CustomAdapter customAdapter = new CustomAdapter();
+        listViewNews.setAdapter(customAdapter);
 
-            username = getIntent().getExtras().getString("username");
-            url = getIntent().getExtras().getString("url") + username;
-            System.out.println("URL: " + url);
-            jsonrequestFortniteStats(url);
+
+
+
+
+
 
 
     }
@@ -112,7 +124,6 @@ public class FortniteStatsShow extends AppCompatActivity {
 
 
     private void jsonrequestFortniteStats(String url) {
-
         requestFortniteNews = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -129,18 +140,19 @@ public class FortniteStatsShow extends AppCompatActivity {
                         value[i] = String.valueOf(jObj.getString("value"));
                     }
 
-                    FortniteStats fortniteStats = new FortniteStats();
+                    fortniteStats = new FortniteStats();
                     fortniteStats.setKills(value[10]);
                     fortniteStats.setWins(value[8]);
                     fortniteStats.setKd(value[11]);
-                    System.out.println(value[11]);
+
+                    //deaths = kd * kills;
 
 
                 } catch (JSONException e) {
                     System.out.println("FEHLER");
                 }
-
             }
+
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
@@ -158,9 +170,40 @@ public class FortniteStatsShow extends AppCompatActivity {
             }
         };
 
+
         requestQueue = Volley.newRequestQueue(FortniteStatsShow.this);
         requestQueue.add(requestFortniteNews) ;
 
     }
 
+    private class CustomAdapter extends BaseAdapter {
+
+        @Override
+        public int getCount() {
+            return statsIcons.length;
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int i, View view, ViewGroup viewGroup) {
+            View view1 = getLayoutInflater().inflate(R.layout.row_statsitem, null);
+
+            TextView name = view1.findViewById(R.id.statsValue);
+            ImageView image = view1.findViewById(R.id.iconStats);
+
+            name.setText(statsValues[i]);
+            image.setImageResource(statsIcons[i]);
+
+            return view1;
+        }
+    }
 }

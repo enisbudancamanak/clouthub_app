@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#303030"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/fortnitenewsbg"
     tools:context="com.demotxt.myapp.myapplication.activities.MainActivity">
-
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimary"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"></android.support.v7.widget.Toolbar>
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        ></android.support.v7.widget.Toolbar>
+
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottom_navigation"
@@ -27,30 +27,64 @@
         app:itemTextColor="@color/white"
         app:menu="@menu/bottom_navigation" />
 
-    <android.support.constraint.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingTop="?android:attr/actionBarSize"
+        android:paddingBottom="?android:attr/actionBarSize">
 
-        <EditText
-            android:id="@+id/usernameEditText"
-            android:layout_width="wrap_content"
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.8"
+            android:background="@drawable/gradient_bg" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="500dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Name"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
-    </android.support.constraint.ConstraintLayout>
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp">
 
+            <EditText
+                android:id="@+id/usernameEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorWhite"
+                android:fontFamily="sans-serif-light"
+                android:hint="Benutzername"
+                android:inputType="textEmailAddress"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite"
+                android:textSize="17sp" />
+
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"
+            android:src="@drawable/ic_cloud" />
+
+
+        <Button
+            android:id="@+id/fortniteStatsButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/button_red"
+            android:text="Statistiken auslesen!"
+            android:textColor="@color/colorWhite" />
+    </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>
+
+
 
 
 

@@ -26,8 +26,6 @@ public class FortniteStatsTransfer extends AppCompatActivity {
     private JsonObjectRequest requestFortniteNews ;
     private RequestQueue requestQueue ;
     String url = "http://api.fortnitetracker.com/v1/profile/pc/";
-    String username;
-
     EditText usernameInput;
 
 
@@ -49,7 +47,6 @@ public class FortniteStatsTransfer extends AppCompatActivity {
         usernameInput = findViewById(R.id.usernameEditText);
         usernameInput.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View view, int keyCode, KeyEvent keyevent) {
-                //If the keyevent is a key-down event on the "enter" button
                 if ((keyevent.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
                     statistikenAuslesen(String.valueOf(usernameInput.getText()));
                     return true;

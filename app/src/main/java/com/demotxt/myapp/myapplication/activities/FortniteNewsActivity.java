@@ -3,6 +3,8 @@ package com.demotxt.myapp.myapplication.activities;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,13 +14,17 @@ import com.demotxt.myapp.myapplication.R;
 
 public class FortniteNewsActivity extends AppCompatActivity {
 
+
+    Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fortnite);
 
-        // hide the default actionbar
-        getSupportActionBar().hide();
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         // Recieve data
 
@@ -49,10 +55,11 @@ public class FortniteNewsActivity extends AppCompatActivity {
 
         // set image using Glide
         Glide.with(this).load(image_url).apply(requestOptions).into(img_thumbnail);
+    }
 
-
-
-
-
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 }

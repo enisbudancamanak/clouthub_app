@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.demotxt.myapp.myapplication.R;
-import com.demotxt.myapp.myapplication.activities.AnimeActivity;
 import com.demotxt.myapp.myapplication.activities.FortniteNewsActivity;
 import com.demotxt.myapp.myapplication.activities.MainActivity;
 import com.demotxt.myapp.myapplication.model.FortniteNews;

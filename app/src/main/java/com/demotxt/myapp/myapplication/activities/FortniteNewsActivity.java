@@ -59,7 +59,7 @@ public class FortniteNewsActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
+        getMenuInflater().inflate(R.menu.menu_news, menu);
         return super.onCreateOptionsMenu(menu);
     }
 }

@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.demotxt.myapp.myapplication.R;
 import com.demotxt.myapp.myapplication.activities.FortniteNewsActivity;
-import com.demotxt.myapp.myapplication.activities.MainActivity;
+import com.demotxt.myapp.myapplication.activities.FortniteNewsShow;
 import com.demotxt.myapp.myapplication.model.FortniteNews;
 
 import java.util.List;
@@ -32,7 +32,7 @@ public class RecyclerViewAdapterFortniteNews extends RecyclerView.Adapter<Recycl
 
 
 
-    public RecyclerViewAdapterFortniteNews(MainActivity mContext, List<FortniteNews> mData) {
+    public RecyclerViewAdapterFortniteNews(FortniteNewsShow mContext, List<FortniteNews> mData) {
         this.mContext = mContext;
         this.mData = mData;
 
@@ -58,6 +58,7 @@ public class RecyclerViewAdapterFortniteNews extends RecyclerView.Adapter<Recycl
                 i.putExtra("fortnite_img",mData.get(viewHolder.getAdapterPosition()).getImage_url());
 
                 mContext.startActivity(i);
+
 
             }
         });

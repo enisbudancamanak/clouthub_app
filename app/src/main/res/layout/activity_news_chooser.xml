@@ -7,16 +7,6 @@
     tools:context="com.demotxt.myapp.myapplication.activities.MainActivity"
     android:background="#303030">
 
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:paddingTop="?attr/actionBarSize"
-        android:paddingBottom="60dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:id="@+id/recyclerviewid"></android.support.v7.widget.RecyclerView>
 
 
     <android.support.v7.widget.Toolbar
@@ -38,7 +28,37 @@
         app:itemTextColor="@color/white"
         app:itemIconTint="@color/white" />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:paddingTop="?attr/actionBarSize"
+        android:paddingBottom="60dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        >
+
+
+        <Button
+            android:id="@+id/buttonFortniteStats"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginRight="50dp"
+            android:background="@drawable/shape"
+            android:drawableLeft="@drawable/ic_fortnite"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="Fortnite News  >"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
 
 </android.support.design.widget.CoordinatorLayout>
+
 
 

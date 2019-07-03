@@ -11,6 +11,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activities.FortniteStatsShow"
+            android:parentActivityName=".activities.FortniteStatsTransfer"></activity>
+        <activity android:name=".activities.FortniteStatsTransfer"
+            android:parentActivityName=".activities.StatsChooser"/>
+        <activity android:name=".activities.StatsChooser" />
+        <activity android:name=".activities.FortniteNewsShow"
+            android:parentActivityName=".activities.NewsChooser"/>
+        <activity android:name=".activities.NewsChooser" />
         <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,9 +26,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.AnimeActivity"></activity>
-        <activity android:name=".activities.FortniteNewsActivity"></activity>
-        <activity android:name=".activities.StartActivity"></activity>
+        <activity android:name=".activities.AnimeActivity" />
+        <activity android:name=".activities.FortniteNewsActivity" />
     </application>
 
 </manifest>

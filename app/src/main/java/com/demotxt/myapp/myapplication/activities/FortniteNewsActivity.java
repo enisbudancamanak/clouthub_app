@@ -20,7 +20,7 @@ public class FortniteNewsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fortnite);
+        setContentView(R.layout.activity_fortnite_news_full);
 
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);

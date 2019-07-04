@@ -7,6 +7,20 @@
     android:background="@drawable/fortnitenewsbg"
     tools:context="com.demotxt.myapp.myapplication.activities.MainActivity">
 
+
+    <ListView
+        android:id="@+id/listViewNews"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="?android:attr/actionBarSize"
+        android:paddingBottom="?android:attr/actionBarSize" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.1"
+        android:background="@drawable/gradient_bg" />
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -27,12 +41,6 @@
         app:itemTextColor="@color/white"
         app:menu="@menu/bottom_navigation" />
 
-    <ListView
-        android:id="@+id/listViewNews"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="?android:attr/actionBarSize"
-        android:paddingBottom="?android:attr/actionBarSize" />
 
 
 

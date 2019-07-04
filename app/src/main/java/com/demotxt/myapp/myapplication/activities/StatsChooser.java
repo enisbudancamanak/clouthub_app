@@ -19,7 +19,8 @@ public class StatsChooser extends AppCompatActivity {
     BottomNavigationView bottomNav;
 
 
-    Button buttonFortniteNews;
+    Button buttonFortniteStats;
+    Button buttonOSUStats;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,11 +34,19 @@ public class StatsChooser extends AppCompatActivity {
         toolbar.setSubtitle("Wähle deine Stats aus!");
         setSupportActionBar(toolbar);
 
-        buttonFortniteNews = findViewById(R.id.buttonFortniteStats);
-        buttonFortniteNews.setOnClickListener(new View.OnClickListener() {
+        buttonFortniteStats = findViewById(R.id.buttonFortniteStats);
+        buttonFortniteStats.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(StatsChooser.this, FortniteStatsTransfer.class));
+            }
+        });
+
+        buttonOSUStats = findViewById(R.id.buttonOSUStats);
+        buttonOSUStats.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(StatsChooser.this, OSUStatsTransfer.class));
             }
         });
 

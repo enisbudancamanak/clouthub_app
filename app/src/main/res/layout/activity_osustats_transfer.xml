@@ -42,7 +42,7 @@
             android:layout_marginRight="40dp">
 
             <EditText
-                android:id="@+id/usernameFortnite"
+                android:id="@+id/usernameOSU"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorWhite"
@@ -52,23 +52,6 @@
                 android:textColor="@color/colorWhite"
                 android:textColorHint="@color/colorWhite"
                 android:textSize="22sp" />
-
-            <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
-                android:id="@+id/spinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
-                android:hint="Wähle deine Plattform aus"
-                android:fontFamily="sans-serif-light"
-                android:textColor="@color/white"
-                app:met_floatingLabel="normal"
-                app:met_baseColor="@color/white"
-                app:met_primaryColor="@color/white"
-                app:met_errorColor="@color/white"/>
-
-
-
-
 
 
         </RelativeLayout>
@@ -82,7 +65,7 @@
 
 
         <Button
-            android:id="@+id/fortniteStatsButton"
+            android:id="@+id/osuStatsButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"

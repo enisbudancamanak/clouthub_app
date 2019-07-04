@@ -16,11 +16,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.demotxt.myapp.myapplication.R;
@@ -32,26 +32,26 @@ import org.json.JSONObject;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
-public class FortniteStatsShow extends AppCompatActivity {
-
+public class OSUStatsShow extends AppCompatActivity {
 
     Toolbar toolbar;
     BottomNavigationView bottomNav;
 
     ListView listViewNews;
-    int[] statsIcons = {R.drawable.ic_kills, R.drawable.ic_deaths, R.drawable.ic_kd, R.drawable.ic_controller, R.drawable.ic_wins, R.drawable.ic_prozent };
+    int[] statsIcons = {R.drawable.ic_repeat, R.drawable.ic_earth, R.drawable.ic_country, R.drawable.ic_country, R.drawable.ic_ss, R.drawable.ic_s, R.drawable.ic_repeat };
     ArrayList<String> arrayList = new ArrayList<>();
     ArrayList<String> arrayNames = new ArrayList<>();
 
-    private JsonObjectRequest requestFortniteNews ;
+
+
+    private JsonArrayRequest requestFortniteNews ;
     private RequestQueue requestQueue ;
     String url;
     String username;
     FortniteStats fortniteStats;
-    DecimalFormat f = new DecimalFormat("#0" + "");
+    DecimalFormat f = new DecimalFormat("#0.00" + "");
 
 
 
@@ -66,7 +66,7 @@ public class FortniteStatsShow extends AppCompatActivity {
         username = getIntent().getExtras().getString("username");
         url = getIntent().getExtras().getString("url");
         System.out.println("URL: "  + url);
-        jsonrequestFortniteStats(url);
+        jsonrequestOSUStats(url);
 
         listViewNews = findViewById(R.id.listViewNews);
 
@@ -74,7 +74,7 @@ public class FortniteStatsShow extends AppCompatActivity {
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
         toolbar = findViewById(R.id.toolbar);
-        toolbar.setSubtitle(username + "'s Fortnite Stats");
+        toolbar.setSubtitle(username + "'s OSU! Stats");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -105,15 +105,15 @@ public class FortniteStatsShow extends AppCompatActivity {
 
                     switch (item.getItemId()) {
                         case R.id.newsMenu:
-                            startActivity(new Intent(FortniteStatsShow.this, NewsChooser.class));
+                            startActivity(new Intent(OSUStatsShow.this, NewsChooser.class));
                             break;
 
                         case R.id.homeMenu:
-                            startActivity(new Intent(FortniteStatsShow.this, MainActivity.class));
+                            startActivity(new Intent(OSUStatsShow.this, MainActivity.class));
                             break;
 
                         case R.id.statsMenu:
-                            startActivity(new Intent(FortniteStatsShow.this, StatsChooser.class));
+                            startActivity(new Intent(OSUStatsShow.this, StatsChooser.class));
                             break;
                     }
                     return true;
@@ -121,47 +121,54 @@ public class FortniteStatsShow extends AppCompatActivity {
             };
 
 
-    private void jsonrequestFortniteStats(String url) {
-        requestFortniteNews = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+
+    private void jsonrequestOSUStats(String url) {
+        requestFortniteNews = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
-            public void onResponse(JSONObject response) {
+            public void onResponse(JSONArray response) {
                 try {
-                    JSONObject jsonObject = new JSONObject(response.toString());
-                    JSONArray jsonArray = jsonObject.getJSONArray("lifeTimeStats");
-
-                    String[] value = new String[jsonArray.length()];
 
 
-                    for(int i = 0; i < jsonArray.length(); i++){
-                        JSONObject jObj = jsonArray.getJSONObject(i);
-                        value[i] = String.valueOf(jObj.getString("value"));
-                    }
+                    JSONObject jsonObject = (JSONObject) response.get(0);
 
 
-                    Double deaths = Double.parseDouble(value[10]) / Double.parseDouble(value[11]);
-                    arrayList.add(value[10]);
-                    arrayList.add(String.valueOf(f.format(deaths)));
-                    arrayList.add(value[11]);
-                    arrayList.add(value[7]);
-                    arrayList.add(value[8]);
-                    arrayList.add(value[9]);
+                    String accuaracy = jsonObject.getString("accuracy");
+                    double accu = Double.parseDouble(accuaracy);
+                    String pp_rank = jsonObject.getString("pp_rank");
+                    String pp_country_rank = jsonObject.getString("pp_country_rank");
+                    String country = jsonObject.getString("country");
+                    String count_rank_ss = jsonObject.getString("count_rank_ss");
+                    String count_rank_s = jsonObject.getString("count_rank_s");
 
-                    arrayNames.add("Kills: ");
-                    arrayNames.add("Deaths: ");
-                    arrayNames.add("KD: ");
-                    arrayNames.add("Matches: ");
-                    arrayNames.add("Wins: ");
-                    arrayNames.add("Winratio: ");
+                    //seconds to hours
+                    int secondsPlayed = jsonObject.getInt("total_seconds_played");
+                    int hoursPlayed = (int) TimeUnit.SECONDS.toHours(secondsPlayed);
+
+
+                    arrayList.add(f.format(accu));
+                    arrayList.add(pp_rank);
+                    arrayList.add(pp_country_rank);
+                    arrayList.add(country);
+                    arrayList.add(count_rank_ss);
+                    arrayList.add(count_rank_s);
+                    arrayList.add("" + hoursPlayed);
+
+                    arrayNames.add("Präzision: ");
+                    arrayNames.add("PP Rank: ");
+                    arrayNames.add("PP " + country + " Rank: ");
+                    arrayNames.add("Land: ");
+                    arrayNames.add(country + " Rank SS:");
+                    arrayNames.add(country + " Rank S:");
+                    arrayNames.add("Gespielte Stunden: ");
+
+                    System.out.println("Gespielt: " + hoursPlayed);
 
                     String[] arrayValues = arrayList.toArray(new String[0]);
                     String[] marrayNames = arrayNames.toArray(new String[0]);
 
 
 
-
-
-
-                    CustomAdapter customAdapter = new CustomAdapter(arrayValues, marrayNames);
+                    OSUStatsShow.CustomAdapter customAdapter = new OSUStatsShow.CustomAdapter(arrayValues, marrayNames);
                     listViewNews.setAdapter(customAdapter);
 
                     Toast.makeText(getApplicationContext(),"Statistiken erfolgreich ausgelesen!",Toast.LENGTH_SHORT).show();
@@ -170,44 +177,37 @@ public class FortniteStatsShow extends AppCompatActivity {
 
 
                 } catch (JSONException e) {
-                    e.printStackTrace();
                     System.out.println("FEHLER");
+                    e.printStackTrace();
                     String[] strArray = {""};
                     String[] arrayError = {"Keinen Benutzernamen gefunden"};
                     statsIcons = new int[] {R.drawable.ic_kills};
-                    CustomAdapter customAdapter = new CustomAdapter(strArray, arrayError);
+                    OSUStatsShow.CustomAdapter customAdapter = new OSUStatsShow.CustomAdapter(strArray, arrayError);
                     listViewNews.setAdapter(customAdapter);
                     Toast.makeText(getApplicationContext(),"Spieler konnte nicht gefunden werden! Überprüfen Sie nochmal Ihre Eingabe!",Toast.LENGTH_LONG).show();
                 }
-            }
 
+            }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
                 System.out.println("FEHLER");
+                error.printStackTrace();
                 String[] strArray = {""};
                 String[] arrayError = {"Keinen Benutzernamen gefunden"};
                 statsIcons = new int[] {R.drawable.ic_kills};
-                CustomAdapter customAdapter = new CustomAdapter(strArray, arrayError);
+                OSUStatsShow.CustomAdapter customAdapter = new OSUStatsShow.CustomAdapter(strArray, arrayError);
                 listViewNews.setAdapter(customAdapter);
                 Toast.makeText(getApplicationContext(),"Spieler konnte nicht gefunden werden! Überprüfen Sie nochmal Ihre Eingabe!",Toast.LENGTH_LONG).show();
             }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Content-Type", "application/json");
-                params.put("TRN-Api-Key", "2fe254f7-9852-4d31-9f63-f66460ebd96a");
-                return params;
-            }
-        };
-
-
-        requestQueue = Volley.newRequestQueue(FortniteStatsShow.this);
-        requestQueue.add(requestFortniteNews) ;
-
+        });
+            requestQueue = Volley.newRequestQueue(OSUStatsShow.this);
+            requestQueue.add(requestFortniteNews) ;
     }
+
+
+
+
 
     private class CustomAdapter extends BaseAdapter {
 
@@ -240,11 +240,11 @@ public class FortniteStatsShow extends AppCompatActivity {
             View view1 = getLayoutInflater().inflate(R.layout.row_statsitem, null);
 
             TextView description = view1.findViewById(R.id.statsName);
-            TextView value = view1.findViewById(R.id.statsValue);
+            TextView name = view1.findViewById(R.id.statsValue);
             ImageView image = view1.findViewById(R.id.iconStats);
 
             description.setText(descriptionArray[i]);
-            value.setText(valuesArray[i]);
+            name.setText(valuesArray[i]);
             image.setImageResource(statsIcons[i]);
 
             return view1;

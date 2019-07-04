@@ -10,8 +10,6 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -19,9 +17,8 @@ import android.widget.Toast;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.demotxt.myapp.myapplication.R;
-import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
-public class FortniteStatsTransfer extends AppCompatActivity {
+public class OSUStatsTransfer extends AppCompatActivity {
 
     Toolbar toolbar;
     BottomNavigationView bottomNav;
@@ -29,10 +26,8 @@ public class FortniteStatsTransfer extends AppCompatActivity {
     private JsonObjectRequest requestFortniteNews ;
     private RequestQueue requestQueue ;
     EditText usernameInput;
-    Button fortniteStatsButton;
+    Button osuStatsButton;
 
-    String[] data = {"PC", "PS4", "XBOX ONE"};
-    String plattform = "null";
 
 
 
@@ -40,45 +35,21 @@ public class FortniteStatsTransfer extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fortnite_stats);
+        setContentView(R.layout.activity_osustats_transfer);
 
 
         bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setSubtitle("Fortnite Stats");
+        toolbar.setSubtitle("OSU! Stats");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
 
-
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, data);
-        MaterialBetterSpinner materialDesignSpinner = (MaterialBetterSpinner)
-                findViewById(R.id.spinner);
-        materialDesignSpinner.setAdapter(arrayAdapter);
-
-        materialDesignSpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position == 0) {
-                    plattform = "pc";
-                } else if(position == 1) {
-                    plattform = "psn";
-                } else if(position == 2) {
-                    plattform = "xbl";
-                }
-
-                System.out.println("Position: " + position + " " + plattform);
-
-            }
-        });
-
-
-        fortniteStatsButton = findViewById(R.id.fortniteStatsButton);
-        fortniteStatsButton.setOnClickListener(new View.OnClickListener() {
+        osuStatsButton = findViewById(R.id.osuStatsButton);
+        osuStatsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 statistikenAuslesen(String.valueOf(usernameInput.getText()));
@@ -86,7 +57,7 @@ public class FortniteStatsTransfer extends AppCompatActivity {
         });
 
 
-        usernameInput = findViewById(R.id.usernameFortnite);
+        usernameInput = findViewById(R.id.usernameOSU);
         usernameInput.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View view, int keyCode, KeyEvent keyevent) {
                 if ((keyevent.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
@@ -110,7 +81,7 @@ public class FortniteStatsTransfer extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-                    return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item);
     }
 
 
@@ -123,15 +94,15 @@ public class FortniteStatsTransfer extends AppCompatActivity {
 
                     switch (item.getItemId()) {
                         case R.id.newsMenu:
-                            startActivity(new Intent(FortniteStatsTransfer.this, NewsChooser.class));
+                            startActivity(new Intent(OSUStatsTransfer.this, NewsChooser.class));
                             break;
 
                         case R.id.homeMenu:
-                            startActivity(new Intent(FortniteStatsTransfer.this, MainActivity.class));
+                            startActivity(new Intent(OSUStatsTransfer.this, MainActivity.class));
                             break;
 
                         case R.id.statsMenu:
-                            startActivity(new Intent(FortniteStatsTransfer.this, StatsChooser.class));
+                            startActivity(new Intent(OSUStatsTransfer.this, StatsChooser.class));
                             break;
                     }
                     return true;
@@ -142,19 +113,16 @@ public class FortniteStatsTransfer extends AppCompatActivity {
 
 
     public void statistikenAuslesen(String username){
-        if(usernameInput.length()!=0 && !plattform.equals("null")) {
+        if(usernameInput.length()!=0) {
             System.out.println(username);
-            Intent i = new Intent(this, FortniteStatsShow.class);
-            i.putExtra("url", "https://api.fortnitetracker.com/v1/profile/" + plattform + "/" + username);
+            Intent i = new Intent(this, OSUStatsShow.class);
+            i.putExtra("url", "https://osu.ppy.sh/api/get_user?u=" + username  + "&k=da379813b9880f9b78aebe3e0b69198251ab426e&format=json");
             i.putExtra("username", username);
-            i.putExtra("plattform", plattform);
             startActivity(i);
         } else {
             Toast.makeText(this, "Bitte füllen Sie die Felder aus", Toast.LENGTH_SHORT).show();
         }
     }
-
-
 
 
 }

@@ -164,7 +164,7 @@ public class FortniteNewsShow extends AppCompatActivity {
             Toast.makeText(this, "Auf deutsch gewechselt", Toast.LENGTH_SHORT).show();
             Toast.makeText(this, "News wurden geladen", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(this, "Changed to englisch", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Changed to english", Toast.LENGTH_SHORT).show();
             Toast.makeText(this, "News loaded", Toast.LENGTH_SHORT).show();
 
         }

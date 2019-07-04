@@ -32,6 +32,7 @@ public class NewsChooser extends AppCompatActivity {
     String urlLanguage;
 
     Button buttonFortniteNews;
+    Button buttonPopularNews;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,7 @@ public class NewsChooser extends AppCompatActivity {
         bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setSubtitle("Wähle deine News aus!");
         setSupportActionBar(toolbar);
@@ -49,7 +51,23 @@ public class NewsChooser extends AppCompatActivity {
         buttonFortniteNews.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(NewsChooser.this, FortniteNewsShow.class));
+                if(NetworkConnection.isNetworkStatusAvialable(getApplicationContext())) {
+                    startActivity(new Intent(NewsChooser.this, FortniteNewsShow.class));
+                } else {
+                    Toast.makeText(NewsChooser.this, "Überprüfen Sie Ihre Internetverbindung", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        buttonPopularNews = findViewById(R.id.buttonPopularNews);
+        buttonPopularNews.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(NetworkConnection.isNetworkStatusAvialable(getApplicationContext())) {
+                    startActivity(new Intent(NewsChooser.this, PopularNewsShow.class));
+                } else {
+                    Toast.makeText(NewsChooser.this, "Überprüfen Sie Ihre Internetverbindung", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

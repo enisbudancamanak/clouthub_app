@@ -73,6 +73,7 @@ public class OSUStatsShow extends AppCompatActivity {
         bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
+
         toolbar = findViewById(R.id.toolbar);
         toolbar.setSubtitle(username + "'s OSU! Stats");
         setSupportActionBar(toolbar);
@@ -180,7 +181,7 @@ public class OSUStatsShow extends AppCompatActivity {
                     System.out.println("FEHLER");
                     e.printStackTrace();
                     String[] strArray = {""};
-                    String[] arrayError = {"Keinen Benutzernamen gefunden"};
+                    String[] arrayError = {"Keinen Spieler gefunden"};
                     statsIcons = new int[] {R.drawable.ic_kills};
                     OSUStatsShow.CustomAdapter customAdapter = new OSUStatsShow.CustomAdapter(strArray, arrayError);
                     listViewNews.setAdapter(customAdapter);
@@ -194,7 +195,7 @@ public class OSUStatsShow extends AppCompatActivity {
                 System.out.println("FEHLER");
                 error.printStackTrace();
                 String[] strArray = {""};
-                String[] arrayError = {"Keinen Benutzernamen gefunden"};
+                String[] arrayError = {"Keinen Spieler gefunden"};
                 statsIcons = new int[] {R.drawable.ic_kills};
                 OSUStatsShow.CustomAdapter customAdapter = new OSUStatsShow.CustomAdapter(strArray, arrayError);
                 listViewNews.setAdapter(customAdapter);

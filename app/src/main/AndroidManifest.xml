@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.demotxt.myapp.myapplication">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -11,10 +12,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.OSUStatsShow"
-            android:parentActivityName=".activities.OSUStatsTransfer"></activity>
-        <activity android:name=".activities.OSUStatsTransfer"
-            android:parentActivityName=".activities.StatsChooser"/>
+        <activity android:name=".activities.PopularNewsShow"
+            android:parentActivityName=".activities.NewsChooser"></activity>
+        <activity
+            android:name=".activities.OSUStatsShow"
+            android:parentActivityName=".activities.OSUStatsTransfer" />
+        <activity
+            android:name=".activities.OSUStatsTransfer"
+            android:parentActivityName=".activities.StatsChooser" />
         <activity
             android:name=".activities.FortniteStatsShow"
             android:parentActivityName=".activities.FortniteStatsTransfer" />
@@ -33,7 +38,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.AnimeActivity" />
         <activity android:name=".activities.FortniteNewsActivity" />
     </application>
 

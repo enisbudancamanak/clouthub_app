@@ -12,30 +12,34 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.demotxt.myapp.myapplication.activities.AnimeActivity;
-import com.demotxt.myapp.myapplication.model.Anime;
-import com.demotxt.myapp.myapplication.R ;
+import com.demotxt.myapp.myapplication.R;
+import com.demotxt.myapp.myapplication.activities.FortniteNewsActivity;
+import com.demotxt.myapp.myapplication.activities.FortniteNewsShow;
+import com.demotxt.myapp.myapplication.activities.PopularNewsShow;
+import com.demotxt.myapp.myapplication.model.FortniteNews;
+import com.demotxt.myapp.myapplication.model.PopularNews;
 
 import java.util.List;
+
 
 /**
  * Created by Aws on 11/03/2018.
  */
 
-public class RecyclerViewAdapterAnime extends RecyclerView.Adapter<RecyclerViewAdapterAnime.MyViewHolder> {
+public class RecyclerViewAdapterPopularNews extends RecyclerView.Adapter<RecyclerViewAdapterPopularNews.MyViewHolder> {
 
     private Context mContext ;
-    private List<Anime> mData ;
+    private List<PopularNews> mData ;
     RequestOptions option;
 
 
-    public RecyclerViewAdapterAnime(Context mContext, List<Anime> mData) {
+
+    public RecyclerViewAdapterPopularNews(PopularNewsShow mContext, List<PopularNews> mData) {
         this.mContext = mContext;
         this.mData = mData;
 
         // Request option for Glide
         option = new RequestOptions().centerCrop().placeholder(R.drawable.loading_shape).error(R.drawable.loading_shape);
-
     }
 
     @Override
@@ -43,22 +47,26 @@ public class RecyclerViewAdapterAnime extends RecyclerView.Adapter<RecyclerViewA
 
         View view ;
         LayoutInflater inflater = LayoutInflater.from(mContext);
-        view = inflater.inflate(R.layout.anime_row_item,parent,false) ;
+        view = inflater.inflate(R.layout.fortnite_row_item,parent,false) ;
         final MyViewHolder viewHolder = new MyViewHolder(view) ;
         viewHolder.view_container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent i = new Intent(mContext, AnimeActivity.class);
-                i.putExtra("anime_name",mData.get(viewHolder.getAdapterPosition()).getName());
-                i.putExtra("anime_description",mData.get(viewHolder.getAdapterPosition()).getDescription());
-                i.putExtra("anime_studio",mData.get(viewHolder.getAdapterPosition()).getStudio());
-                i.putExtra("anime_category",mData.get(viewHolder.getAdapterPosition()).getCategorie());
-                i.putExtra("anime_nb_episode",mData.get(viewHolder.getAdapterPosition()).getNb_episode());
-                i.putExtra("anime_rating",mData.get(viewHolder.getAdapterPosition()).getRating());
-                i.putExtra("anime_img",mData.get(viewHolder.getAdapterPosition()).getImage_url());
+                Intent i = new Intent(mContext, FortniteNewsActivity.class);
+                i.putExtra("title",mData.get(viewHolder.getAdapterPosition()).getTitle());
+                i.putExtra("description",mData.get(viewHolder.getAdapterPosition()).getDescription());
+                i.putExtra("content",mData.get(viewHolder.getAdapterPosition()).getContent());
+                i.putExtra("author",mData.get(viewHolder.getAdapterPosition()).getAuthor());
+                i.putExtra("source",mData.get(viewHolder.getAdapterPosition()).getSource());
+                i.putExtra("urlImage",mData.get(viewHolder.getAdapterPosition()).getUrlImage());
+                i.putExtra("url",mData.get(viewHolder.getAdapterPosition()).getUrl());
+
+
+
 
                 mContext.startActivity(i);
+
 
             }
         });
@@ -69,17 +77,17 @@ public class RecyclerViewAdapterAnime extends RecyclerView.Adapter<RecyclerViewA
         return viewHolder;
     }
 
+
+    //ROW-Items
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
 
-        holder.tv_name.setText(mData.get(position).getName());
-        holder.tv_rating.setText(mData.get(position).getRating());
-        holder.tv_studio.setText(mData.get(position).getStudio());
-        holder.tv_category.setText(mData.get(position).getCategorie());
+        holder.tv_name.setText(mData.get(position).getTitle());
+        holder.tv_description.setText(mData.get(position).getDescription());
 
         // Load Image from the internet and set it into Imageview using Glide
 
-        Glide.with(mContext).load(mData.get(position).getImage_url()).apply(option).into(holder.img_thumbnail);
+        Glide.with(mContext).load(mData.get(position).getUrlImage()).apply(option).into(holder.img_thumbnail);
 
 
 
@@ -93,9 +101,7 @@ public class RecyclerViewAdapterAnime extends RecyclerView.Adapter<RecyclerViewA
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView tv_name ;
-        TextView tv_rating ;
-        TextView tv_studio ;
-        TextView tv_category;
+        TextView tv_description;
         ImageView img_thumbnail;
         LinearLayout view_container;
 
@@ -108,9 +114,7 @@ public class RecyclerViewAdapterAnime extends RecyclerView.Adapter<RecyclerViewA
 
             view_container = itemView.findViewById(R.id.container);
             tv_name = itemView.findViewById(R.id.news_name);
-            tv_category = itemView.findViewById(R.id.categorie);
-            tv_rating = itemView.findViewById(R.id.rating);
-            tv_studio = itemView.findViewById(R.id.description);
+            tv_description = itemView.findViewById(R.id.description);
             img_thumbnail = itemView.findViewById(R.id.thumbnail);
 
         }

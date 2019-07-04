@@ -19,7 +19,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.demotxt.myapp.myapplication.R;
-import com.demotxt.myapp.myapplication.adapters.RecyclerViewAdapterFortniteNews;
+import com.demotxt.myapp.myapplication.adapters.RecyclerViewAdapterPopularNews;
+import com.demotxt.myapp.myapplication.model.PopularNews;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,18 +28,17 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
-public class FortniteNewsShow extends AppCompatActivity {
+public class PopularNewsShow extends AppCompatActivity {
 
     Toolbar toolbar;
     BottomNavigationView bottomNav;
 
-    private JsonObjectRequest requestFortniteNews ;
+    private JsonObjectRequest requestPopularNews;
     private RequestQueue requestQueue ;
-    private List<com.demotxt.myapp.myapplication.model.FortniteNews> lstFortniteNews;
+    private List<PopularNews> lstPopularNews;
     private RecyclerView recyclerView ;
-    String urlLanguage;
+    String url;
 
 
     @Override
@@ -51,19 +51,20 @@ public class FortniteNewsShow extends AppCompatActivity {
 
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setSubtitle("Fortnite News");
+        toolbar.setSubtitle("Populäre News");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        lstFortniteNews = new ArrayList<>() ;
+        lstPopularNews = new ArrayList<>() ;
         recyclerView = findViewById(R.id.recyclerviewid);
 
         try {
-            urlLanguage  = getIntent().getExtras().getString("url");
+            url  = getIntent().getExtras().getString("url");
         } catch (Exception e) {
-            urlLanguage = "https://fortnite-public-api.theapinetwork.com/prod09/br_motd/get?language=de&format=json";
+            url = "https://newsapi.org/v2/top-headlines?country=de&apiKey=37134d9a41c24f379a5c8ecac307e923";
         }
-        jsonrequestFortniteNews(urlLanguage);
+
+        jsonrequestPopularNews(url);
 
     }
 
@@ -77,14 +78,14 @@ public class FortniteNewsShow extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.switchLanguage:
-                if(urlLanguage.equals("https://fortnite-public-api.theapinetwork.com/prod09/br_motd/get?language=de&format=json")) {
-                    Intent i = new Intent(this, FortniteNewsShow.class);
-                    i.putExtra("url", "https://fortnite-public-api.theapinetwork.com/prod09/br_motd/get?language=en&format=json" );
+                if(url.equals("https://newsapi.org/v2/top-headlines?country=de&apiKey=37134d9a41c24f379a5c8ecac307e923")) {
+                    Intent i = new Intent(this, PopularNewsShow.class);
+                    i.putExtra("url", "https://newsapi.org/v2/top-headlines?country=us&apiKey=37134d9a41c24f379a5c8ecac307e923" );
                     startActivity(i);
                     break;
                 } else {
-                    Intent i = new Intent(this, FortniteNewsShow.class);
-                    i.putExtra("url", "https://fortnite-public-api.theapinetwork.com/prod09/br_motd/get?language=de&format=json" );
+                    Intent i = new Intent(this, PopularNewsShow.class);
+                    i.putExtra("url", "https://newsapi.org/v2/top-headlines?country=de&apiKey=37134d9a41c24f379a5c8ecac307e923" );
                     startActivity(i);
                     break;
                 }
@@ -99,15 +100,15 @@ public class FortniteNewsShow extends AppCompatActivity {
 
                     switch (item.getItemId()) {
                         case R.id.newsMenu:
-                            startActivity(new Intent(FortniteNewsShow.this, NewsChooser.class));
+                            startActivity(new Intent(PopularNewsShow.this, NewsChooser.class));
                             break;
 
                         case R.id.homeMenu:
-                            startActivity(new Intent(FortniteNewsShow.this, MainActivity.class));
+                            startActivity(new Intent(PopularNewsShow.this, MainActivity.class));
                             break;
 
                         case R.id.statsMenu:
-                            startActivity(new Intent(FortniteNewsShow.this, StatsChooser.class));
+                            startActivity(new Intent(PopularNewsShow.this, StatsChooser.class));
                             break;
                     }
                     return true;
@@ -115,23 +116,29 @@ public class FortniteNewsShow extends AppCompatActivity {
             };
 
 
-    private void jsonrequestFortniteNews(String urlLanguage) {
+    private void jsonrequestPopularNews(String url) {
 
-        requestFortniteNews = new JsonObjectRequest(Request.Method.GET, urlLanguage, null, new Response.Listener<JSONObject>() {
+        requestPopularNews = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
 
                 try {
-                    JSONArray jsonArray = response.getJSONArray("entries");
+                    JSONArray jsonArray = response.getJSONArray("articles");
 
                     for(int i = 0; i < jsonArray.length(); i++){
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
-                        com.demotxt.myapp.myapplication.model.FortniteNews fortniteNews = new com.demotxt.myapp.myapplication.model.FortniteNews();
-                        fortniteNews.setTitle(jsonObject.getString("title"));
-                        fortniteNews.setBody(jsonObject.getString("body"));
-                        fortniteNews.setImage_url(jsonObject.getString("image"));
+                        JSONObject source = jsonObject.getJSONObject("source");
+                        PopularNews popularNews = new PopularNews();
+                        popularNews.setSource(source.getString("name"));
+                        popularNews.setTitle(jsonObject.getString("title"));
+                        popularNews.setDescription(jsonObject.getString("description"));
+                        popularNews.setContent(jsonObject.getString("content"));
+                        popularNews.setAuthor(jsonObject.getString("author"));
+                        popularNews.setUrl(jsonObject.getString("url"));
+                        popularNews.setUrlImage(jsonObject.getString("urlToImage"));
                         System.out.println(jsonObject.getString("title"));
-                        lstFortniteNews.add(fortniteNews);
+
+                        lstPopularNews.add(popularNews);
 
 
                     }
@@ -140,7 +147,7 @@ public class FortniteNewsShow extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                setuprecyclerviewFortniteNews(lstFortniteNews);
+                setuprecyclerviewPopularNews(lstPopularNews);
 
             }
         }, new Response.ErrorListener() {
@@ -150,25 +157,19 @@ public class FortniteNewsShow extends AppCompatActivity {
             }
         });
 
-        requestQueue = Volley.newRequestQueue(FortniteNewsShow.this);
-        requestQueue.add(requestFortniteNews) ;
+        requestQueue = Volley.newRequestQueue(PopularNewsShow.this);
+        requestQueue.add(requestPopularNews) ;
 
     }
 
 
-    private void setuprecyclerviewFortniteNews(List<com.demotxt.myapp.myapplication.model.FortniteNews> fortniteNews) {
+    private void setuprecyclerviewPopularNews(List<PopularNews> popularNews) {
 
-        RecyclerViewAdapterFortniteNews myadapter = new RecyclerViewAdapterFortniteNews(FortniteNewsShow.this,fortniteNews) ;
+        RecyclerViewAdapterPopularNews myadapter = new RecyclerViewAdapterPopularNews(PopularNewsShow.this,popularNews) ;
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(myadapter);
-        if(urlLanguage.equals("https://fortnite-public-api.theapinetwork.com/prod09/br_motd/get?language=de&format=json")) {
-            Toast.makeText(this, "Auf deutsch gewechselt", Toast.LENGTH_SHORT).show();
-            Toast.makeText(this, "News wurden geladen", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "Changed to english", Toast.LENGTH_SHORT).show();
-            Toast.makeText(this, "News loaded", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "News wurden geladen", Toast.LENGTH_SHORT).show();
 
-        }
 
     }
 }

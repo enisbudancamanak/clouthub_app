@@ -142,14 +142,17 @@ public class FortniteStatsTransfer extends AppCompatActivity {
 
 
     public void statistikenAuslesen(String username){
-        if(usernameInput.length()!=0 && !plattform.equals("null")) {
+        if(usernameInput.length()!=0 && !plattform.equals("null") && NetworkConnection.isNetworkStatusAvialable(getApplicationContext())) {
             System.out.println(username);
             Intent i = new Intent(this, FortniteStatsShow.class);
             i.putExtra("url", "https://api.fortnitetracker.com/v1/profile/" + plattform + "/" + username);
             i.putExtra("username", username);
             i.putExtra("plattform", plattform);
             startActivity(i);
-        } else {
+        } else if(!NetworkConnection.isNetworkStatusAvialable(getApplicationContext())){
+            Toast.makeText(this, "Überprüfen Sie Ihre Internetverbindung", Toast.LENGTH_SHORT).show();
+        }
+        else {
             Toast.makeText(this, "Bitte füllen Sie die Felder aus", Toast.LENGTH_SHORT).show();
         }
     }

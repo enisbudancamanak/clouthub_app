@@ -35,8 +35,6 @@ public class FortniteNewsActivity extends AppCompatActivity {
 
         // ini views
 
-        CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsingtoolbar_id);
-
         TextView tv_name = findViewById(R.id.aa_titleNews);
         TextView tv_description = findViewById(R.id.aa_descriptionNews);
         TextView tv_category = findViewById(R.id.aa_categorieNews) ;

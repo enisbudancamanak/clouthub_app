@@ -41,6 +41,7 @@ public class OSUStatsTransfer extends AppCompatActivity {
         bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setSubtitle("OSU! Stats");
         setSupportActionBar(toolbar);
@@ -113,13 +114,16 @@ public class OSUStatsTransfer extends AppCompatActivity {
 
 
     public void statistikenAuslesen(String username){
-        if(usernameInput.length()!=0) {
+        if(usernameInput.length()!=0 && NetworkConnection.isNetworkStatusAvialable(getApplicationContext())) {
             System.out.println(username);
             Intent i = new Intent(this, OSUStatsShow.class);
             i.putExtra("url", "https://osu.ppy.sh/api/get_user?u=" + username  + "&k=da379813b9880f9b78aebe3e0b69198251ab426e&format=json");
             i.putExtra("username", username);
             startActivity(i);
-        } else {
+        } else if(!NetworkConnection.isNetworkStatusAvialable(getApplicationContext())){
+            Toast.makeText(this, "Überprüfen Sie Ihre Internetverbindung", Toast.LENGTH_SHORT).show();
+        }
+        else {
             Toast.makeText(this, "Bitte füllen Sie die Felder aus", Toast.LENGTH_SHORT).show();
         }
     }

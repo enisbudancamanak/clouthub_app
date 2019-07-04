@@ -30,6 +30,7 @@ public class StatsChooser extends AppCompatActivity {
         bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setSubtitle("Wähle deine Stats aus!");
         setSupportActionBar(toolbar);

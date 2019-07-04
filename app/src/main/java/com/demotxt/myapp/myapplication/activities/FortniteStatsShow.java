@@ -73,6 +73,7 @@ public class FortniteStatsShow extends AppCompatActivity {
         bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
+
         toolbar = findViewById(R.id.toolbar);
         toolbar.setSubtitle(username + "'s Fortnite Stats");
         setSupportActionBar(toolbar);
@@ -173,7 +174,7 @@ public class FortniteStatsShow extends AppCompatActivity {
                     e.printStackTrace();
                     System.out.println("FEHLER");
                     String[] strArray = {""};
-                    String[] arrayError = {"Keinen Benutzernamen gefunden"};
+                    String[] arrayError = {"Keinen Spieler gefunden"};
                     statsIcons = new int[] {R.drawable.ic_kills};
                     CustomAdapter customAdapter = new CustomAdapter(strArray, arrayError);
                     listViewNews.setAdapter(customAdapter);
@@ -187,7 +188,7 @@ public class FortniteStatsShow extends AppCompatActivity {
                 error.printStackTrace();
                 System.out.println("FEHLER");
                 String[] strArray = {""};
-                String[] arrayError = {"Keinen Benutzernamen gefunden"};
+                String[] arrayError = {"Keinen Spieler gefunden"};
                 statsIcons = new int[] {R.drawable.ic_kills};
                 CustomAdapter customAdapter = new CustomAdapter(strArray, arrayError);
                 listViewNews.setAdapter(customAdapter);

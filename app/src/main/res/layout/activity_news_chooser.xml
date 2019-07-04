@@ -44,9 +44,9 @@
             android:id="@+id/buttonFortniteStats"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
+            android:layout_marginLeft="45dp"
             android:layout_marginTop="50dp"
-            android:layout_marginRight="50dp"
+            android:layout_marginRight="45dp"
             android:background="@drawable/shape"
             android:drawableLeft="@drawable/ic_fortnite"
             android:gravity="center_horizontal|center_vertical"
@@ -54,6 +54,22 @@
             android:textColor="#FFFFFF"
             android:textSize="18sp"
             android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/buttonPopularNews"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="45dp"
+            android:layout_marginTop="200dp"
+            android:layout_marginRight="45dp"
+            android:background="@drawable/shape"
+            android:drawableLeft="@drawable/ic_news"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="Populäre News  >"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
 
     </RelativeLayout>
 

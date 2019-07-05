@@ -4,10 +4,10 @@
 
 
     <item
-        android:id="@+id/settingsMenu"
+        android:id="@+id/settingsMenuButton"
         android:title="About"
         android:orderInCategory="100"
+        android:icon="@drawable/ic_language"
         app:showAsAction="never"/>
-
 
 </menu>

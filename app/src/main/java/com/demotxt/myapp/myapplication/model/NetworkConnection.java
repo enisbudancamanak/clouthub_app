@@ -1,4 +1,4 @@
-package com.demotxt.myapp.myapplication.activities;
+package com.demotxt.myapp.myapplication.model;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

@@ -10,11 +10,9 @@
     android:id="@+id/container">
 
 
-
-
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/thumbnail"
-        android:layout_width="155dp"
+        android:layout_width="139dp"
         android:layout_height="match_parent" />
 
     <LinearLayout
@@ -28,9 +26,9 @@
             android:id="@+id/news_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Anime Title"
+            android:text="TitleNews"
             android:textColor="#fff"
-            android:textSize="18sp"
+            android:textSize="17sp"
             android:textStyle="bold" />
 
 
@@ -39,7 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="92dp"
             android:layout_marginTop="5dp"
-            android:text="Studio"
+            android:text="Description"
             android:textColor="#fff" />
 
 

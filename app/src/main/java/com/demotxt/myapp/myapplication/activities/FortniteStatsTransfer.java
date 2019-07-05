@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.demotxt.myapp.myapplication.R;
+import com.demotxt.myapp.myapplication.model.NetworkConnection;
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
 public class FortniteStatsTransfer extends AppCompatActivity {
@@ -40,7 +41,7 @@ public class FortniteStatsTransfer extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fortnite_stats);
+        setContentView(R.layout.activity_fortnite_stats_transfer);
 
 
         bottomNav = findViewById(R.id.bottom_navigation);
@@ -127,7 +128,7 @@ public class FortniteStatsTransfer extends AppCompatActivity {
                             break;
 
                         case R.id.homeMenu:
-                            startActivity(new Intent(FortniteStatsTransfer.this, MainActivity.class));
+                            startActivity(new Intent(FortniteStatsTransfer.this, HomeActivity.class));
                             break;
 
                         case R.id.statsMenu:

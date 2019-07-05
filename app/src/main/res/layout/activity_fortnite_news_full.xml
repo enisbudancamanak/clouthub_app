@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.demotxt.myapp.myapplication.activities.AnimeActivity"
+    tools:context="com.demotxt.myapp.myapplication.activities.FortniteNewsActivity"
     android:background="#303030">
 
     <android.support.design.widget.AppBarLayout
@@ -15,13 +15,13 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <ImageView
-            android:id="@+id/aa_thumbnailNews"
+            android:id="@+id/thumbnail"
             android:layout_width="match_parent"
             android:layout_height="303dp"
             android:background="@drawable/loading_shape" />
 
         <TextView
-            android:id="@+id/aa_titleNews"
+            android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="51dp"
             android:gravity="center_horizontal|center_vertical"
@@ -31,7 +31,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/aa_categorieNews"
+            android:id="@+id/source"
             android:layout_width="match_parent"
             android:layout_height="34dp"
             android:layout_marginTop="5dp"
@@ -51,7 +51,7 @@
 
 
         <TextView
-            android:id="@+id/aa_descriptionNews"
+            android:id="@+id/description"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="Anime Description"

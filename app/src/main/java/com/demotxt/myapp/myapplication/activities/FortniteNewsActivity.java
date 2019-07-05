@@ -1,7 +1,6 @@
 package com.demotxt.myapp.myapplication.activities;
 
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -35,10 +34,10 @@ public class FortniteNewsActivity extends AppCompatActivity {
 
         // ini views
 
-        TextView tv_name = findViewById(R.id.aa_titleNews);
-        TextView tv_description = findViewById(R.id.aa_descriptionNews);
-        TextView tv_category = findViewById(R.id.aa_categorieNews) ;
-        ImageView img_thumbnail = findViewById(R.id.aa_thumbnailNews);
+        TextView tv_name = findViewById(R.id.title);
+        TextView tv_description = findViewById(R.id.description);
+        TextView tv_category = findViewById(R.id.source) ;
+        ImageView img_thumbnail = findViewById(R.id.thumbnail);
 
         // setting values to each view
 

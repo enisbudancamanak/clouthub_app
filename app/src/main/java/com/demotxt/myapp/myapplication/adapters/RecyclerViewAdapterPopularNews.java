@@ -14,9 +14,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.demotxt.myapp.myapplication.R;
 import com.demotxt.myapp.myapplication.activities.FortniteNewsActivity;
-import com.demotxt.myapp.myapplication.activities.FortniteNewsShow;
+import com.demotxt.myapp.myapplication.activities.PopularNewsActivity;
 import com.demotxt.myapp.myapplication.activities.PopularNewsShow;
-import com.demotxt.myapp.myapplication.model.FortniteNews;
 import com.demotxt.myapp.myapplication.model.PopularNews;
 
 import java.util.List;
@@ -47,13 +46,13 @@ public class RecyclerViewAdapterPopularNews extends RecyclerView.Adapter<Recycle
 
         View view ;
         LayoutInflater inflater = LayoutInflater.from(mContext);
-        view = inflater.inflate(R.layout.fortnite_row_item,parent,false) ;
+        view = inflater.inflate(R.layout.news_row_item,parent,false) ;
         final MyViewHolder viewHolder = new MyViewHolder(view) ;
         viewHolder.view_container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent i = new Intent(mContext, FortniteNewsActivity.class);
+                Intent i = new Intent(mContext, PopularNewsActivity.class);
                 i.putExtra("title",mData.get(viewHolder.getAdapterPosition()).getTitle());
                 i.putExtra("description",mData.get(viewHolder.getAdapterPosition()).getDescription());
                 i.putExtra("content",mData.get(viewHolder.getAdapterPosition()).getContent());
@@ -61,8 +60,6 @@ public class RecyclerViewAdapterPopularNews extends RecyclerView.Adapter<Recycle
                 i.putExtra("source",mData.get(viewHolder.getAdapterPosition()).getSource());
                 i.putExtra("urlImage",mData.get(viewHolder.getAdapterPosition()).getUrlImage());
                 i.putExtra("url",mData.get(viewHolder.getAdapterPosition()).getUrl());
-
-
 
 
                 mContext.startActivity(i);
@@ -83,11 +80,16 @@ public class RecyclerViewAdapterPopularNews extends RecyclerView.Adapter<Recycle
     public void onBindViewHolder(MyViewHolder holder, int position) {
 
         holder.tv_name.setText(mData.get(position).getTitle());
-        holder.tv_description.setText(mData.get(position).getDescription());
+        holder.tv_description.setText("");
 
         // Load Image from the internet and set it into Imageview using Glide
 
-        Glide.with(mContext).load(mData.get(position).getUrlImage()).apply(option).into(holder.img_thumbnail);
+        if(mData.get(position).getUrlImage().equals("null") || mData.get(position).getUrlImage().isEmpty()){
+            holder.img_thumbnail.setImageResource(R.drawable.ic_no_picture);
+        } else {
+            Glide.with(mContext).load(mData.get(position).getUrlImage()).apply(option).into(holder.img_thumbnail);
+
+        }
 
 
 

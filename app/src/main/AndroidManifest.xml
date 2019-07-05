@@ -12,8 +12,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.PopularNewsShow"
-            android:parentActivityName=".activities.NewsChooser"></activity>
+        <activity android:name=".activities.OverwatchStatsShow"
+            android:parentActivityName=".activities.OverwatchStatsTransfer"></activity>
+        <activity android:name=".activities.OverwatchStatsTransfer"
+            android:parentActivityName=".activities.StatsChooser"/>
+        <activity android:name=".activities.HomeActivity" />
+        <activity android:name=".activities.PopularNewsActivity" />
+        <activity
+            android:name=".activities.PopularNewsShow"
+            android:parentActivityName=".activities.NewsChooser" />
         <activity
             android:name=".activities.OSUStatsShow"
             android:parentActivityName=".activities.OSUStatsTransfer" />

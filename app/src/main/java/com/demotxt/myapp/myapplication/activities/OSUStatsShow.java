@@ -1,8 +1,10 @@
 package com.demotxt.myapp.myapplication.activities;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -21,7 +23,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.demotxt.myapp.myapplication.R;
 import com.demotxt.myapp.myapplication.model.FortniteStats;
@@ -46,7 +47,7 @@ public class OSUStatsShow extends AppCompatActivity {
 
 
 
-    private JsonArrayRequest requestFortniteNews ;
+    private JsonArrayRequest requestOSUStats;
     private RequestQueue requestQueue ;
     String url;
     String username;
@@ -60,7 +61,6 @@ public class OSUStatsShow extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_view);
-
 
 
         username = getIntent().getExtras().getString("username");
@@ -78,6 +78,23 @@ public class OSUStatsShow extends AppCompatActivity {
         toolbar.setSubtitle(username + "'s OSU! Stats");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        final SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.swipeLayout);
+        swipeRefreshLayout.setColorSchemeResources(R.color.refresh,R.color.refresh1, R.color.refresh2);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(true);
+                (new Handler()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeRefreshLayout.setRefreshing(false);
+                        finish();
+                        startActivity(getIntent());
+                    }
+                },100);
+            }
+        });
 
 
 
@@ -110,7 +127,7 @@ public class OSUStatsShow extends AppCompatActivity {
                             break;
 
                         case R.id.homeMenu:
-                            startActivity(new Intent(OSUStatsShow.this, MainActivity.class));
+                            startActivity(new Intent(OSUStatsShow.this, HomeActivity.class));
                             break;
 
                         case R.id.statsMenu:
@@ -124,7 +141,7 @@ public class OSUStatsShow extends AppCompatActivity {
 
 
     private void jsonrequestOSUStats(String url) {
-        requestFortniteNews = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+        requestOSUStats = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 try {
@@ -172,7 +189,8 @@ public class OSUStatsShow extends AppCompatActivity {
                     OSUStatsShow.CustomAdapter customAdapter = new OSUStatsShow.CustomAdapter(arrayValues, marrayNames);
                     listViewNews.setAdapter(customAdapter);
 
-                    Toast.makeText(getApplicationContext(),"Statistiken erfolgreich ausgelesen!",Toast.LENGTH_SHORT).show();
+
+                        Toast.makeText(getApplicationContext(),"Statistiken erfolgreich ausgelesen!",Toast.LENGTH_SHORT).show();
 
 
 
@@ -203,7 +221,7 @@ public class OSUStatsShow extends AppCompatActivity {
             }
         });
             requestQueue = Volley.newRequestQueue(OSUStatsShow.this);
-            requestQueue.add(requestFortniteNews) ;
+            requestQueue.add(requestOSUStats) ;
     }
 
 

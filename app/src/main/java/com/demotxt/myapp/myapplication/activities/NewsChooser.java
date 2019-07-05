@@ -17,6 +17,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.demotxt.myapp.myapplication.R;
 import com.demotxt.myapp.myapplication.model.FortniteNews;
+import com.demotxt.myapp.myapplication.model.NetworkConnection;
 
 import java.util.List;
 
@@ -90,7 +91,7 @@ public class NewsChooser extends AppCompatActivity {
                             startActivity(new Intent(NewsChooser.this, StatsChooser.class));
                             break;
                         case R.id.homeMenu:
-                            startActivity(new Intent(NewsChooser.this, MainActivity.class));
+                            startActivity(new Intent(NewsChooser.this, HomeActivity.class));
                             break;
                     }
                     return true;

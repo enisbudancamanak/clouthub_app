@@ -1,8 +1,10 @@
 package com.demotxt.myapp.myapplication.activities;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +12,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -27,7 +31,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class FortniteNewsShow extends AppCompatActivity {
 
@@ -40,11 +43,15 @@ public class FortniteNewsShow extends AppCompatActivity {
     private RecyclerView recyclerView ;
     String urlLanguage;
 
+    Spinner spinner;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.list_news);
+        spinner = findViewById(R.id.toolbar_spinner);
+        spinner.setVisibility(View.GONE);
 
         bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
@@ -55,6 +62,7 @@ public class FortniteNewsShow extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
         lstFortniteNews = new ArrayList<>() ;
         recyclerView = findViewById(R.id.recyclerviewid);
 
@@ -64,6 +72,24 @@ public class FortniteNewsShow extends AppCompatActivity {
             urlLanguage = "https://fortnite-public-api.theapinetwork.com/prod09/br_motd/get?language=de&format=json";
         }
         jsonrequestFortniteNews(urlLanguage);
+
+
+        final SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.swipeLayout);
+        swipeRefreshLayout.setColorSchemeResources(R.color.refresh,R.color.refresh1, R.color.refresh2);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(true);
+                (new Handler()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeRefreshLayout.setRefreshing(false);
+                        finish();
+                        startActivity(getIntent());
+                    }
+                },100);
+            }
+        });
 
     }
 
@@ -103,7 +129,7 @@ public class FortniteNewsShow extends AppCompatActivity {
                             break;
 
                         case R.id.homeMenu:
-                            startActivity(new Intent(FortniteNewsShow.this, MainActivity.class));
+                            startActivity(new Intent(FortniteNewsShow.this, HomeActivity.class));
                             break;
 
                         case R.id.statsMenu:
@@ -162,10 +188,8 @@ public class FortniteNewsShow extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(myadapter);
         if(urlLanguage.equals("https://fortnite-public-api.theapinetwork.com/prod09/br_motd/get?language=de&format=json")) {
-            Toast.makeText(this, "Auf deutsch gewechselt", Toast.LENGTH_SHORT).show();
             Toast.makeText(this, "News wurden geladen", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(this, "Changed to english", Toast.LENGTH_SHORT).show();
             Toast.makeText(this, "News loaded", Toast.LENGTH_SHORT).show();
 
         }

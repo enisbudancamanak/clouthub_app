@@ -21,6 +21,7 @@ public class StatsChooser extends AppCompatActivity {
 
     Button buttonFortniteStats;
     Button buttonOSUStats;
+    Button buttonOverwatchStats;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +52,14 @@ public class StatsChooser extends AppCompatActivity {
             }
         });
 
+        buttonOverwatchStats = findViewById(R.id.buttonOverwatchStats);
+        buttonOverwatchStats.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(StatsChooser.this, OverwatchStatsTransfer.class));
+            }
+        });
+
     }
 
     @Override
@@ -71,7 +80,7 @@ public class StatsChooser extends AppCompatActivity {
                             break;
 
                         case R.id.homeMenu:
-                            startActivity(new Intent(StatsChooser.this, MainActivity.class));
+                            startActivity(new Intent(StatsChooser.this, HomeActivity.class));
                             break;
                     }
                     return true;

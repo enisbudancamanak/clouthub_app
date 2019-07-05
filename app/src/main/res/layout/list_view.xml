@@ -8,6 +8,11 @@
     tools:context="com.demotxt.myapp.myapplication.activities.MainActivity">
 
 
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/swipeLayout">
+
     <ListView
         android:id="@+id/listViewNews"
         android:layout_width="match_parent"
@@ -20,6 +25,8 @@
         android:layout_height="match_parent"
         android:alpha="0.1"
         android:background="@drawable/gradient_bg" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"

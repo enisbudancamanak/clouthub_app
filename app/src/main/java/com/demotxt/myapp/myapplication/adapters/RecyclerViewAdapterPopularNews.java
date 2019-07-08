@@ -9,12 +9,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.demotxt.myapp.myapplication.R;
 import com.demotxt.myapp.myapplication.activities.FortniteNewsActivity;
 import com.demotxt.myapp.myapplication.activities.PopularNewsActivity;
+import com.demotxt.myapp.myapplication.activities.PopularNewsActivityWithoutFloatingActionButton;
 import com.demotxt.myapp.myapplication.activities.PopularNewsShow;
 import com.demotxt.myapp.myapplication.model.PopularNews;
 
@@ -52,17 +54,31 @@ public class RecyclerViewAdapterPopularNews extends RecyclerView.Adapter<Recycle
             @Override
             public void onClick(View v) {
 
-                Intent i = new Intent(mContext, PopularNewsActivity.class);
-                i.putExtra("title",mData.get(viewHolder.getAdapterPosition()).getTitle());
-                i.putExtra("description",mData.get(viewHolder.getAdapterPosition()).getDescription());
-                i.putExtra("content",mData.get(viewHolder.getAdapterPosition()).getContent());
-                i.putExtra("author",mData.get(viewHolder.getAdapterPosition()).getAuthor());
-                i.putExtra("source",mData.get(viewHolder.getAdapterPosition()).getSource());
-                i.putExtra("urlImage",mData.get(viewHolder.getAdapterPosition()).getUrlImage());
-                i.putExtra("url",mData.get(viewHolder.getAdapterPosition()).getUrl());
+                if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.M){
+                    Intent i = new Intent(mContext, PopularNewsActivity.class);
+                    i.putExtra("title",mData.get(viewHolder.getAdapterPosition()).getTitle());
+                    i.putExtra("description",mData.get(viewHolder.getAdapterPosition()).getDescription());
+                    i.putExtra("content",mData.get(viewHolder.getAdapterPosition()).getContent());
+                    i.putExtra("author",mData.get(viewHolder.getAdapterPosition()).getAuthor());
+                    i.putExtra("source",mData.get(viewHolder.getAdapterPosition()).getSource());
+                    i.putExtra("urlImage",mData.get(viewHolder.getAdapterPosition()).getUrlImage());
+                    i.putExtra("url",mData.get(viewHolder.getAdapterPosition()).getUrl());
 
 
-                mContext.startActivity(i);
+                    mContext.startActivity(i);
+                } else {
+
+                    Intent i = new Intent(mContext, PopularNewsActivityWithoutFloatingActionButton.class);
+                    i.putExtra("title",mData.get(viewHolder.getAdapterPosition()).getTitle());
+                    i.putExtra("description",mData.get(viewHolder.getAdapterPosition()).getDescription());
+                    i.putExtra("content",mData.get(viewHolder.getAdapterPosition()).getContent());
+                    i.putExtra("author",mData.get(viewHolder.getAdapterPosition()).getAuthor());
+                    i.putExtra("source",mData.get(viewHolder.getAdapterPosition()).getSource());
+                    i.putExtra("urlImage",mData.get(viewHolder.getAdapterPosition()).getUrlImage());
+                    i.putExtra("url",mData.get(viewHolder.getAdapterPosition()).getUrl());
+
+                    mContext.startActivity(i);
+                }
 
 
             }

@@ -29,20 +29,17 @@ public class FortniteNewsActivity extends AppCompatActivity {
 
         String name  = getIntent().getExtras().getString("fortnite_titleNews");
         String description = getIntent().getExtras().getString("fortnite_descriptionNews");
-        String category = getIntent().getExtras().getString("fortnite_categorieNews");
         String image_url = getIntent().getExtras().getString("fortnite_img") ;
 
         // ini views
 
         TextView tv_name = findViewById(R.id.title);
         TextView tv_description = findViewById(R.id.description);
-        TextView tv_category = findViewById(R.id.source) ;
         ImageView img_thumbnail = findViewById(R.id.thumbnail);
 
         // setting values to each view
 
         tv_name.setText(name);
-        tv_category.setText(category);
         tv_description.setText(description);
 
 

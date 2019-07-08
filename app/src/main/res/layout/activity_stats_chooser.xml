@@ -28,65 +28,69 @@
         app:itemTextColor="@color/white"
         app:itemIconTint="@color/white" />
 
-    <RelativeLayout
+
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:paddingTop="?attr/actionBarSize"
-        android:paddingBottom="60dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        >
+        android:layout_marginTop="?android:attr/actionBarSize"
+        android:layout_marginBottom="?android:attr/actionBarSize">
 
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:weightSum="3"
+        android:layout_gravity="center"
+        android:padding="15dp"
+        android:showDividers="middle"
+        android:divider="@drawable/divider"
+        >
 
         <Button
             android:id="@+id/buttonFortniteStats"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="50dp"
-            android:layout_marginRight="40dp"
             android:background="@drawable/shape"
             android:drawableLeft="@drawable/ic_fortnite"
             android:gravity="center_horizontal|center_vertical"
             android:text="Fortnite Stats  >"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_weight="1"/>
 
         <Button
             android:id="@+id/buttonOSUStats"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="200dp"
-            android:layout_marginRight="40dp"
             android:background="@drawable/shape"
             android:drawableLeft="@drawable/ic_osu"
             android:gravity="center_horizontal|center_vertical"
             android:text="OSU! Stats  >"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_weight="1"/>
 
         <Button
             android:id="@+id/buttonOverwatchStats"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="350dp"
-            android:layout_marginRight="40dp"
             android:background="@drawable/shape"
             android:drawableLeft="@drawable/ic_overwatch"
             android:gravity="center_horizontal|center_vertical"
             android:text="Overwatch Stats  >"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_weight="1"/>
 
-    </RelativeLayout>
+    </LinearLayout>
 
+    </ScrollView>
 
 </android.support.design.widget.CoordinatorLayout>
 

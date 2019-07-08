@@ -7,15 +7,6 @@
     tools:context="com.demotxt.myapp.myapplication.activities.MainActivity"
     android:background="#303030">
 
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:paddingTop="56dp"
-        android:paddingBottom="56dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:id="@+id/recyclerviewid"></android.support.v7.widget.RecyclerView>
 
 
     <android.support.v7.widget.Toolbar
@@ -35,6 +26,111 @@
         android:background="@color/colorPrimary"
         app:itemTextColor="@color/white"
         app:itemIconTint="@color/white" />
+
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:weightSum="3"
+        android:layout_marginTop="65dp"
+        android:padding="15dp"
+        android:showDividers="middle"
+        >
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ic_cloud"
+            android:layout_gravity="center"/>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingTop="15dp"
+            android:text="Welcome To CloutHUB"
+            android:textColor="#FF9B67FF"
+            android:textSize="24dp"
+            android:textStyle="bold"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Deine APP rund um Spiele Statistiken, News und vieles mehr"
+            android:textColor="@color/white"
+            android:textSize="16dp"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingTop="35dp"
+            android:text="Derzeitige Funktionen:"
+            android:textColor="#AD8BFF"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Statistiken aufrufen von Fortnite, OSU! und Overwatch"
+            android:textColor="@color/white"
+            android:textSize="16dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Allgemeine und Fortnite News aufrufen "
+            android:textColor="@color/white"
+            android:textSize="16dp"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingTop="35dp"
+            android:text="Stöbere jetzt durch und lass dich begeistern!"
+            android:textColor="#C8A9FF"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            />
+
+
+        <!--<Button
+            android:id="@+id/buttonOverwatchStats"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape"
+            android:drawableLeft="@drawable/ic_overwatch"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="Overwatch Stats  >"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_weight="1"/>-->
+
+    </LinearLayout>
 
 
 </android.support.design.widget.CoordinatorLayout>

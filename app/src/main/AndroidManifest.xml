@@ -28,6 +28,9 @@
             android:name=".activities.OSUStatsTransfer"
             android:parentActivityName=".activities.StatsChooser" />
         <activity
+            android:name=".activities.PopularNewsActivityWithoutFloatingActionButton"
+            android:parentActivityName=".activities.PopularNewsShow" />
+        <activity
             android:name=".activities.FortniteStatsShow"
             android:parentActivityName=".activities.FortniteStatsTransfer" />
         <activity

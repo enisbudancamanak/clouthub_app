@@ -3,16 +3,16 @@ package com.demotxt.myapp.myapplication.activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,18 +20,18 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.demotxt.myapp.myapplication.R;
 
-public class PopularNewsActivity extends AppCompatActivity {
+public class PopularNewsActivityWithoutFloatingActionButton extends AppCompatActivity {
 
     Toolbar toolbar;
-    FloatingActionButton buttonToBrowser;
     String url;
+    ImageButton imageButtonToBrowser;
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_popular_news_full);
+        setContentView(R.layout.activity_popular_news_full_without_floatingbutton);
 
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -49,6 +49,7 @@ public class PopularNewsActivity extends AppCompatActivity {
 
 
 
+
         // ini views
 
         TextView title_aa = findViewById(R.id.title);
@@ -56,15 +57,14 @@ public class PopularNewsActivity extends AppCompatActivity {
         TextView source_aa = findViewById(R.id.source) ;
         TextView author_aa = findViewById(R.id.author) ;
         ImageView thumbnail_aa = findViewById(R.id.thumbnail);
-        buttonToBrowser = findViewById(R.id.buttonNewsToBrowser);
-        buttonToBrowser.setOnClickListener(new View.OnClickListener() {
+        imageButtonToBrowser = findViewById(R.id.imageButtonToBrowser);
+        imageButtonToBrowser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                 startActivity(browserIntent);
             }
         });
-        buttonToBrowser.setTooltipText(url);
 
         // setting values to each view
 
@@ -74,6 +74,7 @@ public class PopularNewsActivity extends AppCompatActivity {
         } else {
             description_aa.setText(description);
         }
+
         source_aa.setText("Quelle: " + source);
 
         if(author.equals("null")){
@@ -81,7 +82,6 @@ public class PopularNewsActivity extends AppCompatActivity {
         } else {
             author_aa.setText("Autor: " + author);
         }
-
 
         final TextView textView = findViewById(R.id.collapsingtoolbar_id_title);
         final CollapsingToolbarLayout collapsingToolbarLayout= (CollapsingToolbarLayout) findViewById(R.id.collapsingtoolbar_id);
@@ -104,6 +104,7 @@ public class PopularNewsActivity extends AppCompatActivity {
                 }
             }
         });
+
 
         RequestOptions requestOptions = new RequestOptions().centerCrop().placeholder(R.drawable.loading_shape).error(R.drawable.loading_shape);
 

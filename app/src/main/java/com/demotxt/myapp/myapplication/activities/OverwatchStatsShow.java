@@ -18,27 +18,21 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.demotxt.myapp.myapplication.R;
 import com.demotxt.myapp.myapplication.model.FortniteStats;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 public class OverwatchStatsShow extends AppCompatActivity {
 
@@ -64,7 +58,7 @@ public class OverwatchStatsShow extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.list_view);
+        setContentView(R.layout.list_view_stats);
 
 
         username = getIntent().getExtras().getString("username");
@@ -99,9 +93,6 @@ public class OverwatchStatsShow extends AppCompatActivity {
                 },100);
             }
         });
-
-
-
     }
 
 

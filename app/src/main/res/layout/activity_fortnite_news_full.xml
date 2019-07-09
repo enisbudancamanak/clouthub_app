@@ -14,23 +14,51 @@
         android:layout_height="355dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-        <ImageView
-            android:id="@+id/thumbnail"
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsingtoolbar_id"
             android:layout_width="match_parent"
-            android:layout_height="303dp"
-            android:background="@drawable/loading_shape" />
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="match_parent"
-            android:layout_height="51dp"
-            android:gravity="center_horizontal|center_vertical"
-            android:text="TitleNews"
-            android:textColor="#FFFFFF"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:layout_height="match_parent"
+            app:contentScrim="@color/colorPrimary"
+            app:expandedTitleMarginEnd="64dp"
+            app:expandedTitleMarginStart="48dp"
+            app:layout_scrollFlags="exitUntilCollapsed|scroll">
 
 
+            <android.support.v7.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="51dp"
+                android:theme="@style/ThemeOverlay.AppCompat.Light"
+                app:layout_collapseMode="pin"></android.support.v7.widget.Toolbar>
+
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="354dp"
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:showDividers="middle"
+                android:weightSum="2">
+
+                <ImageView
+                    android:id="@+id/thumbnail"
+                    android:layout_width="match_parent"
+                    android:layout_height="303dp"
+                    android:background="@drawable/loading_shape" />
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="51dp"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="TitleNews"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+
+        </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
 

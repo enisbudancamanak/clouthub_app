@@ -37,6 +37,16 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.settingsMenu:
+                startActivity(new Intent(HomeActivity.this, AboutActivity.class));
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override

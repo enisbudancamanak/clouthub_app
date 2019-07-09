@@ -53,6 +53,16 @@
                 android:textColorHint="@color/colorWhite"
                 android:textSize="22sp" />
 
+            <CheckBox
+                android:id="@+id/checkBoxOSU"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Benutzernamen speichern"
+                android:layout_marginTop="50dp"
+                android:textColor="@color/white"
+                android:buttonTint="@color/white"/>
+
+
 
         </RelativeLayout>
 

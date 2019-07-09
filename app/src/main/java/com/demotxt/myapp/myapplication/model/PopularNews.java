@@ -11,13 +11,14 @@ public class PopularNews {
     String content;
     String urlImage;
     String url;
+    String publishedAt;
 
     public PopularNews(){
 
     }
 
 
-    public PopularNews(String author, String source, String title, String description, String content, String urlImage, String url) {
+    public PopularNews(String author, String source, String title, String description, String content, String urlImage, String url, String publishedAt) {
         this.author = author;
         this.source = source;
         this.title = title;
@@ -25,8 +26,16 @@ public class PopularNews {
         this.content = content;
         this.urlImage = urlImage;
         this.url = url;
+        this.publishedAt = publishedAt;
     }
 
+    public String getPublishedAt() {
+        return publishedAt;
+    }
+
+    public void setPublishedAt(String publishedAt) {
+        this.publishedAt = publishedAt;
+    }
 
     public String getAuthor() {
         return author;

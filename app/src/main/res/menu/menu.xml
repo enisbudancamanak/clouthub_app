@@ -5,7 +5,7 @@
 
     <item
         android:id="@+id/settingsMenu"
-        android:title="About"
+        android:title="Über CloutHUB"
         android:orderInCategory="100"
         app:showAsAction="never"/>
 

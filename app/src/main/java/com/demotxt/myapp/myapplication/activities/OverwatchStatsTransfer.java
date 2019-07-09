@@ -1,6 +1,7 @@
 package com.demotxt.myapp.myapplication.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -32,6 +35,12 @@ public class OverwatchStatsTransfer extends AppCompatActivity {
     String plattform = "null";
 
 
+    public static final String SHARED_PREFS ="sharedPrefs";
+    public static final String TEXT = "";
+    public  static final String SWITCH = "switch";
+    CheckBox checkBox;
+
+
 
 
     @Override
@@ -39,16 +48,18 @@ public class OverwatchStatsTransfer extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_overwatch_stats_transfer);
 
-
+        checkBox = findViewById(R.id.checkBoxOverwatch);
         bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
-
+        usernameInput = findViewById(R.id.usernameOverwatch);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setSubtitle("Overwatch Stats");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
+
+        setUsername();
 
 
         button = findViewById(R.id.owStatsButton);
@@ -60,7 +71,6 @@ public class OverwatchStatsTransfer extends AppCompatActivity {
         });
 
 
-        usernameInput = findViewById(R.id.usernameOverwatch);
         usernameInput.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View view, int keyCode, KeyEvent keyevent) {
                 if ((keyevent.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
@@ -83,9 +93,14 @@ public class OverwatchStatsTransfer extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.settingsMenu:
+                startActivity(new Intent(OverwatchStatsTransfer.this, AboutActivity.class));
 
+        }
         return super.onOptionsItemSelected(item);
     }
+
 
 
 
@@ -113,9 +128,29 @@ public class OverwatchStatsTransfer extends AppCompatActivity {
             };
 
 
+    public void setUsername(){
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        usernameInput.setText(sharedPreferences.getString(TEXT, ""));
+        checkBox.setChecked(sharedPreferences.getBoolean(SWITCH, false));
+    }
+
 
 
     public void statistikenAuslesen(String username){
+        if(checkBox.isChecked()){
+            SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+
+            editor.putString(TEXT, String.valueOf(usernameInput.getText()));
+            editor.putBoolean(SWITCH, checkBox.isChecked());
+            editor.apply();
+        } else {
+            SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString(TEXT, "");
+            editor.putBoolean(SWITCH, checkBox.isChecked());
+            editor.apply();
+        }
         username = username.replace("#", "-");
         if(usernameInput.length()!=0 && NetworkConnection.isNetworkStatusAvialable(getApplicationContext())) {
             Intent i = new Intent(this, OverwatchStatsShow.class);

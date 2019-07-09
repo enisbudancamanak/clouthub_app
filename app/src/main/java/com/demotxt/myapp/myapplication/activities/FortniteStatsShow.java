@@ -113,9 +113,14 @@ public class FortniteStatsShow extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.settingsMenu:
+                startActivity(new Intent(FortniteStatsShow.this, AboutActivity.class));
 
+        }
         return super.onOptionsItemSelected(item);
     }
+
 
 
 

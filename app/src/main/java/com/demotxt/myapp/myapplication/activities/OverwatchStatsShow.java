@@ -105,9 +105,14 @@ public class OverwatchStatsShow extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.settingsMenu:
+                startActivity(new Intent(OverwatchStatsShow.this, AboutActivity.class));
 
+        }
         return super.onOptionsItemSelected(item);
     }
+
 
 
 

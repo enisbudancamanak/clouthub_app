@@ -9,17 +9,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.demotxt.myapp.myapplication.R;
-import com.demotxt.myapp.myapplication.activities.FortniteNewsActivity;
 import com.demotxt.myapp.myapplication.activities.PopularNewsActivity;
 import com.demotxt.myapp.myapplication.activities.PopularNewsActivityWithoutFloatingActionButton;
 import com.demotxt.myapp.myapplication.activities.PopularNewsShow;
 import com.demotxt.myapp.myapplication.model.PopularNews;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 
@@ -29,10 +29,13 @@ import java.util.List;
 
 public class RecyclerViewAdapterPopularNews extends RecyclerView.Adapter<RecyclerViewAdapterPopularNews.MyViewHolder> {
 
-    private Context mContext ;
-    private List<PopularNews> mData ;
-    RequestOptions option;
+    Date d1 = null;
+    Date d2 = null;
+    String dateInActivity;
 
+    private Context mContext;
+    private List<PopularNews> mData;
+    RequestOptions option;
 
 
     public RecyclerViewAdapterPopularNews(PopularNewsShow mContext, List<PopularNews> mData) {
@@ -46,36 +49,37 @@ public class RecyclerViewAdapterPopularNews extends RecyclerView.Adapter<Recycle
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view ;
+        View view;
         LayoutInflater inflater = LayoutInflater.from(mContext);
-        view = inflater.inflate(R.layout.news_row_item,parent,false) ;
-        final MyViewHolder viewHolder = new MyViewHolder(view) ;
+        view = inflater.inflate(R.layout.popular_news_row_item, parent, false);
+        final MyViewHolder viewHolder = new MyViewHolder(view);
         viewHolder.view_container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.M){
+                if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.M) {
                     Intent i = new Intent(mContext, PopularNewsActivity.class);
-                    i.putExtra("title",mData.get(viewHolder.getAdapterPosition()).getTitle());
-                    i.putExtra("description",mData.get(viewHolder.getAdapterPosition()).getDescription());
-                    i.putExtra("content",mData.get(viewHolder.getAdapterPosition()).getContent());
-                    i.putExtra("author",mData.get(viewHolder.getAdapterPosition()).getAuthor());
-                    i.putExtra("source",mData.get(viewHolder.getAdapterPosition()).getSource());
-                    i.putExtra("urlImage",mData.get(viewHolder.getAdapterPosition()).getUrlImage());
-                    i.putExtra("url",mData.get(viewHolder.getAdapterPosition()).getUrl());
-
+                    i.putExtra("title", mData.get(viewHolder.getAdapterPosition()).getTitle());
+                    i.putExtra("description", mData.get(viewHolder.getAdapterPosition()).getDescription());
+                    i.putExtra("content", mData.get(viewHolder.getAdapterPosition()).getContent());
+                    i.putExtra("author", mData.get(viewHolder.getAdapterPosition()).getAuthor());
+                    i.putExtra("source", mData.get(viewHolder.getAdapterPosition()).getSource());
+                    i.putExtra("urlImage", mData.get(viewHolder.getAdapterPosition()).getUrlImage());
+                    i.putExtra("url", mData.get(viewHolder.getAdapterPosition()).getUrl());
+                    i.putExtra("publishedAt", mData.get(viewHolder.getAdapterPosition()).getPublishedAt());
 
                     mContext.startActivity(i);
                 } else {
 
                     Intent i = new Intent(mContext, PopularNewsActivityWithoutFloatingActionButton.class);
-                    i.putExtra("title",mData.get(viewHolder.getAdapterPosition()).getTitle());
-                    i.putExtra("description",mData.get(viewHolder.getAdapterPosition()).getDescription());
-                    i.putExtra("content",mData.get(viewHolder.getAdapterPosition()).getContent());
-                    i.putExtra("author",mData.get(viewHolder.getAdapterPosition()).getAuthor());
-                    i.putExtra("source",mData.get(viewHolder.getAdapterPosition()).getSource());
-                    i.putExtra("urlImage",mData.get(viewHolder.getAdapterPosition()).getUrlImage());
-                    i.putExtra("url",mData.get(viewHolder.getAdapterPosition()).getUrl());
+                    i.putExtra("title", mData.get(viewHolder.getAdapterPosition()).getTitle());
+                    i.putExtra("description", mData.get(viewHolder.getAdapterPosition()).getDescription());
+                    i.putExtra("content", mData.get(viewHolder.getAdapterPosition()).getContent());
+                    i.putExtra("author", mData.get(viewHolder.getAdapterPosition()).getAuthor());
+                    i.putExtra("source", mData.get(viewHolder.getAdapterPosition()).getSource());
+                    i.putExtra("urlImage", mData.get(viewHolder.getAdapterPosition()).getUrlImage());
+                    i.putExtra("url", mData.get(viewHolder.getAdapterPosition()).getUrl());
+                    i.putExtra("publishedAt", mData.get(viewHolder.getAdapterPosition()).getPublishedAt());
 
                     mContext.startActivity(i);
                 }
@@ -83,8 +87,6 @@ public class RecyclerViewAdapterPopularNews extends RecyclerView.Adapter<Recycle
 
             }
         });
-
-
 
 
         return viewHolder;
@@ -96,20 +98,48 @@ public class RecyclerViewAdapterPopularNews extends RecyclerView.Adapter<Recycle
     public void onBindViewHolder(MyViewHolder holder, int position) {
 
         holder.tv_name.setText(mData.get(position).getTitle());
-        holder.tv_description.setText("");
+
 
         // Load Image from the internet and set it into Imageview using Glide
 
-        if(mData.get(position).getUrlImage().equals("null") || mData.get(position).getUrlImage().isEmpty()){
+        if (mData.get(position).getUrlImage().equals("null") || mData.get(position).getUrlImage().isEmpty()) {
             holder.img_thumbnail.setImageResource(R.drawable.ic_no_picture);
         } else {
             Glide.with(mContext).load(mData.get(position).getUrlImage()).apply(option).into(holder.img_thumbnail);
-
         }
 
 
 
+        String date = mData.get(position).getPublishedAt();
+        date = date.replace("T", " ");
+        date = date.replace("Z", "");
+        date = date.replace("-", "/");
+
+        Date currentDate = new Date();
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+
+
+        try {
+
+            d1 = format.parse(date);
+            System.out.println("DATE: "+ d1);
+            d2 = format.parse(format.format(currentDate));
+            dateInActivity = date;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        String difference = getDifference(d1, d2);
+
+        holder.tv_published.setText(difference);
     }
+
+
+
+
+
 
     @Override
     public int getItemCount() {
@@ -119,7 +149,7 @@ public class RecyclerViewAdapterPopularNews extends RecyclerView.Adapter<Recycle
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView tv_name ;
-        TextView tv_description;
+        TextView tv_published;
         ImageView img_thumbnail;
         LinearLayout view_container;
 
@@ -132,10 +162,41 @@ public class RecyclerViewAdapterPopularNews extends RecyclerView.Adapter<Recycle
 
             view_container = itemView.findViewById(R.id.container);
             tv_name = itemView.findViewById(R.id.news_name);
-            tv_description = itemView.findViewById(R.id.description);
+            tv_published = itemView.findViewById(R.id.published);
             img_thumbnail = itemView.findViewById(R.id.thumbnail);
 
         }
+    }
+
+    private static String getDifference(Date d1, Date d2) {
+        String result = null;
+
+
+        /** in milliseconds */
+        long diff = d2.getTime() - d1.getTime();
+
+        /** remove the milliseconds part */
+        diff = diff / 1000;
+
+        long days = diff / (24 * 60 * 60);
+        long hours = diff / (60 * 60) % 24;
+        long minutes = diff / 60 % 60;
+        long seconds = diff % 60;
+
+        result = "Vor ";
+        if(days == 1){
+            result += days + " Tag";
+            return result;
+        } else if (days > 1){
+            result += days + " Tagen";
+            return result;
+        }
+        if(hours > 0){
+            result += hours + " Stunden";
+            return result;
+        }
+        result += minutes + " Minuten";
+        return result;
     }
 
 }

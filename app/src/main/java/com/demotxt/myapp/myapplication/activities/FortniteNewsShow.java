@@ -24,6 +24,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.demotxt.myapp.myapplication.R;
 import com.demotxt.myapp.myapplication.adapters.RecyclerViewAdapterFortniteNews;
+import com.demotxt.myapp.myapplication.model.FortniteNews;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,12 +45,15 @@ public class FortniteNewsShow extends AppCompatActivity {
     String urlLanguage;
 
     Spinner spinner;
+    Spinner spinnerCount;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_news);
+        spinnerCount = findViewById(R.id.toolbar_spinner_count);
+        spinnerCount.setVisibility(View.GONE);
         spinner = findViewById(R.id.toolbar_spinner);
         spinner.setVisibility(View.GONE);
 
@@ -114,6 +118,8 @@ public class FortniteNewsShow extends AppCompatActivity {
                     startActivity(i);
                     break;
                 }
+            case R.id.settingsMenu:
+                startActivity(new Intent(FortniteNewsShow.this, AboutActivity.class));
         }
         return super.onOptionsItemSelected(item);
     }

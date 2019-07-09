@@ -23,6 +23,12 @@
             app:expandedTitleMarginStart="48dp"
             app:layout_scrollFlags="exitUntilCollapsed|scroll">
 
+            <android.support.v7.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="85dp"
+                android:theme="@style/ThemeOverlay.AppCompat.Light"
+                app:layout_collapseMode="pin"></android.support.v7.widget.Toolbar>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -40,7 +46,7 @@
             </LinearLayout>
 
 
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="317dp"
                 android:layout_gravity="center"
@@ -54,18 +60,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="176dp"
                     android:background="@drawable/loading_shape" />
-
-                <TextView
-                    android:id="@+id/title"
-                    android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:gravity="center_horizontal|center_vertical"
-                    android:text="Title News"
-                    android:textColor="#FFFFFF"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -98,6 +92,18 @@
                         android:textSize="12sp" />
                 </LinearLayout>
 
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="Title News"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
             </LinearLayout>
 
         </android.support.design.widget.CollapsingToolbarLayout>
@@ -126,21 +132,18 @@
 
 
 
-    <ImageButton
-        android:id="@+id/imageButtonToBrowser"
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/buttonNewsToBrowser"
         android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:layout_centerHorizontal="true"
-        app:layout_anchorGravity="bottom|right|end"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
-        android:src="@drawable/ic_zum_browser"
         android:layout_margin="16dp"
-        android:adjustViewBounds="true"
-        android:scaleType="centerInside"
-        android:clickable="true"
-        android:minHeight="15dp"
-        android:minWidth="15dp"
-        android:background="@drawable/roundedbutton" />
+        android:scrollbarSize="4sp"
+        android:src="@drawable/ic_zum_browser"
+        app:backgroundTint="#FFFFFF"
+        app:borderWidth="0sp"
+        app:fabSize="normal"
+        app:layout_anchorGravity="bottom|right|end" />
 
 
 

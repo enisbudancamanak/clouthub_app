@@ -67,6 +67,16 @@
                 app:met_errorColor="@color/white"/>
 
 
+            <CheckBox
+                android:id="@+id/checkBoxFortnite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Benutzernamen speichern"
+                android:layout_marginTop="110dp"
+                android:textColor="@color/white"
+                android:buttonTint="@color/white"/>
+
+
 
 
 

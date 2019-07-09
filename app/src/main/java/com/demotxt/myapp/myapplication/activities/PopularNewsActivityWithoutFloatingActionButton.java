@@ -12,7 +12,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,14 +23,14 @@ public class PopularNewsActivityWithoutFloatingActionButton extends AppCompatAct
 
     Toolbar toolbar;
     String url;
-    ImageButton imageButtonToBrowser;
+    FloatingActionButton buttonToBrowser;
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_popular_news_full_without_floatingbutton);
+        setContentView(R.layout.activity_popular_news_full_smaller);
 
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -57,14 +56,15 @@ public class PopularNewsActivityWithoutFloatingActionButton extends AppCompatAct
         TextView source_aa = findViewById(R.id.source) ;
         TextView author_aa = findViewById(R.id.author) ;
         ImageView thumbnail_aa = findViewById(R.id.thumbnail);
-        imageButtonToBrowser = findViewById(R.id.imageButtonToBrowser);
-        imageButtonToBrowser.setOnClickListener(new View.OnClickListener() {
+        buttonToBrowser = findViewById(R.id.buttonNewsToBrowser);
+        buttonToBrowser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                 startActivity(browserIntent);
             }
         });
+
 
         // setting values to each view
 

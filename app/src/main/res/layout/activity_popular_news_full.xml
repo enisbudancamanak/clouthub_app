@@ -24,6 +24,12 @@
             app:layout_scrollFlags="exitUntilCollapsed|scroll">
 
 
+            <android.support.v7.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="106dp"
+                android:theme="@style/ThemeOverlay.AppCompat.Light"
+                app:layout_collapseMode="pin"></android.support.v7.widget.Toolbar>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -40,7 +46,7 @@
             </LinearLayout>
 
 
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="376dp"
                 android:layout_gravity="center"
@@ -54,18 +60,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="214dp"
                     android:background="@drawable/loading_shape" />
-
-                <TextView
-                    android:id="@+id/title"
-                    android:layout_width="match_parent"
-                    android:layout_height="101dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:gravity="center_horizontal|center_vertical"
-                    android:text="Title News"
-                    android:textColor="#FFFFFF"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -97,6 +91,18 @@
                         android:textColor="#A8A8A8"
                         android:textSize="14sp" />
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="101dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="Title News"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 

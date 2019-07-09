@@ -68,6 +68,17 @@ public class StatsChooser extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.settingsMenu:
+                startActivity(new Intent(StatsChooser.this, AboutActivity.class));
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {

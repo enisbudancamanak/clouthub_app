@@ -45,7 +45,7 @@ public class RecyclerViewAdapterFortniteNews extends RecyclerView.Adapter<Recycl
 
         View view ;
         LayoutInflater inflater = LayoutInflater.from(mContext);
-        view = inflater.inflate(R.layout.news_row_item,parent,false) ;
+        view = inflater.inflate(R.layout.fortnite_news_row_item,parent,false) ;
         final MyViewHolder viewHolder = new MyViewHolder(view) ;
         viewHolder.view_container.setOnClickListener(new View.OnClickListener() {
             @Override

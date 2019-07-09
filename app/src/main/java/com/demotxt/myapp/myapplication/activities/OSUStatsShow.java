@@ -110,9 +110,14 @@ public class OSUStatsShow extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.settingsMenu:
+                startActivity(new Intent(OSUStatsShow.this, AboutActivity.class));
 
+        }
         return super.onOptionsItemSelected(item);
     }
+
 
 
 

@@ -56,7 +56,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="60dp"
+                android:layout_marginTop="90dp"
                 android:gravity="center_horizontal|center_vertical"
                 android:text="Geben Sie Ihren vollständigen BattleTag ein (einschließlich #Nummer) und achten Sie auf Groß und Kleinschreibung"
                 android:textColor="#000000"
@@ -65,11 +65,20 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="120dp"
+                android:layout_marginTop="165dp"
                 android:gravity="center_horizontal|center_vertical"
                 android:text="Beispiel: User#4242"
                 android:textColor="#000000"
                 android:textSize="18sp" />
+
+            <CheckBox
+                android:id="@+id/checkBoxOverwatch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:text="Benutzernamen speichern"
+                android:textColor="@color/white"
+                android:buttonTint="@color/white"/>
 
 
 

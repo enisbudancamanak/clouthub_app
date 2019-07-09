@@ -66,6 +66,8 @@ public class PopularNewsActivity extends AppCompatActivity {
         });
         buttonToBrowser.setTooltipText(url);
 
+
+
         // setting values to each view
 
         title_aa.setText(title);

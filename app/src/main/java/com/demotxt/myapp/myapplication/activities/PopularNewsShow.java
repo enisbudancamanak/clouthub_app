@@ -1,13 +1,17 @@
 package com.demotxt.myapp.myapplication.activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -51,6 +55,9 @@ public class PopularNewsShow extends AppCompatActivity {
     int positionCount;
     int count=10;
 
+    FloatingActionButton scrollTopButton;
+
+
 
 
     @Override
@@ -59,6 +66,31 @@ public class PopularNewsShow extends AppCompatActivity {
         setContentView(R.layout.list_news);
 
 
+        recyclerView = findViewById(R.id.recyclerviewid);
+        scrollTopButton = findViewById(R.id.buttonScrollUp);
+        scrollTopButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView
+                        .getLayoutManager();
+                layoutManager.smoothScrollToPosition(recyclerView, null, 0);
+                AppBarLayout appBarLayout = (AppBarLayout)findViewById(R.id.appbarlayout_id);
+                appBarLayout.setExpanded(true, true);            }
+        });
+
+
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy < 0 && scrollTopButton.getVisibility() == View.VISIBLE) {
+                    scrollTopButton.hide();
+                } else if (dy > 0 && scrollTopButton.getVisibility() != View.VISIBLE) {
+                    scrollTopButton.show();
+                }
+            }
+        });
 
         try {
             count = getIntent().getExtras().getInt("count");
@@ -68,8 +100,6 @@ public class PopularNewsShow extends AppCompatActivity {
         } catch (Exception e) {
             url = "https://newsapi.org/v2/top-headlines?country=de&pageSize="+count+"&sortBy=popularity&apiKey=37134d9a41c24f379a5c8ecac307e923";
         }
-
-
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setSubtitle("Nachrichten");
@@ -221,8 +251,14 @@ public class PopularNewsShow extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.settingsMenu:
+                startActivity(new Intent(PopularNewsShow.this, AboutActivity.class));
+
+        }
         return super.onOptionsItemSelected(item);
     }
+
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -259,8 +295,9 @@ public class PopularNewsShow extends AppCompatActivity {
                     for(int i = 0; i < jsonArray.length(); i++){
                         PopularNews popularNews = new PopularNews();
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        popularNews.setPublishedAt(jsonObject.getString("publishedAt"));
                         JSONObject source = jsonObject.getJSONObject("source");
-                        popularNews.setSource(source.getString("name"));
+                        popularNews.setSource(source.getString("name") + "\n" +jsonObject.getString("publishedAt").replace("T", " ").replace("Z", " "));
                         popularNews.setTitle(jsonObject.getString("title"));
                         popularNews.setDescription(jsonObject.getString("description"));
                         popularNews.setContent(jsonObject.getString("content"));
@@ -270,7 +307,6 @@ public class PopularNewsShow extends AppCompatActivity {
                         System.out.println(jsonObject.getString("title"));
 
                         lstPopularNews.add(popularNews);
-
 
                     }
 

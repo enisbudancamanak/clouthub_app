@@ -17,6 +17,7 @@ public class FortniteNews {
         this.image_url = image_url;
     }
 
+
     public String getTitle() {
         return title;
     }

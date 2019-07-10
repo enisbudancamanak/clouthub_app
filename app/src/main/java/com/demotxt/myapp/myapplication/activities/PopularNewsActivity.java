@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -31,7 +30,13 @@ public class PopularNewsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_popular_news_full);
+
+
+        if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.M) {
+            setContentView(R.layout.activity_popular_news_full);
+        } else {
+            setContentView(R.layout.activity_popular_news_full_smaller);
+        }
 
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -64,7 +69,12 @@ public class PopularNewsActivity extends AppCompatActivity {
                 startActivity(browserIntent);
             }
         });
-        buttonToBrowser.setTooltipText(url);
+
+        if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.M) {
+            buttonToBrowser.setTooltipText(url);
+        } else {
+
+        }
 
 
 
@@ -122,7 +132,7 @@ public class PopularNewsActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_news, menu);
+        getMenuInflater().inflate(R.menu.menu_fortnite_news, menu);
         return super.onCreateOptionsMenu(menu);
     }
 }

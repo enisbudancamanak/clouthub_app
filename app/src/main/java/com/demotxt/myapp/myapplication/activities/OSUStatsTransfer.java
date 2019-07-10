@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -33,7 +32,7 @@ public class OSUStatsTransfer extends AppCompatActivity {
     Button osuStatsButton;
 
 
-    public static final String SHARED_PREFS ="sharedPrefs";
+    public static final String SHARED_PREFS_OSU ="sharedPrefsOSU";
     public static final String TEXT = "";
     public  static final String SWITCH = "switch";
     CheckBox checkBox;
@@ -94,7 +93,7 @@ public class OSUStatsTransfer extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.settingsMenu:
+            case R.id.aboutMenu:
                 startActivity(new Intent(OSUStatsTransfer.this, AboutActivity.class));
 
         }
@@ -129,7 +128,7 @@ public class OSUStatsTransfer extends AppCompatActivity {
 
 
     public void setUsername(){
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS_OSU, MODE_PRIVATE);
         usernameInput.setText(sharedPreferences.getString(TEXT, ""));
         checkBox.setChecked(sharedPreferences.getBoolean(SWITCH, false));
     }
@@ -138,14 +137,14 @@ public class OSUStatsTransfer extends AppCompatActivity {
 
     public void statistikenAuslesen(String username){
         if(checkBox.isChecked()){
-            SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+            SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS_OSU, MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
 
             editor.putString(TEXT, String.valueOf(usernameInput.getText()));
             editor.putBoolean(SWITCH, checkBox.isChecked());
             editor.apply();
         } else {
-            SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+            SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS_OSU, MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
 
             editor.putString(TEXT, "");

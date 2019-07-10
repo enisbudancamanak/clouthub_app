@@ -71,7 +71,7 @@ public class StatsChooser extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.settingsMenu:
+            case R.id.aboutMenu:
                 startActivity(new Intent(StatsChooser.this, AboutActivity.class));
 
         }

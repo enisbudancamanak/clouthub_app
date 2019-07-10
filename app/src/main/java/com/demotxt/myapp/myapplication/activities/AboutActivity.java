@@ -19,8 +19,11 @@ public class AboutActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Element adsElement = new Element();
-        adsElement.setTitle("Thanks to newsapi.org for the news-API");
+        Element newsapiElement = new Element();
+        newsapiElement.setTitle("Thanks to newsapi.org for the news-API");
+
+        Element icons8Element = new Element();
+        icons8Element.setTitle("Thanks to icons8.de for the awesome icons");
 
 
         View aboutPage = new AboutPage(this)
@@ -28,7 +31,8 @@ public class AboutActivity extends AppCompatActivity {
                 .setDescription("Über CloutHUB")
                 .setImage(R.drawable.ic_cloud)
                 .addItem(new Element().setTitle("Version 1.0"))
-                .addItem(adsElement)
+                .addItem(newsapiElement)
+                .addItem(icons8Element)
                 .addGroup("Kontakt")
                 .addWebsite("https://clouthub.tk")
                 .addEmail("Enis.Budancamanak@hotmail.com")

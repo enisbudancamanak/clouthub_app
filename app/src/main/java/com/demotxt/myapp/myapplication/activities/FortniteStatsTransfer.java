@@ -15,7 +15,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -39,7 +38,7 @@ public class FortniteStatsTransfer extends AppCompatActivity {
     String plattform = "null";
     int plattformPosition;
 
-    public static final String SHARED_PREFS ="sharedPrefs";
+    public static final String SHARED_PREFS_FORTNITE ="sharedPrefsFortnite";
     public static final String TEXT = "";
     public  static final String SWITCH = "switch";
     public  static final String PLATTFORM = "";
@@ -60,7 +59,7 @@ public class FortniteStatsTransfer extends AppCompatActivity {
         usernameInput = findViewById(R.id.usernameFortnite);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setSubtitle("Fortnite Stats");
+        toolbar.setSubtitle("Lifetime Fortnite Stats");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -124,7 +123,7 @@ public class FortniteStatsTransfer extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.settingsMenu:
+            case R.id.aboutMenu:
                 startActivity(new Intent(FortniteStatsTransfer.this, AboutActivity.class));
 
         }
@@ -160,7 +159,7 @@ public class FortniteStatsTransfer extends AppCompatActivity {
 
 
     public void setUsername(){
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS_FORTNITE, MODE_PRIVATE);
         usernameInput.setText(sharedPreferences.getString(TEXT, ""));
         checkBox.setChecked(sharedPreferences.getBoolean(SWITCH, false));
     }
@@ -169,14 +168,14 @@ public class FortniteStatsTransfer extends AppCompatActivity {
 
     public void statistikenAuslesen(String username){
         if(checkBox.isChecked()){
-            SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+            SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS_FORTNITE, MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
 
             editor.putString(TEXT, String.valueOf(usernameInput.getText()));
             editor.putBoolean(SWITCH, checkBox.isChecked());
             editor.apply();
         } else {
-            SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+            SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS_FORTNITE, MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString(TEXT, "");
             editor.putBoolean(SWITCH, checkBox.isChecked());
@@ -189,6 +188,7 @@ public class FortniteStatsTransfer extends AppCompatActivity {
             i.putExtra("url", "https://api.fortnitetracker.com/v1/profile/" + plattform + "/" + username);
             i.putExtra("username", username);
             i.putExtra("plattform", plattform);
+            i.putExtra("mode", "all");
             startActivity(i);
         } else if(!NetworkConnection.isNetworkStatusAvialable(getApplicationContext())){
             Toast.makeText(this, "Überprüfen Sie Ihre Internetverbindung", Toast.LENGTH_SHORT).show();

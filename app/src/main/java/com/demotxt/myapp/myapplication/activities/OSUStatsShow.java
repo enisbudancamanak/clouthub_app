@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,7 +42,7 @@ public class OSUStatsShow extends AppCompatActivity {
     BottomNavigationView bottomNav;
 
     ListView listViewNews;
-    int[] statsIcons = {R.drawable.ic_repeat, R.drawable.ic_earth, R.drawable.ic_country, R.drawable.ic_country, R.drawable.ic_ss, R.drawable.ic_s, R.drawable.ic_repeat };
+    int[] statsIcons = {R.drawable.ic_repeat, R.drawable.ic_earth, R.drawable.ic_location, R.drawable.ic_location, R.drawable.ic_ss, R.drawable.ic_s, R.drawable.ic_repeat };
     ArrayList<String> arrayList = new ArrayList<>();
     ArrayList<String> arrayNames = new ArrayList<>();
 
@@ -63,12 +64,15 @@ public class OSUStatsShow extends AppCompatActivity {
         setContentView(R.layout.list_view_stats);
 
 
+        Spinner spinner = findViewById(R.id.fortnite_chooser);
+        spinner.setVisibility(View.GONE);
+
         username = getIntent().getExtras().getString("username");
         url = getIntent().getExtras().getString("url");
         System.out.println("URL: "  + url);
         jsonrequestOSUStats(url);
 
-        listViewNews = findViewById(R.id.listViewNews);
+        listViewNews = findViewById(R.id.listViewStats);
 
         bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
@@ -111,7 +115,7 @@ public class OSUStatsShow extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.settingsMenu:
+            case R.id.aboutMenu:
                 startActivity(new Intent(OSUStatsShow.this, AboutActivity.class));
 
         }
@@ -195,7 +199,7 @@ public class OSUStatsShow extends AppCompatActivity {
                     listViewNews.setAdapter(customAdapter);
 
 
-                        Toast.makeText(getApplicationContext(),"Statistiken erfolgreich ausgelesen!",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"Statistiken erfolgreich ausgelesen!",Toast.LENGTH_SHORT).show();
 
 
 
@@ -225,8 +229,8 @@ public class OSUStatsShow extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"Spieler konnte nicht gefunden werden! Überprüfen Sie nochmal Ihre Eingabe!",Toast.LENGTH_LONG).show();
             }
         });
-            requestQueue = Volley.newRequestQueue(OSUStatsShow.this);
-            requestQueue.add(requestOSUStats) ;
+        requestQueue = Volley.newRequestQueue(OSUStatsShow.this);
+        requestQueue.add(requestOSUStats) ;
     }
 
 

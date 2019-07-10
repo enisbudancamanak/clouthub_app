@@ -34,6 +34,7 @@ public class NewsChooser extends AppCompatActivity {
 
     Button buttonFortniteNews;
     Button buttonPopularNews;
+    Button buttonSteamNews;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +54,11 @@ public class NewsChooser extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(NetworkConnection.isNetworkStatusAvialable(getApplicationContext())) {
-                    startActivity(new Intent(NewsChooser.this, FortniteNewsShow.class));
+                    Intent i = new Intent(NewsChooser.this, FortniteNewsShow.class);
+                    i.putExtra("shop", "no");
+                    i.putExtra("url", "https://fortnite-public-api.theapinetwork.com/prod09/br_motd/get?language=de&format=json");
+                    i.putExtra("language", "de");
+                    startActivity(i);
                 } else {
                     Toast.makeText(NewsChooser.this, "Überprüfen Sie Ihre Internetverbindung", Toast.LENGTH_SHORT).show();
                 }
@@ -72,6 +77,18 @@ public class NewsChooser extends AppCompatActivity {
             }
         });
 
+        buttonSteamNews = findViewById(R.id.buttonSteamNews);
+        buttonSteamNews.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(NetworkConnection.isNetworkStatusAvialable(getApplicationContext())) {
+                    startActivity(new Intent(NewsChooser.this, SteamGameNewsTransfer.class));
+                } else {
+                    Toast.makeText(NewsChooser.this, "Überprüfen Sie Ihre Internetverbindung", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
     }
 
     @Override
@@ -84,7 +101,7 @@ public class NewsChooser extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.settingsMenu:
+            case R.id.aboutMenu:
                 startActivity(new Intent(NewsChooser.this, AboutActivity.class));
 
         }

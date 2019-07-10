@@ -12,7 +12,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.AboutActivity"></activity>
+        <activity android:name=".activities.SteamGameNewsShow"
+            android:parentActivityName=".activities.SteamGameNewsTransfer"></activity>
+        <activity android:name=".activities.SteamGameNewsTransfer"
+            android:parentActivityName=".activities.NewsChooser"/>
+        <activity android:name=".activities.AboutActivity" />
         <activity
             android:name=".activities.OverwatchStatsShow"
             android:parentActivityName=".activities.OverwatchStatsTransfer" />
@@ -30,9 +34,6 @@
         <activity
             android:name=".activities.OSUStatsTransfer"
             android:parentActivityName=".activities.StatsChooser" />
-        <activity
-            android:name=".activities.PopularNewsActivityWithoutFloatingActionButton"
-            android:parentActivityName=".activities.PopularNewsShow" />
         <activity
             android:name=".activities.FortniteStatsShow"
             android:parentActivityName=".activities.FortniteStatsTransfer" />

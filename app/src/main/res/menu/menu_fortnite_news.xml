@@ -4,10 +4,18 @@
 
     <item
         android:id="@+id/switchLanguage"
-        android:title="Sprache wechseln"
+        android:title=""
         android:orderInCategory="100"
         android:icon="@drawable/ic_language"
         app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/fortniteShop"
+        android:title="Zum Shop"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_shop"
+        app:showAsAction="always"/>
+
 
     <item
         android:id="@+id/settingsMenuButton"

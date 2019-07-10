@@ -1,8 +1,11 @@
 package com.demotxt.myapp.myapplication.activities;
 
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -26,49 +30,54 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.demotxt.myapp.myapplication.R;
-import com.demotxt.myapp.myapplication.model.FortniteStats;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Iterator;
 
-public class OverwatchStatsShow extends AppCompatActivity {
+public class SteamGameNewsShow extends AppCompatActivity implements AdapterView.OnItemClickListener {
+
 
     Toolbar toolbar;
     BottomNavigationView bottomNav;
 
+    private JsonObjectRequest requestSteamAppNews;
+    private RequestQueue requestQueue ;
+
     ListView listViewNews;
+    int[] statsIcons = {R.drawable.ic_controller_lightblue, R.drawable.ic_metacritic, R.drawable.ic_categorie, R.drawable.ic_plus, R.drawable.ic_news_bigger, R.drawable.ic_news_bigger, R.drawable.ic_news_bigger};
     ArrayList<String> arrayList = new ArrayList<>();
     ArrayList<String> arrayNames = new ArrayList<>();
+    ArrayList<String> arrayNewsTitles = new ArrayList<>();
+    ArrayList<String> arrayNewsURLs = new ArrayList<>();
 
-
-    int[] statsIcons = {R.drawable.ic_rangliste, R.drawable.ic_endorsement, R.drawable.ic_wins, R.drawable.ic_rangliste, R.drawable.ic_heilung, R.drawable.ic_schaden };
-    private JsonObjectRequest requestOverwatchStats;
-    private RequestQueue requestQueue ;
-    String url;
-    String username;
-    FortniteStats fortniteStats;
+    String urlInfos;
+    String appId;
     DecimalFormat f = new DecimalFormat("#0.00" + "");
 
 
 
-
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_view_stats);
 
-
         Spinner spinner = findViewById(R.id.fortnite_chooser);
         spinner.setVisibility(View.GONE);
 
-        username = getIntent().getExtras().getString("username");
-        url = getIntent().getExtras().getString("url");
-        System.out.println("URL: "  + url);
-        jsonrequestOverwatchStats(url);
+        ListView listview = (ListView) findViewById(R.id.listViewStats);
+        listview.setOnItemClickListener(this);
+
+        appId = getIntent().getExtras().getString("appId");
+        urlInfos = getIntent().getExtras().getString("urlInfo");
+        arrayNewsTitles = getIntent().getExtras().getStringArrayList("ListTitles");
+        arrayNewsURLs = getIntent().getExtras().getStringArrayList("ListURLs");
+
+        jsonrequestSteamNews(urlInfos);
 
         listViewNews = findViewById(R.id.listViewStats);
 
@@ -77,7 +86,7 @@ public class OverwatchStatsShow extends AppCompatActivity {
 
 
         toolbar = findViewById(R.id.toolbar);
-        toolbar.setSubtitle(username.replace("-","#") + "'s Overwatch Stats");
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -97,8 +106,24 @@ public class OverwatchStatsShow extends AppCompatActivity {
                 },100);
             }
         });
+
+
+
     }
 
+
+    public void onItemClick(AdapterView<?> l, View v, int position, long id) {
+        if(position == 4) {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(arrayNewsURLs.get(0)));
+            startActivity(browserIntent);
+        } else if (position == 5){
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(arrayNewsURLs.get(1)));
+            startActivity(browserIntent);
+        } else if (position == 6){
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(arrayNewsURLs.get(2)));
+            startActivity(browserIntent);
+        }
+    }
 
 
     @Override
@@ -111,7 +136,7 @@ public class OverwatchStatsShow extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.aboutMenu:
-                startActivity(new Intent(OverwatchStatsShow.this, AboutActivity.class));
+                startActivity(new Intent(SteamGameNewsShow.this, AboutActivity.class));
 
         }
         return super.onOptionsItemSelected(item);
@@ -127,15 +152,15 @@ public class OverwatchStatsShow extends AppCompatActivity {
 
                     switch (item.getItemId()) {
                         case R.id.newsMenu:
-                            startActivity(new Intent(OverwatchStatsShow.this, NewsChooser.class));
+                            startActivity(new Intent(SteamGameNewsShow.this, NewsChooser.class));
                             break;
 
                         case R.id.homeMenu:
-                            startActivity(new Intent(OverwatchStatsShow.this, HomeActivity.class));
+                            startActivity(new Intent(SteamGameNewsShow.this, HomeActivity.class));
                             break;
 
                         case R.id.statsMenu:
-                            startActivity(new Intent(OverwatchStatsShow.this, StatsChooser.class));
+                            startActivity(new Intent(SteamGameNewsShow.this, StatsChooser.class));
                             break;
                     }
                     return true;
@@ -144,67 +169,75 @@ public class OverwatchStatsShow extends AppCompatActivity {
 
 
 
-
-    private void jsonrequestOverwatchStats(String url) {
-        requestOverwatchStats = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+    private void jsonrequestSteamNews(String url) {
+        requestSteamAppNews = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    JSONObject jsonObject1 = new JSONObject(response.toString());
-                    JSONObject jsonObject = jsonObject1.getJSONObject("competitiveStats");
 
-                    JSONObject topHeroesObject = jsonObject.getJSONObject("topHeroes");
-                    JSONObject careerStatsObject = jsonObject.getJSONObject("careerStats");
-                    JSONObject allHeroesObject = careerStatsObject.getJSONObject("allHeroes");
-                    JSONObject assistsObject = allHeroesObject.getJSONObject("assists");
-                    JSONObject combatObject = allHeroesObject.getJSONObject("combat");
+                    String genres = "";
 
-
-                    String level = jsonObject1.getInt("prestige") + "" + jsonObject1.getInt("level");
-                    String endorsement = String.valueOf(jsonObject1.getInt("endorsement"));
-                    String gamesWon = String.valueOf(jsonObject1.getInt("gamesWon"));
-                    Iterator<String> keys = topHeroesObject.keys();
-                    String healing = String.valueOf(assistsObject.getString("healingDone"));
-                    String damage = String.valueOf(combatObject.getString("damageDone"));
+                    JSONObject jsonObjectStart = new JSONObject(response.toString());
+                    JSONObject jsonObject1 = jsonObjectStart.getJSONObject(appId);
+                    JSONObject jsonObject = jsonObject1.getJSONObject("data");
+                    JSONObject metacritic = jsonObject.getJSONObject("metacritic");
+                    JSONArray genresArray = jsonObject.getJSONArray("genres");
+                    JSONObject release_dateObject = jsonObject.getJSONObject("release_date");
 
 
-                    String topHeroes = keys.next();
+                   for(int i = 0; i < genresArray.length(); i++){
+                       JSONObject genresObject = genresArray.getJSONObject(i);
+                       genres += genresObject.getString("description") + ", ";
+                   }
 
 
-                    arrayList.add(level);
-                    arrayList.add(endorsement);
-                    arrayList.add(gamesWon);
-                    arrayList.add(topHeroes.substring(0,1).toUpperCase() + topHeroes.substring(1));
-                    arrayList.add(healing);
-                    arrayList.add(damage);
+                    toolbar.setSubtitle(jsonObject.getString("name") + " News");
 
-                    arrayNames.add("Level: ");
-                    arrayNames.add("Endorsement: ");
-                    arrayNames.add("Spiele gewonnen: ");
-                    arrayNames.add("Bester Held: ");
-                    arrayNames.add("Geheilt: ");
-                    arrayNames.add("Schaden: ");
+                    arrayList.add(jsonObject.getString("name"));
+                    arrayList.add(metacritic.getString("score"));
+                    arrayList.add(genres);
+                    arrayList.add(release_dateObject.getString("date"));
+                    arrayList.add("");
+                    arrayList.add("");
+                    arrayList.add("");
+
+
+                    arrayNames.add("Name: ");
+                    arrayNames.add("Score: ");
+                    arrayNames.add("Genres: ");
+                    arrayNames.add("Release: ");
+
+                    String[] newsTitles = arrayNewsTitles.toArray(new String[0]);
+
+                    arrayNames.add(newsTitles[0]);
+                    arrayNames.add(newsTitles[1]);
+                    arrayNames.add(newsTitles[2]);
 
                     String[] arrayValues = arrayList.toArray(new String[0]);
                     String[] marrayNames = arrayNames.toArray(new String[0]);
 
-                    OverwatchStatsShow.CustomAdapter customAdapter = new OverwatchStatsShow.CustomAdapter(arrayValues, marrayNames);
+
+
+                    SteamGameNewsShow.CustomAdapter customAdapter = new SteamGameNewsShow.CustomAdapter(arrayValues, marrayNames);
                     listViewNews.setAdapter(customAdapter);
+
 
                     Toast.makeText(getApplicationContext(),"Statistiken erfolgreich ausgelesen!",Toast.LENGTH_SHORT).show();
 
 
 
+
                 } catch (JSONException e) {
-                    e.printStackTrace();
                     System.out.println("FEHLER");
+                    e.printStackTrace();
                     String[] strArray = {""};
-                    String[] arrayError = {"Keinen Spieler gefunden"};
+                    String[] arrayError = {"Kein Spiel gefunden"};
                     statsIcons = new int[] {R.drawable.ic_kills};
-                    OverwatchStatsShow.CustomAdapter customAdapter = new OverwatchStatsShow.CustomAdapter(strArray, arrayError);
+                    SteamGameNewsShow.CustomAdapter customAdapter = new SteamGameNewsShow.CustomAdapter(strArray, arrayError);
                     listViewNews.setAdapter(customAdapter);
                     Toast.makeText(getApplicationContext(),"Spieler konnte nicht gefunden werden! Überprüfen Sie nochmal Ihre Eingabe!",Toast.LENGTH_LONG).show();
                 }
+
             }
         }, new Response.ErrorListener() {
             @Override
@@ -212,17 +245,16 @@ public class OverwatchStatsShow extends AppCompatActivity {
                 System.out.println("FEHLER");
                 error.printStackTrace();
                 String[] strArray = {""};
-                String[] arrayError = {"Keinen Spieler gefunden"};
+                String[] arrayError = {"Kein Spiel gefunden"};
                 statsIcons = new int[] {R.drawable.ic_kills};
-                OverwatchStatsShow.CustomAdapter customAdapter = new OverwatchStatsShow.CustomAdapter(strArray, arrayError);
+                SteamGameNewsShow.CustomAdapter customAdapter = new SteamGameNewsShow.CustomAdapter(strArray, arrayError);
                 listViewNews.setAdapter(customAdapter);
                 Toast.makeText(getApplicationContext(),"Spieler konnte nicht gefunden werden! Überprüfen Sie nochmal Ihre Eingabe!",Toast.LENGTH_LONG).show();
             }
         });
-        requestQueue = Volley.newRequestQueue(OverwatchStatsShow.this);
-        requestQueue.add(requestOverwatchStats) ;
+        requestQueue = Volley.newRequestQueue(SteamGameNewsShow.this);
+        requestQueue.add(requestSteamAppNews) ;
     }
-
 
 
 
@@ -256,7 +288,7 @@ public class OverwatchStatsShow extends AppCompatActivity {
 
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
-            View view1 = getLayoutInflater().inflate(R.layout.row_statsitem, null);
+            View view1 = getLayoutInflater().inflate(R.layout.row_steamitem, null);
 
             TextView description = view1.findViewById(R.id.statsName);
             TextView name = view1.findViewById(R.id.statsValue);

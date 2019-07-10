@@ -29,4 +29,12 @@
         <item>40</item>
         <item>50</item>
     </string-array>
+
+
+    <string-array name="dropdownFortniteStats">
+        <item>All</item>
+        <item>Solo</item>
+        <item>Duo</item>
+        <item>Squad</item>
+    </string-array>
 </resources>

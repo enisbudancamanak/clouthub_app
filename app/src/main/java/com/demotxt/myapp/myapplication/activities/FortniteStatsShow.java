@@ -12,9 +12,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,6 +60,8 @@ public class FortniteStatsShow extends AppCompatActivity {
     FortniteStats fortniteStats;
     DecimalFormat f = new DecimalFormat("#0" + "");
 
+    int spinnerPosition;
+    String mode;
 
 
 
@@ -64,14 +70,19 @@ public class FortniteStatsShow extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_view_stats);
 
+        try {
+            spinnerPosition = getIntent().getExtras().getInt("spinnerPosition");
+        } catch (Exception e) {
+            spinnerPosition = 0;
+        }
 
+        mode = getIntent().getExtras().getString("mode");
         username = getIntent().getExtras().getString("username");
         plattform = getIntent().getExtras().getString("plattform");
         url = getIntent().getExtras().getString("url");
         System.out.println("URL: "  + url);
-        jsonrequestFortniteStats(url);
 
-        listViewNews = findViewById(R.id.listViewNews);
+        listViewNews = findViewById(R.id.listViewStats);
 
         bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
@@ -81,6 +92,61 @@ public class FortniteStatsShow extends AppCompatActivity {
         toolbar.setSubtitle(username + "'s Fortnite Stats");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+        SpinnerAdapter spinnerAdapter = ArrayAdapter.createFromResource(getApplicationContext(), R.array.dropdownFortniteStats, R.layout.spinner_layout);
+        final Spinner changeModeSpinner =  findViewById(R.id.fortnite_chooser);
+        changeModeSpinner.setAdapter(spinnerAdapter);
+        changeModeSpinner.setSelection(spinnerPosition);
+
+        changeModeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (changeModeSpinner.getSelectedItemId() == 0 && spinnerPosition != 0) {
+                    finish();
+                    Intent intent = new Intent(FortniteStatsShow.this, FortniteStatsShow.class);
+                    intent.putExtra("mode", "all");
+                    intent.putExtra("spinnerPosition", i);
+                    intent.putExtra("username", username);
+                    intent.putExtra("plattform", plattform);
+                    intent.putExtra("url", url);
+                    startActivity(intent);
+                } else if (changeModeSpinner.getSelectedItemId() == 1 && spinnerPosition != 1) {
+                    finish();
+                    Intent intent = new Intent(FortniteStatsShow.this, FortniteStatsShow.class);
+                    intent.putExtra("mode", "solo");
+                    intent.putExtra("spinnerPosition", i);
+                    intent.putExtra("username", username);
+                    intent.putExtra("plattform", plattform);
+                    intent.putExtra("url", url);
+                    startActivity(intent);
+                } else if (changeModeSpinner.getSelectedItemId() == 2 && spinnerPosition != 2) {
+                    finish();
+                    Intent intent = new Intent(FortniteStatsShow.this, FortniteStatsShow.class);
+                    intent.putExtra("mode", "duo");
+                    intent.putExtra("spinnerPosition", i);
+                    intent.putExtra("username", username);
+                    intent.putExtra("plattform", plattform);
+                    intent.putExtra("url", url);
+                    startActivity(intent);
+                } else if (changeModeSpinner.getSelectedItemId() == 3 && spinnerPosition != 3) {
+                    finish();
+                    Intent intent = new Intent(FortniteStatsShow.this, FortniteStatsShow.class);
+                    intent.putExtra("mode", "squad");
+                    intent.putExtra("spinnerPosition", i);
+                    intent.putExtra("username", username);
+                    intent.putExtra("plattform", plattform);
+                    intent.putExtra("url", url);
+                    startActivity(intent);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
 
         final SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.swipeLayout);
         swipeRefreshLayout.setColorSchemeResources(R.color.refresh,R.color.refresh1, R.color.refresh2);
@@ -99,6 +165,7 @@ public class FortniteStatsShow extends AppCompatActivity {
             }
         });
 
+        jsonrequestFortniteStats(url);
 
 
     }
@@ -107,14 +174,14 @@ public class FortniteStatsShow extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
+        getMenuInflater().inflate(R.menu.menu_fortnite_stats, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.settingsMenu:
+            case R.id.aboutMenu:
                 startActivity(new Intent(FortniteStatsShow.this, AboutActivity.class));
 
         }
@@ -151,58 +218,59 @@ public class FortniteStatsShow extends AppCompatActivity {
         requestFortniteNews = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                try {
-                    JSONObject jsonObject = new JSONObject(response.toString());
-                    JSONArray jsonArray = jsonObject.getJSONArray("lifeTimeStats");
+                if(mode.equals("all")){
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.toString());
+                        JSONArray jsonArray = jsonObject.getJSONArray("lifeTimeStats");
 
-                    String[] value = new String[jsonArray.length()];
+                        String[] value = new String[jsonArray.length()];
 
+                        for(int i = 0; i < jsonArray.length(); i++){
+                            JSONObject jObj = jsonArray.getJSONObject(i);
+                            value[i] = String.valueOf(jObj.getString("value"));
+                        }
 
-                    for(int i = 0; i < jsonArray.length(); i++){
-                        JSONObject jObj = jsonArray.getJSONObject(i);
-                        value[i] = String.valueOf(jObj.getString("value"));
-                    }
+                        Double deaths = Double.parseDouble(value[10]) / Double.parseDouble(value[11]);
+                        arrayList.add(value[10]);
+                        arrayList.add(String.valueOf(f.format(deaths)));
+                        arrayList.add(value[11]);
+                        arrayList.add(value[7]);
+                        arrayList.add(value[8]);
+                        arrayList.add(value[9]);
 
+                        arrayNames.add("Kills: ");
+                        arrayNames.add("Deaths: ");
+                        arrayNames.add("KD: ");
+                        arrayNames.add("Matches: ");
+                        arrayNames.add("Wins: ");
+                        arrayNames.add("Winratio: ");
 
-                    Double deaths = Double.parseDouble(value[10]) / Double.parseDouble(value[11]);
-                    arrayList.add(value[10]);
-                    arrayList.add(String.valueOf(f.format(deaths)));
-                    arrayList.add(value[11]);
-                    arrayList.add(value[7]);
-                    arrayList.add(value[8]);
-                    arrayList.add(value[9]);
-
-                    arrayNames.add("Kills: ");
-                    arrayNames.add("Deaths: ");
-                    arrayNames.add("KD: ");
-                    arrayNames.add("Matches: ");
-                    arrayNames.add("Wins: ");
-                    arrayNames.add("Winratio: ");
-
-                    String[] arrayValues = arrayList.toArray(new String[0]);
-                    String[] marrayNames = arrayNames.toArray(new String[0]);
-
+                        String[] arrayValues = arrayList.toArray(new String[0]);
+                        String[] marrayNames = arrayNames.toArray(new String[0]);
 
 
-
-
-
-                    CustomAdapter customAdapter = new CustomAdapter(arrayValues, marrayNames);
-                    listViewNews.setAdapter(customAdapter);
+                        CustomAdapter customAdapter = new CustomAdapter(arrayValues, marrayNames);
+                        listViewNews.setAdapter(customAdapter);
 
                         Toast.makeText(getApplicationContext(),"Statistiken erfolgreich ausgelesen!",Toast.LENGTH_SHORT).show();
 
 
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    System.out.println("FEHLER");
-                    String[] strArray = {""};
-                    String[] arrayError = {"Keinen Spieler gefunden"};
-                    statsIcons = new int[] {R.drawable.ic_kills};
-                    CustomAdapter customAdapter = new CustomAdapter(strArray, arrayError);
-                    listViewNews.setAdapter(customAdapter);
-                    Toast.makeText(getApplicationContext(),"Spieler konnte nicht gefunden werden! Überprüfen Sie nochmal Ihre Eingabe!",Toast.LENGTH_LONG).show();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        System.out.println("FEHLER");
+                        String[] strArray = {""};
+                        String[] arrayError = {"Keinen Spieler gefunden"};
+                        statsIcons = new int[] {R.drawable.ic_kills};
+                        CustomAdapter customAdapter = new CustomAdapter(strArray, arrayError);
+                        listViewNews.setAdapter(customAdapter);
+                        Toast.makeText(getApplicationContext(),"Spieler konnte nicht gefunden werden! Überprüfen Sie nochmal Ihre Eingabe!",Toast.LENGTH_LONG).show();
+                    }
+                } else if(mode.equals("solo")){
+                    loadDifferentModes(response, "p2");
+                } else if(mode.equals("duo")){
+                    loadDifferentModes(response, "p10");
+                } else if(mode.equals("squad")){
+                    loadDifferentModes(response, "p9");
                 }
             }
 
@@ -275,4 +343,54 @@ public class FortniteStatsShow extends AppCompatActivity {
             return view1;
         }
     }
+
+    public void loadDifferentModes(JSONObject response, String modeObject){
+        try {
+            JSONObject jsonObject1 = new JSONObject(response.toString());
+            JSONObject jsonObject2 = jsonObject1.getJSONObject("stats");
+            JSONObject jsonObject = jsonObject2.getJSONObject(modeObject);
+            JSONObject killsObject = jsonObject.getJSONObject("kills");
+            JSONObject kdObject = jsonObject.getJSONObject("kd");
+            JSONObject matchesObject = jsonObject.getJSONObject("matches");
+            JSONObject winratioObject = jsonObject.getJSONObject("winRatio");
+
+            Double deaths = killsObject.getInt("value") / kdObject.getDouble("valueDec");
+            Double wins = matchesObject.getInt("valueInt") / (100 / winratioObject.getDouble("valueDec"));
+
+            arrayList.add(killsObject.getString("value"));
+            arrayList.add(String.valueOf(f.format(deaths)));
+            arrayList.add(kdObject.getString("value"));
+            arrayList.add(matchesObject.getString("value"));
+            arrayList.add(String.valueOf(Math.round(wins)));
+            arrayList.add(winratioObject.getString("value"));
+
+            arrayNames.add("Kills: ");
+            arrayNames.add("Deaths: ");
+            arrayNames.add("KD: ");
+            arrayNames.add("Matches: ");
+            arrayNames.add("Wins: ");
+            arrayNames.add("Winratio: ");
+
+            String[] arrayValues = arrayList.toArray(new String[0]);
+            String[] marrayNames = arrayNames.toArray(new String[0]);
+
+
+            CustomAdapter customAdapter = new CustomAdapter(arrayValues, marrayNames);
+            listViewNews.setAdapter(customAdapter);
+
+            Toast.makeText(getApplicationContext(),"Statistiken erfolgreich ausgelesen!",Toast.LENGTH_SHORT).show();
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+            System.out.println("FEHLER");
+            String[] strArray = {""};
+            String[] arrayError = {"Keinen Spieler gefunden"};
+            statsIcons = new int[] {R.drawable.ic_kills};
+            CustomAdapter customAdapter = new CustomAdapter(strArray, arrayError);
+            listViewNews.setAdapter(customAdapter);
+            Toast.makeText(getApplicationContext(),"Spieler konnte nicht gefunden werden! Überprüfen Sie nochmal Ihre Eingabe!",Toast.LENGTH_LONG).show();
+        }
+    }
+
 }

@@ -75,7 +75,12 @@ public class RecyclerViewAdapterFortniteNews extends RecyclerView.Adapter<Recycl
     public void onBindViewHolder(MyViewHolder holder, int position) {
 
         holder.tv_name.setText(mData.get(position).getTitle());
-        holder.tv_description.setText(mData.get(position).getBody());
+
+        if(mData.get(position).getBody().isEmpty() || mData.get(position).getBody().equals("null")){
+            holder.tv_description.setText("");
+        } else {
+            holder.tv_description.setText(mData.get(position).getBody());
+        }
 
         // Load Image from the internet and set it into Imageview using Glide
 

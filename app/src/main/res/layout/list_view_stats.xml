@@ -14,7 +14,7 @@
         android:id="@+id/swipeLayout">
 
     <ListView
-        android:id="@+id/listViewNews"
+        android:id="@+id/listViewStats"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingTop="?android:attr/actionBarSize"
@@ -34,7 +34,14 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimary"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        ></android.support.v7.widget.Toolbar>
+        >
+        <Spinner
+            android:id="@+id/fortnite_chooser"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:visibility="visible"
+            android:layout_gravity="right"/>
+    </android.support.v7.widget.Toolbar>
 
 
     <android.support.design.widget.BottomNavigationView

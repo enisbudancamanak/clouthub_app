@@ -25,64 +25,65 @@ import com.android.volley.toolbox.Volley;
 import com.demotxt.myapp.myapplication.R;
 import com.demotxt.myapp.myapplication.model.NetworkConnection;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-
-public class SteamGameNewsTransfer extends AppCompatActivity {
+public class MinecraftNameHistoryTransfer extends AppCompatActivity {
 
     Toolbar toolbar;
     BottomNavigationView bottomNav;
-    private JsonObjectRequest requestSteamAppNews;
-    private RequestQueue requestQueue ;
 
+    private JsonObjectRequest requestMinecraftStats;
+    private RequestQueue requestQueue;
     EditText usernameInput;
-    Button steamGameNewsButton;
+    Button minecraftStatsButton;
 
-    public static final String SHARED_PREFS_STEAM = "sharedPrefsStean";
+
+    public static final String SHARED_PREFS_MINECRAFT = "sharedPrefsMinecraft";
     public static final String TEXT = "";
     public static final String SWITCH = "switch";
     CheckBox checkBox;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_steam_game_news_transfer);
+        setContentView(R.layout.activity_minecraft_name_history_transfer);
 
-
-        checkBox = findViewById(R.id.checkBoxSteamNews);
-        usernameInput = findViewById(R.id.steamAppIdInput);
-
+        checkBox = findViewById(R.id.checkBoxMinecraft);
         bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
-
+        usernameInput = findViewById(R.id.usernameMinecraft);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setSubtitle("Steam-Spiel News");
+        toolbar.setSubtitle("Minecraft Stats");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         setUsername();
 
-        steamGameNewsButton = findViewById(R.id.steamNewsTransferButton);
-        steamGameNewsButton.setOnClickListener(new View.OnClickListener() {
+
+
+        minecraftStatsButton = findViewById(R.id.minecraftStatsButton);
+        minecraftStatsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                jsonrequestSteamNews("https://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid=" + usernameInput.getText() + "&count=3&maxlength=300&format=json");
+                jsonrequestMinecraftStats("https://api.mojang.com/users/profiles/minecraft/" + usernameInput.getText());
             }
         });
+
 
         usernameInput.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View view, int keyCode, KeyEvent keyevent) {
                 if ((keyevent.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    jsonrequestSteamNews("https://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid=" + usernameInput.getText() + "&count=3&maxlength=300&format=json");
+                    jsonrequestMinecraftStats("https://api.mojang.com/users/profiles/minecraft/" + usernameInput.getText());
                     return true;
                 }
                 return false;
             }
         });
+
 
     }
 
@@ -92,21 +93,14 @@ public class SteamGameNewsTransfer extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.aboutMenu:
-                startActivity(new Intent(SteamGameNewsTransfer.this, AboutActivity.class));
+                startActivity(new Intent(MinecraftNameHistoryTransfer.this, AboutActivity.class));
 
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    public void setUsername() {
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS_STEAM, MODE_PRIVATE);
-        usernameInput.setText(sharedPreferences.getString(TEXT, ""));
-        checkBox.setChecked(sharedPreferences.getBoolean(SWITCH, false));
     }
 
 
@@ -116,14 +110,16 @@ public class SteamGameNewsTransfer extends AppCompatActivity {
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
                     switch (item.getItemId()) {
-                        case R.id.statsMenu:
-                            startActivity(new Intent(SteamGameNewsTransfer.this, StatsChooser.class));
-                            break;
-                        case R.id.homeMenu:
-                            startActivity(new Intent(SteamGameNewsTransfer.this, HomeActivity.class));
-                            break;
                         case R.id.newsMenu:
-                            startActivity(new Intent(SteamGameNewsTransfer.this, NewsChooser.class));
+                            startActivity(new Intent(MinecraftNameHistoryTransfer.this, NewsChooser.class));
+                            break;
+
+                        case R.id.homeMenu:
+                            startActivity(new Intent(MinecraftNameHistoryTransfer.this, HomeActivity.class));
+                            break;
+
+                        case R.id.statsMenu:
+                            startActivity(new Intent(MinecraftNameHistoryTransfer.this, StatsChooser.class));
                             break;
                     }
                     return true;
@@ -131,76 +127,84 @@ public class SteamGameNewsTransfer extends AppCompatActivity {
             };
 
 
-    private void jsonrequestSteamNews(String url) {
+    public void setUsername() {
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS_MINECRAFT, MODE_PRIVATE);
+        usernameInput.setText(sharedPreferences.getString(TEXT, ""));
+        checkBox.setChecked(sharedPreferences.getBoolean(SWITCH, false));
+    }
+
+
+    private void jsonrequestMinecraftStats(String url) {
         if (checkBox.isChecked()) {
-            SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS_STEAM, MODE_PRIVATE);
+            SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS_MINECRAFT, MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
 
             editor.putString(TEXT, String.valueOf(usernameInput.getText()));
             editor.putBoolean(SWITCH, checkBox.isChecked());
             editor.apply();
         } else {
-            SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS_STEAM, MODE_PRIVATE);
+            SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS_MINECRAFT, MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
 
             editor.putString(TEXT, "");
             editor.putBoolean(SWITCH, checkBox.isChecked());
             editor.apply();
         }
-        requestSteamAppNews = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+        requestMinecraftStats = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
 
+                    JSONObject jsonObject = new JSONObject(response.toString());
 
-                    ArrayList<String> arrayTitle = new ArrayList<>();
-                    ArrayList<String> arrayURL = new ArrayList<>();
-
-                    JSONObject jsonObjectStart = new JSONObject(response.toString());
-                    JSONObject jsonObject1 = jsonObjectStart.getJSONObject("appnews");
-                    JSONArray jsonArray = jsonObject1.getJSONArray("newsitems");
+                    String uuid = jsonObject.getString("id");
 
 
-                    for(int i = 0; i < jsonArray.length(); i++){
-                        JSONObject jsonObject = jsonArray.getJSONObject(i);
-
-                        arrayTitle.add(jsonObject.getString("title"));
-                        arrayURL.add(jsonObject.getString("url"));
-                    }
-
-                    statistikenAuslesen(usernameInput.getText().toString(), arrayTitle, arrayURL);
+                    statistikenAuslesen(uuid, usernameInput.getText().toString());
 
                 } catch (JSONException e) {
-                    Toast.makeText(SteamGameNewsTransfer.this, "Spiel konnte nicht gefunden werden", Toast.LENGTH_LONG).show();
-
+                    Toast.makeText(MinecraftNameHistoryTransfer.this, "Benutzername konnte nicht gefunden werden", Toast.LENGTH_LONG).show();
                 }
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(SteamGameNewsTransfer.this, "Spiel konnte nicht gefunden werden", Toast.LENGTH_LONG).show();
-
+                Toast.makeText(MinecraftNameHistoryTransfer.this, "Benutzername konnte nicht gefunden werden", Toast.LENGTH_LONG).show();
             }
         });
-        requestQueue = Volley.newRequestQueue(SteamGameNewsTransfer.this);
-        requestQueue.add(requestSteamAppNews) ;
+        requestQueue = Volley.newRequestQueue(MinecraftNameHistoryTransfer.this);
+        requestQueue.add(requestMinecraftStats) ;
     }
 
 
-    public void statistikenAuslesen(String appId, ArrayList<String> arrayTitle, ArrayList<String> arrayURL) {
+    public void statistikenAuslesen(String uuid, String username) {
+        if (checkBox.isChecked()) {
+            SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS_MINECRAFT, MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+
+            editor.putString(TEXT, String.valueOf(usernameInput.getText()));
+            editor.putBoolean(SWITCH, checkBox.isChecked());
+            editor.apply();
+        } else {
+            SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS_MINECRAFT, MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString(TEXT, "");
+            editor.putBoolean(SWITCH, checkBox.isChecked());
+            editor.apply();
+        }
+
         if (usernameInput.length() != 0 && NetworkConnection.isNetworkStatusAvialable(getApplicationContext())) {
-            Intent i = new Intent(this, SteamGameNewsShow.class);
-            i.putExtra("urlInfo", "https://store.steampowered.com/api/appdetails?appids=" + appId);
-            i.putExtra("appId", appId);
-            i.putExtra("ListTitles", arrayTitle);
-            i.putExtra("ListURLs", arrayURL);
+            System.out.println(username);
+            Intent i = new Intent(this, MinecraftNameHistoryShow.class);
+            i.putExtra("url", "https://api.mojang.com/user/profiles/" + uuid + "/names");
+            i.putExtra("username", username);
+            i.putExtra("uuid", uuid);
             startActivity(i);
         } else if (!NetworkConnection.isNetworkStatusAvialable(getApplicationContext())) {
             Toast.makeText(this, "Überprüfen Sie Ihre Internetverbindung", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "Bitte füllen Sie die Felder aus", Toast.LENGTH_SHORT).show();
         }
-
     }
 }

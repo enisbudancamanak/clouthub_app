@@ -71,8 +71,6 @@ public class PopularNewsShow extends AppCompatActivity {
                 LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView
                         .getLayoutManager();
                 layoutManager.smoothScrollToPosition(recyclerView, null, 0);
-                AppBarLayout appBarLayout = (AppBarLayout)findViewById(R.id.appbarlayout_id);
-                appBarLayout.setExpanded(true, true);
             }
         });
 
@@ -84,6 +82,8 @@ public class PopularNewsShow extends AppCompatActivity {
                 super.onScrolled(recyclerView, dx, dy);
                 if (dy < 0 && scrollTopButton.getVisibility() == View.VISIBLE) {
                     scrollTopButton.hide();
+                    AppBarLayout appBarLayout = (AppBarLayout)findViewById(R.id.appbarlayout_id);
+                    appBarLayout.setExpanded(true, true);
                 } else if (dy > 0 && scrollTopButton.getVisibility() != View.VISIBLE) {
                     scrollTopButton.show();
                 }
@@ -304,7 +304,7 @@ public class PopularNewsShow extends AppCompatActivity {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                         popularNews.setPublishedAt(jsonObject.getString("publishedAt"));
                         JSONObject source = jsonObject.getJSONObject("source");
-                        popularNews.setSource(source.getString("name") + "\n" +jsonObject.getString("publishedAt").replace("T", " ").replace("Z", " "));
+                        popularNews.setSource(source.getString("name"));
                         popularNews.setTitle(jsonObject.getString("title"));
                         popularNews.setDescription(jsonObject.getString("description"));
                         popularNews.setContent(jsonObject.getString("content"));

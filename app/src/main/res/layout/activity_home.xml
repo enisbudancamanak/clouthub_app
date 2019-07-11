@@ -88,7 +88,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Statistiken aufrufen von Fortnite, OSU! und Overwatch"
+            android:text="Statistiken aufrufen von Fortnite, OSU!, Overwatch Minecraft und CS:GO"
             android:textColor="@color/white"
             android:textSize="16dp"
             android:textStyle="bold" />
@@ -98,7 +98,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Allgemeine und Fortnite News aufrufen "
+            android:text="Allgemeine, Fortnite und  Steam News aufrufen "
             android:textColor="@color/white"
             android:textSize="16dp"
             android:textStyle="bold" />
@@ -109,7 +109,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:paddingTop="35dp"
+            android:paddingTop="30dp"
             android:text="Stöbere jetzt durch und lass dich begeistern!"
             android:textColor="#C8A9FF"
             android:textSize="20dp"

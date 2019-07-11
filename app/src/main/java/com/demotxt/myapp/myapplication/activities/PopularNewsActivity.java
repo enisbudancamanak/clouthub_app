@@ -19,6 +19,11 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.demotxt.myapp.myapplication.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
 public class PopularNewsActivity extends AppCompatActivity {
 
     Toolbar toolbar;
@@ -51,6 +56,7 @@ public class PopularNewsActivity extends AppCompatActivity {
         String source = getIntent().getExtras().getString("source");
         String urlImage = getIntent().getExtras().getString("urlImage");
         url = getIntent().getExtras().getString("url");
+        String publishedAt = getIntent().getExtras().getString("publishedAt");
 
 
 
@@ -86,7 +92,24 @@ public class PopularNewsActivity extends AppCompatActivity {
         } else {
             description_aa.setText(description);
         }
-        source_aa.setText("Quelle: " + source);
+
+        Date date1;
+        Date d1 = null;
+        String datePlus2 = null;
+        try {
+            String date = publishedAt;
+            date = date.replace("T", " ");
+            date = date.replace("Z", "");
+            date = date.replace("-", "/");
+             SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            date1 = format.parse(date);
+            d1 = new Date(date1.getTime() + TimeUnit.HOURS.toMillis(2));
+            datePlus2 = format.format(d1);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        source_aa.setText("Quelle: " + source + "\n"+ datePlus2 );
 
         if(author.equals("null")){
             author_aa.setText("Keine Informationen über den Autor");

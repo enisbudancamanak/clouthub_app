@@ -1,8 +1,10 @@
 package com.demotxt.myapp.myapplication.activities;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -25,52 +27,50 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.demotxt.myapp.myapplication.R;
-import com.demotxt.myapp.myapplication.model.FortniteStats;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
+import java.util.Calendar;
 
-public class OSUStatsShow extends AppCompatActivity {
+public class MinecraftNameHistoryShow extends AppCompatActivity {
 
     Toolbar toolbar;
     BottomNavigationView bottomNav;
 
+    private JsonArrayRequest requestSteamAppNews;
+    private RequestQueue requestQueue;
+
     ListView listViewNews;
-    int[] statsIcons = {R.drawable.ic_repeat, R.drawable.ic_earth, R.drawable.ic_location, R.drawable.ic_location, R.drawable.ic_ss, R.drawable.ic_s, R.drawable.ic_repeat };
     ArrayList<String> arrayList = new ArrayList<>();
     ArrayList<String> arrayNames = new ArrayList<>();
 
-
-
-    private JsonArrayRequest requestOSUStats;
-    private RequestQueue requestQueue ;
     String url;
+    String uuid;
     String username;
-    FortniteStats fortniteStats;
-    DecimalFormat f = new DecimalFormat("#0.00" + "");
 
 
-
-
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_view_stats);
 
-
         Spinner spinner = findViewById(R.id.fortnite_chooser);
         spinner.setVisibility(View.GONE);
 
-        username = getIntent().getExtras().getString("username");
+
+        uuid = getIntent().getExtras().getString("uuid");
         url = getIntent().getExtras().getString("url");
-        System.out.println("URL: "  + url);
-        jsonrequestOSUStats(url);
+        username = getIntent().getExtras().getString("username");
+
+
+        jsonrequestSteamNews(url);
 
         listViewNews = findViewById(R.id.listViewStats);
 
@@ -79,12 +79,12 @@ public class OSUStatsShow extends AppCompatActivity {
 
 
         toolbar = findViewById(R.id.toolbar);
-        toolbar.setSubtitle(username + "'s OSU! Stats");
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         final SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.swipeLayout);
-        swipeRefreshLayout.setColorSchemeResources(R.color.refresh,R.color.refresh1, R.color.refresh2);
+        swipeRefreshLayout.setColorSchemeResources(R.color.refresh, R.color.refresh1, R.color.refresh2);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -96,14 +96,12 @@ public class OSUStatsShow extends AppCompatActivity {
                         finish();
                         startActivity(getIntent());
                     }
-                },100);
+                }, 100);
             }
         });
 
 
-
     }
-
 
 
     @Override
@@ -114,15 +112,13 @@ public class OSUStatsShow extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.aboutMenu:
-                startActivity(new Intent(OSUStatsShow.this, AboutActivity.class));
+                startActivity(new Intent(MinecraftNameHistoryShow.this, AboutActivity.class));
 
         }
         return super.onOptionsItemSelected(item);
     }
-
-
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
@@ -132,15 +128,15 @@ public class OSUStatsShow extends AppCompatActivity {
 
                     switch (item.getItemId()) {
                         case R.id.newsMenu:
-                            startActivity(new Intent(OSUStatsShow.this, NewsChooser.class));
+                            startActivity(new Intent(MinecraftNameHistoryShow.this, NewsChooser.class));
                             break;
 
                         case R.id.homeMenu:
-                            startActivity(new Intent(OSUStatsShow.this, HomeActivity.class));
+                            startActivity(new Intent(MinecraftNameHistoryShow.this, HomeActivity.class));
                             break;
 
                         case R.id.statsMenu:
-                            startActivity(new Intent(OSUStatsShow.this, StatsChooser.class));
+                            startActivity(new Intent(MinecraftNameHistoryShow.this, StatsChooser.class));
                             break;
                     }
                     return true;
@@ -148,71 +144,59 @@ public class OSUStatsShow extends AppCompatActivity {
             };
 
 
-
-    private void jsonrequestOSUStats(String url) {
-        requestOSUStats = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+    private void jsonrequestSteamNews(String url) {
+        requestSteamAppNews = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 try {
 
-
-                    JSONObject jsonObject = (JSONObject) response.get(0);
-
-
-                    String accuaracy = jsonObject.getString("accuracy");
-                    double accu = Double.parseDouble(accuaracy);
-                    String pp_rank = jsonObject.getString("pp_rank");
-                    String pp_country_rank = jsonObject.getString("pp_country_rank");
-                    String country = jsonObject.getString("country");
-                    String count_rank_ss = jsonObject.getString("count_rank_ss");
-                    String count_rank_s = jsonObject.getString("count_rank_s");
-
-                    //seconds to hours
-                    int secondsPlayed = jsonObject.getInt("total_seconds_played");
-                    int hoursPlayed = (int) TimeUnit.SECONDS.toHours(secondsPlayed);
+                    String usernameFromJSON;
+                    String changedToAt;
+                    int[] statsIcons = new int[response.length()];
 
 
-                    arrayList.add(f.format(accu));
-                    arrayList.add(pp_rank);
-                    arrayList.add(pp_country_rank);
-                    arrayList.add(country);
-                    arrayList.add(count_rank_ss);
-                    arrayList.add(count_rank_s);
-                    arrayList.add("" + hoursPlayed);
+                    for (int i = 0; i < response.length(); i++) {
+                        JSONObject jsonObject = response.getJSONObject(i);
 
-                    arrayNames.add("Accuaracy: ");
-                    arrayNames.add("PP Rank: ");
-                    arrayNames.add("PP " + country + " Rank: ");
-                    arrayNames.add("County: ");
-                    arrayNames.add(country + " Rank SS:");
-                    arrayNames.add(country + " Rank S:");
-                    arrayNames.add("Hours played: ");
+                        usernameFromJSON = jsonObject.getString("name");
 
-                    System.out.println("Gespielt: " + hoursPlayed);
+                        try {
+                            changedToAt = getDate(jsonObject.getLong("changedToAt"), "dd/MM/yyyy");
+                        } catch (Exception e) {
+                            changedToAt = "Kein Datum bekannt";
+                        }
+
+                        arrayNames.add(usernameFromJSON);
+                        arrayList.add(changedToAt);
+                    }
+
+                    for(int in = response.length()-1; in < response.length(); in++) {
+                        JSONObject jsonObject = response.getJSONObject(in);
+
+                        toolbar.setSubtitle(jsonObject.getString("name") + "'s Name history");
+                    }
+
 
                     String[] arrayValues = arrayList.toArray(new String[0]);
                     String[] marrayNames = arrayNames.toArray(new String[0]);
 
 
-
-                    OSUStatsShow.CustomAdapter customAdapter = new OSUStatsShow.CustomAdapter(arrayValues, marrayNames);
+                    MinecraftNameHistoryShow.CustomAdapter customAdapter = new MinecraftNameHistoryShow.CustomAdapter(arrayValues, marrayNames, statsIcons, "success");
                     listViewNews.setAdapter(customAdapter);
 
 
-                    Toast.makeText(getApplicationContext(),"Statistiken erfolgreich ausgelesen!",Toast.LENGTH_SHORT).show();
-
-
+                    Toast.makeText(getApplicationContext(), "Statistiken erfolgreich ausgelesen!", Toast.LENGTH_SHORT).show();
 
 
                 } catch (JSONException e) {
                     System.out.println("FEHLER");
                     e.printStackTrace();
                     String[] strArray = {""};
-                    String[] arrayError = {"Keinen Spieler gefunden"};
-                    statsIcons = new int[] {R.drawable.ic_kills};
-                    OSUStatsShow.CustomAdapter customAdapter = new OSUStatsShow.CustomAdapter(strArray, arrayError);
+                    String[] arrayError = {"Kein Spiel gefunden"};
+                    int[] statsIcons = {R.drawable.ic_kills};
+                    MinecraftNameHistoryShow.CustomAdapter customAdapter = new MinecraftNameHistoryShow.CustomAdapter(strArray, arrayError, statsIcons, "error");
                     listViewNews.setAdapter(customAdapter);
-                    Toast.makeText(getApplicationContext(),"Spieler konnte nicht gefunden werden! Überprüfen Sie nochmal Ihre Eingabe!",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Spieler konnte nicht gefunden werden! Überprüfen Sie nochmal Ihre Eingabe!", Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -222,30 +206,30 @@ public class OSUStatsShow extends AppCompatActivity {
                 System.out.println("FEHLER");
                 error.printStackTrace();
                 String[] strArray = {""};
-                String[] arrayError = {"Keinen Spieler gefunden"};
-                statsIcons = new int[] {R.drawable.ic_kills};
-                OSUStatsShow.CustomAdapter customAdapter = new OSUStatsShow.CustomAdapter(strArray, arrayError);
+                String[] arrayError = {"Kein Spiel gefunden"};
+                int[] statsIcons = new int[]{R.drawable.ic_kills};
+                MinecraftNameHistoryShow.CustomAdapter customAdapter = new MinecraftNameHistoryShow.CustomAdapter(strArray, arrayError, statsIcons, "error");
                 listViewNews.setAdapter(customAdapter);
-                Toast.makeText(getApplicationContext(),"Spieler konnte nicht gefunden werden! Überprüfen Sie nochmal Ihre Eingabe!",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Spieler konnte nicht gefunden werden! Überprüfen Sie nochmal Ihre Eingabe!", Toast.LENGTH_LONG).show();
             }
         });
-        requestQueue = Volley.newRequestQueue(OSUStatsShow.this);
-        requestQueue.add(requestOSUStats) ;
+        requestQueue = Volley.newRequestQueue(MinecraftNameHistoryShow.this);
+        requestQueue.add(requestSteamAppNews);
     }
-
-
-
 
 
     private class CustomAdapter extends BaseAdapter {
 
         String[] valuesArray;
         String[] descriptionArray;
+        int[] statsIcons;
+        String status;
 
-        public CustomAdapter(String[] strArrayParam, String[] descriptionArrayParam) {
+        public CustomAdapter(String[] strArrayParam, String[] descriptionArrayParam, int[] icons, String success) {
             valuesArray = strArrayParam;
             descriptionArray = descriptionArrayParam;
-
+            statsIcons = icons;
+            status = success;
         }
 
         @Override
@@ -265,17 +249,39 @@ public class OSUStatsShow extends AppCompatActivity {
 
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
-            View view1 = getLayoutInflater().inflate(R.layout.row_statsitem, null);
+            View view1 = getLayoutInflater().inflate(R.layout.row_minecraft_history_item, null);
 
             TextView description = view1.findViewById(R.id.statsName);
             TextView name = view1.findViewById(R.id.statsValue);
             ImageView image = view1.findViewById(R.id.iconStats);
 
+
+
+
             description.setText(descriptionArray[i]);
             name.setText(valuesArray[i]);
-            image.setImageResource(statsIcons[i]);
+
+            if(status.equals("error")){
+                image.setImageResource(statsIcons[i]);
+            } else if(status.equals("success")){
+                Glide.with(MinecraftNameHistoryShow.this).load("https://minotar.net/armor/body/" + username + "/300.png").into(image);
+            }
 
             return view1;
         }
     }
+
+    public static String getDate(long milliSeconds, String dateFormat) {
+        // Create a DateFormatter object for displaying date in specified format.
+        SimpleDateFormat formatter = new SimpleDateFormat(dateFormat);
+
+        // Create a calendar object that will convert the date and time value in milliseconds to date.
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(milliSeconds);
+        return formatter.format(calendar.getTime());
+    }
+
+
+
+
 }

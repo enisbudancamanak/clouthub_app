@@ -22,6 +22,8 @@ public class StatsChooser extends AppCompatActivity {
     Button buttonFortniteStats;
     Button buttonOSUStats;
     Button buttonOverwatchStats;
+    Button buttonMinecraftStats;
+    Button buttonCSGOStats;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,22 @@ public class StatsChooser extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(StatsChooser.this, OverwatchStatsTransfer.class));
+            }
+        });
+
+        buttonMinecraftStats = findViewById(R.id.buttonMinecraftStats);
+        buttonMinecraftStats.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(StatsChooser.this, MinecraftNameHistoryTransfer.class));
+            }
+        });
+
+        buttonCSGOStats = findViewById(R.id.buttonCSGOStats);
+        buttonCSGOStats.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(StatsChooser.this, CSGOStatsTransfer.class));
             }
         });
 

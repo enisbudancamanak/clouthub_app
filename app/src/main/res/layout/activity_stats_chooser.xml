@@ -44,7 +44,8 @@
         android:orientation="vertical"
         android:weightSum="3"
         android:layout_gravity="center"
-        android:padding="15dp"
+        android:layout_marginTop="95dp"
+        android:padding="10dp"
         android:showDividers="middle"
         android:divider="@drawable/divider"
         >
@@ -83,6 +84,32 @@
             android:drawableLeft="@drawable/ic_overwatch"
             android:gravity="center_horizontal|center_vertical"
             android:text="Overwatch Stats  >"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/buttonMinecraftStats"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape"
+            android:drawableLeft="@drawable/ic_minecraft"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="Minecraft name history  >"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/buttonCSGOStats"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape"
+            android:drawableLeft="@drawable/ic_csgo"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="CSGO Stats  >"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
             android:textStyle="bold"

@@ -40,7 +40,13 @@ public class FortniteNewsActivity extends AppCompatActivity {
         // setting values to each view
 
         tv_name.setText(name);
-        tv_description.setText(description);
+
+        if(description.isEmpty() || description.equals("null")){
+            tv_description.setText("");
+        } else {
+            tv_description.setText(description);
+
+        }
 
 
 

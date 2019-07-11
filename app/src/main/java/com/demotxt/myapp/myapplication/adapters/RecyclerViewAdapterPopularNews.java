@@ -3,6 +3,7 @@ package com.demotxt.myapp.myapplication.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import com.demotxt.myapp.myapplication.model.PopularNews;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -30,6 +32,7 @@ public class RecyclerViewAdapterPopularNews extends RecyclerView.Adapter<Recycle
 
     Date d1 = null;
     Date d2 = null;
+    Date date1 = null;
     String dateInActivity;
 
     private Context mContext;
@@ -107,8 +110,10 @@ public class RecyclerViewAdapterPopularNews extends RecyclerView.Adapter<Recycle
 
         try {
 
-            d1 = format.parse(date);
-            System.out.println("DATE: "+ d1);
+            date1 = format.parse(date);
+
+            d1 = new Date(date1.getTime() + TimeUnit.HOURS.toMillis(2));
+
             d2 = format.parse(format.format(currentDate));
             dateInActivity = date;
 
@@ -168,19 +173,16 @@ public class RecyclerViewAdapterPopularNews extends RecyclerView.Adapter<Recycle
         long minutes = diff / 60 % 60;
         long seconds = diff % 60;
 
-        result = "Vor ";
-        if(days == 1){
-            result += days + " Tag";
-            return result;
-        } else if (days > 1){
-            result += days + " Tagen";
+        result = "vor ";
+        if(days >= 1){
+            result += days + " d";
             return result;
         }
-        if(hours > 0){
-            result += hours + " Stunden";
+        if(hours >= 1) {
+            result += hours + " h";
             return result;
         }
-        result += minutes + " Minuten";
+        result += minutes + " m";
         return result;
     }
 

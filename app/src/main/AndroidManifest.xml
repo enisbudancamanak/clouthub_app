@@ -12,10 +12,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.SteamGameNewsShow"
-            android:parentActivityName=".activities.SteamGameNewsTransfer"></activity>
-        <activity android:name=".activities.SteamGameNewsTransfer"
-            android:parentActivityName=".activities.NewsChooser"/>
+        <activity android:name=".activities.CSGOStatsShow"></activity>
+        <activity android:name=".activities.CSGOStatsTransfer" />
+        <activity
+            android:name=".activities.MinecraftNameHistoryShow"
+            android:parentActivityName=".activities.MinecraftNameHistoryTransfer" />
+        <activity
+            android:name=".activities.MinecraftNameHistoryTransfer"
+            android:parentActivityName=".activities.StatsChooser" />
+        <activity
+            android:name=".activities.SteamGameNewsShow"
+            android:parentActivityName=".activities.SteamGameNewsTransfer" />
+        <activity
+            android:name=".activities.SteamGameNewsTransfer"
+            android:parentActivityName=".activities.NewsChooser" />
         <activity android:name=".activities.AboutActivity" />
         <activity
             android:name=".activities.OverwatchStatsShow"

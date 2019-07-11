@@ -25,9 +25,7 @@ public class OSUStatsTransfer extends AppCompatActivity {
 
     Toolbar toolbar;
     BottomNavigationView bottomNav;
-
-    private JsonObjectRequest requestFortniteNews ;
-    private RequestQueue requestQueue ;
+    
     EditText usernameInput;
     Button osuStatsButton;
 

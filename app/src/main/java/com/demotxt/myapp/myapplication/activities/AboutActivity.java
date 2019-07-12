@@ -43,6 +43,12 @@ public class AboutActivity extends AppCompatActivity {
         setContentView(aboutPage);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_out_top, R.anim.slide_in_top);
+    }
+
     private Element createCopyright() {
         Element copyright = new Element();
         final String copyrightString = String.format("Copyright %d by Enis Budancamanak", Calendar.getInstance().get(Calendar.YEAR));

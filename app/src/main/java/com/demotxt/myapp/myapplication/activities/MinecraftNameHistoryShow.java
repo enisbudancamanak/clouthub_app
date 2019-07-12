@@ -115,7 +115,7 @@ public class MinecraftNameHistoryShow extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.aboutMenu:
                 startActivity(new Intent(MinecraftNameHistoryShow.this, AboutActivity.class));
-
+                overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
         }
         return super.onOptionsItemSelected(item);
     }

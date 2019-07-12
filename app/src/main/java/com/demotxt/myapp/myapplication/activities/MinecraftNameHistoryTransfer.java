@@ -69,7 +69,11 @@ public class MinecraftNameHistoryTransfer extends AppCompatActivity {
         minecraftStatsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                jsonrequestMinecraftStats("https://api.mojang.com/users/profiles/minecraft/" + usernameInput.getText());
+                if(usernameInput.getText().length() != 0) {
+                    jsonrequestMinecraftStats("https://api.mojang.com/users/profiles/minecraft/" + usernameInput.getText());
+                } else {
+                    Toast.makeText(MinecraftNameHistoryTransfer.this, "Bitte geben Sie einen Benutzernamen ein!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -77,8 +81,12 @@ public class MinecraftNameHistoryTransfer extends AppCompatActivity {
         usernameInput.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View view, int keyCode, KeyEvent keyevent) {
                 if ((keyevent.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    jsonrequestMinecraftStats("https://api.mojang.com/users/profiles/minecraft/" + usernameInput.getText());
-                    return true;
+                    if(usernameInput.getText().length() != 0) {
+                        jsonrequestMinecraftStats("https://api.mojang.com/users/profiles/minecraft/" + usernameInput.getText());
+                        return true;
+                    } else {
+                        Toast.makeText(MinecraftNameHistoryTransfer.this, "Bitte geben Sie einen Benutzernamen ein!", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 return false;
             }
@@ -98,7 +106,7 @@ public class MinecraftNameHistoryTransfer extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.aboutMenu:
                 startActivity(new Intent(MinecraftNameHistoryTransfer.this, AboutActivity.class));
-
+                overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -204,7 +212,7 @@ public class MinecraftNameHistoryTransfer extends AppCompatActivity {
         } else if (!NetworkConnection.isNetworkStatusAvialable(getApplicationContext())) {
             Toast.makeText(this, "Überprüfen Sie Ihre Internetverbindung", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(this, "Bitte füllen Sie die Felder aus", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Bitte geben Sie einen Benutzernamen ein!", Toast.LENGTH_SHORT).show();
         }
     }
 }

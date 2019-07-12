@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.demotxt.myapp.myapplication.activities.MainActivity"
-    android:background="#303030">
+    android:background="#303030"
+    android:id="@+id/homeLayout">
 
 
 
@@ -116,19 +117,6 @@
             android:textStyle="bold"
             />
 
-
-        <!--<Button
-            android:id="@+id/buttonOverwatchStats"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/shape"
-            android:drawableLeft="@drawable/ic_overwatch"
-            android:gravity="center_horizontal|center_vertical"
-            android:text="Overwatch Stats  >"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_weight="1"/>-->
 
     </LinearLayout>
 

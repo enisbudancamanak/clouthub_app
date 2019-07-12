@@ -70,15 +70,23 @@ public class SteamGameNewsTransfer extends AppCompatActivity {
         steamGameNewsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                jsonrequestSteamNews("https://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid=" + usernameInput.getText() + "&count=3&maxlength=300&format=json");
+                if(usernameInput.getText().length() != 0) {
+                    jsonrequestSteamNews("https://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid=" + usernameInput.getText() + "&count=3&maxlength=300&format=json");
+                } else {
+                    Toast.makeText(SteamGameNewsTransfer.this, "Bitte geben Sie eine Steam APP-ID ein!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         usernameInput.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View view, int keyCode, KeyEvent keyevent) {
                 if ((keyevent.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    jsonrequestSteamNews("https://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid=" + usernameInput.getText() + "&count=3&maxlength=300&format=json");
-                    return true;
+                    if(usernameInput.getText().length() != 0) {
+                        jsonrequestSteamNews("https://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid=" + usernameInput.getText() + "&count=3&maxlength=300&format=json");
+                        return true;
+                    } else {
+                        Toast.makeText(SteamGameNewsTransfer.this, "Bitte geben Sie eine Steam APP-ID ein!", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 return false;
             }
@@ -98,7 +106,7 @@ public class SteamGameNewsTransfer extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.aboutMenu:
                 startActivity(new Intent(SteamGameNewsTransfer.this, AboutActivity.class));
-
+                overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -198,8 +206,6 @@ public class SteamGameNewsTransfer extends AppCompatActivity {
             startActivity(i);
         } else if (!NetworkConnection.isNetworkStatusAvialable(getApplicationContext())) {
             Toast.makeText(this, "Überprüfen Sie Ihre Internetverbindung", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "Bitte füllen Sie die Felder aus", Toast.LENGTH_SHORT).show();
         }
 
     }

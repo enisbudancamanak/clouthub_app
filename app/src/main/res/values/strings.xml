@@ -16,10 +16,10 @@
     <string name="menu_send">Send</string>
 
     <string-array name="dropdownMenuPopular">
-        <item>Trends DE</item>
-        <item>Trends US</item>
-        <item>Business DE</item>
-        <item>Business US</item>
+        <item>Trends</item>
+        <item>Business</item>
+        <item>Sport</item>
+        <item>Technologie</item>
     </string-array>
 
     <string-array name="dropdownMenuCount">

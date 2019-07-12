@@ -12,8 +12,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.CSGOStatsShow"></activity>
-        <activity android:name=".activities.CSGOStatsTransfer" />
+        <activity android:name=".activities.CSGOStatsShow"
+            android:parentActivityName=".activities.CSGOStatsTransfer"></activity>
+        <activity android:name=".activities.CSGOStatsTransfer"
+            android:parentActivityName=".activities.StatsChooser"/>
         <activity
             android:name=".activities.MinecraftNameHistoryShow"
             android:parentActivityName=".activities.MinecraftNameHistoryTransfer" />

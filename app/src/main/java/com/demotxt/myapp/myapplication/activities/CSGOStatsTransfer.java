@@ -11,6 +11,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -78,15 +79,23 @@ public class CSGOStatsTransfer extends AppCompatActivity {
         csgoStatsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                jsonrequestSteamIDbyUsername("http://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?key=F4095D3305932401E1A227E2EB976F74&vanityurl=" + usernameInput.getText());
+                if(usernameInput.getText().length() != 0) {
+                    jsonrequestSteamIDbyUsername("http://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?key=F4095D3305932401E1A227E2EB976F74&vanityurl=" + usernameInput.getText());
+                } else {
+                    Toast.makeText(CSGOStatsTransfer.this, "Bitte füllen Sie das Feld aus!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         usernameInput.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View view, int keyCode, KeyEvent keyevent) {
                 if ((keyevent.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    jsonrequestSteamIDbyUsername("http://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?key=F4095D3305932401E1A227E2EB976F74&vanityurl=" + usernameInput.getText());
-                    return true;
+                    if(usernameInput.getText().length() != 0) {
+                        jsonrequestSteamIDbyUsername("http://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?key=F4095D3305932401E1A227E2EB976F74&vanityurl=" + usernameInput.getText());
+                    } else {
+                        Toast.makeText(CSGOStatsTransfer.this, "Bitte geben Sie einen Benutzernamen ein!", Toast.LENGTH_SHORT).show();
+                        return true;
+                    }
                 }
                 return false;
             }
@@ -107,7 +116,7 @@ public class CSGOStatsTransfer extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.aboutMenu:
                 startActivity(new Intent(CSGOStatsTransfer.this, AboutActivity.class));
-
+                overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -244,7 +253,7 @@ public class CSGOStatsTransfer extends AppCompatActivity {
             Toast.makeText(this, "Überprüfen Sie Ihre Internetverbindung", Toast.LENGTH_SHORT).show();
         }
         else {
-            Toast.makeText(this, "Bitte füllen Sie die Felder aus", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Bitte geben Sie einen Benutzernamen ein!", Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -137,7 +137,7 @@ public class SteamGameNewsShow extends AppCompatActivity implements AdapterView.
         switch (item.getItemId()){
             case R.id.aboutMenu:
                 startActivity(new Intent(SteamGameNewsShow.this, AboutActivity.class));
-
+                overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
         }
         return super.onOptionsItemSelected(item);
     }

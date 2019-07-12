@@ -100,8 +100,6 @@ public class OSUStatsShow extends AppCompatActivity {
             }
         });
 
-
-
     }
 
 
@@ -117,7 +115,7 @@ public class OSUStatsShow extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.aboutMenu:
                 startActivity(new Intent(OSUStatsShow.this, AboutActivity.class));
-
+                overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -247,6 +245,7 @@ public class OSUStatsShow extends AppCompatActivity {
             descriptionArray = descriptionArrayParam;
 
         }
+
 
         @Override
         public int getCount() {

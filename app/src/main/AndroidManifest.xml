@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.demotxt.myapp.myapplication">
+    package="com.clouthub_app.myapp.clouthub">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -12,59 +12,59 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.CSGOStatsShow"
-            android:parentActivityName=".activities.CSGOStatsTransfer"></activity>
-        <activity android:name=".activities.CSGOStatsTransfer"
-            android:parentActivityName=".activities.StatsChooser"/>
+        <activity android:name="com.clouthub_app.myapp.clouthub.show.CSGOStatsShow"
+            android:parentActivityName="com.clouthub_app.myapp.clouthub.transfer.CSGOStatsTransfer"></activity>
+        <activity android:name="com.clouthub_app.myapp.clouthub.transfer.CSGOStatsTransfer"
+            android:parentActivityName="com.clouthub_app.myapp.clouthub.chooser.StatsChooser"/>
         <activity
-            android:name=".activities.MinecraftNameHistoryShow"
-            android:parentActivityName=".activities.MinecraftNameHistoryTransfer" />
+            android:name="com.clouthub_app.myapp.clouthub.show.MinecraftNameHistoryShow"
+            android:parentActivityName="com.clouthub_app.myapp.clouthub.transfer.MinecraftNameHistoryTransfer" />
         <activity
-            android:name=".activities.MinecraftNameHistoryTransfer"
-            android:parentActivityName=".activities.StatsChooser" />
+            android:name="com.clouthub_app.myapp.clouthub.transfer.MinecraftNameHistoryTransfer"
+            android:parentActivityName="com.clouthub_app.myapp.clouthub.chooser.StatsChooser" />
         <activity
-            android:name=".activities.SteamGameNewsShow"
-            android:parentActivityName=".activities.SteamGameNewsTransfer" />
+            android:name="com.clouthub_app.myapp.clouthub.show.SteamGameNewsShow"
+            android:parentActivityName="com.clouthub_app.myapp.clouthub.transfer.SteamGameNewsTransfer" />
         <activity
-            android:name=".activities.SteamGameNewsTransfer"
-            android:parentActivityName=".activities.NewsChooser" />
-        <activity android:name=".activities.AboutActivity" />
+            android:name="com.clouthub_app.myapp.clouthub.transfer.SteamGameNewsTransfer"
+            android:parentActivityName="com.clouthub_app.myapp.clouthub.chooser.NewsChooser" />
+        <activity android:name="com.clouthub_app.myapp.clouthub.activities.AboutActivity" />
         <activity
-            android:name=".activities.OverwatchStatsShow"
-            android:parentActivityName=".activities.OverwatchStatsTransfer" />
+            android:name="com.clouthub_app.myapp.clouthub.show.OverwatchStatsShow"
+            android:parentActivityName="com.clouthub_app.myapp.clouthub.transfer.OverwatchStatsTransfer" />
         <activity
-            android:name=".activities.OverwatchStatsTransfer"
-            android:parentActivityName=".activities.StatsChooser" />
-        <activity android:name=".activities.HomeActivity" />
-        <activity android:name=".activities.PopularNewsActivity" />
+            android:name="com.clouthub_app.myapp.clouthub.transfer.OverwatchStatsTransfer"
+            android:parentActivityName="com.clouthub_app.myapp.clouthub.chooser.StatsChooser" />
+        <activity android:name="com.clouthub_app.myapp.clouthub.activities.HomeActivity" />
+        <activity android:name="com.clouthub_app.myapp.clouthub.activities.PopularNewsActivity" />
         <activity
-            android:name=".activities.PopularNewsShow"
-            android:parentActivityName=".activities.NewsChooser" />
+            android:name="com.clouthub_app.myapp.clouthub.show.PopularNewsShow"
+            android:parentActivityName="com.clouthub_app.myapp.clouthub.chooser.NewsChooser" />
         <activity
-            android:name=".activities.OSUStatsShow"
-            android:parentActivityName=".activities.OSUStatsTransfer" />
+            android:name="com.clouthub_app.myapp.clouthub.show.OSUStatsShow"
+            android:parentActivityName="com.clouthub_app.myapp.clouthub.transfer.OSUStatsTransfer" />
         <activity
-            android:name=".activities.OSUStatsTransfer"
-            android:parentActivityName=".activities.StatsChooser" />
+            android:name="com.clouthub_app.myapp.clouthub.transfer.OSUStatsTransfer"
+            android:parentActivityName="com.clouthub_app.myapp.clouthub.chooser.StatsChooser" />
         <activity
-            android:name=".activities.FortniteStatsShow"
-            android:parentActivityName=".activities.FortniteStatsTransfer" />
+            android:name="com.clouthub_app.myapp.clouthub.show.FortniteStatsShow"
+            android:parentActivityName="com.clouthub_app.myapp.clouthub.transfer.FortniteStatsTransfer" />
         <activity
-            android:name=".activities.FortniteStatsTransfer"
-            android:parentActivityName=".activities.StatsChooser" />
-        <activity android:name=".activities.StatsChooser" />
+            android:name="com.clouthub_app.myapp.clouthub.transfer.FortniteStatsTransfer"
+            android:parentActivityName="com.clouthub_app.myapp.clouthub.chooser.StatsChooser" />
+        <activity android:name="com.clouthub_app.myapp.clouthub.chooser.StatsChooser" />
         <activity
-            android:name=".activities.FortniteNewsShow"
-            android:parentActivityName=".activities.NewsChooser" />
-        <activity android:name=".activities.NewsChooser" />
-        <activity android:name=".activities.MainActivity">
+            android:name="com.clouthub_app.myapp.clouthub.show.FortniteNewsShow"
+            android:parentActivityName="com.clouthub_app.myapp.clouthub.chooser.NewsChooser" />
+        <activity android:name="com.clouthub_app.myapp.clouthub.chooser.NewsChooser" />
+        <activity android:name="com.clouthub_app.myapp.clouthub.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.FortniteNewsActivity" />
+        <activity android:name="com.clouthub_app.myapp.clouthub.activities.FortniteNewsActivity" />
     </application>
 
 </manifest>

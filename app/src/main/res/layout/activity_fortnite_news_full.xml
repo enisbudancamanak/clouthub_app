@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.demotxt.myapp.myapplication.activities.FortniteNewsActivity"
+    tools:context="com.clouthub_app.myapp.clouthub.com.demotxt.myapp.clouthub.activities.FortniteNewsActivity"
     android:background="#303030">
 
     <android.support.design.widget.AppBarLayout

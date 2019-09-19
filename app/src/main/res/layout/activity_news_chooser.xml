@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.demotxt.myapp.myapplication.activities.NewsChooser"
+    tools:context="com.clouthub_app.myapp.clouthub.com.demotxt.myapp.clouthub.chooser.NewsChooser"
     android:background="#303030">
 
 

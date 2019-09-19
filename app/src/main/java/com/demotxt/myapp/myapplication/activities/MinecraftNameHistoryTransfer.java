@@ -137,8 +137,8 @@ public class MinecraftNameHistoryTransfer extends AppCompatActivity {
 
     public void setUsername() {
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS_MINECRAFT, MODE_PRIVATE);
-        usernameInput.setText(sharedPreferences.getString(TEXT, ""));
-        checkBox.setChecked(sharedPreferences.getBoolean(SWITCH, false));
+        usernameInput.setText(sharedPreferences.getString(TEXT, "")); //"" = default Value
+        checkBox.setChecked(sharedPreferences.getBoolean(SWITCH, false)); //false = default Value
     }
 
 

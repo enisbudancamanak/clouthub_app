@@ -36,7 +36,6 @@ public class HomeActivity extends AppCompatActivity {
 
 
 
-
     }
 
     public boolean onTouchEvent(MotionEvent touchEvent){

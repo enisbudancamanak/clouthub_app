@@ -32,7 +32,6 @@ public class FortniteNewsActivity extends AppCompatActivity {
         String image_url = getIntent().getExtras().getString("fortnite_img") ;
 
         // ini views
-
         TextView tv_name = findViewById(R.id.title);
         TextView tv_description = findViewById(R.id.description);
         ImageView img_thumbnail = findViewById(R.id.thumbnail);

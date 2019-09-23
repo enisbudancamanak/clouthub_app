@@ -54,12 +54,6 @@
             android:layout_height="match_parent"
             android:visibility="visible"
             android:layout_gravity="right" />
-        <Spinner
-            android:id="@+id/toolbar_spinner_country"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:visibility="visible"
-            android:layout_gravity="right" />
 
 
     </android.support.v7.widget.Toolbar>

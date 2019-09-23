@@ -30,12 +30,6 @@
         <item>50</item>
     </string-array>
 
-    <string-array name="dropdownMenuCountry">
-        <item>DE</item>
-        <item>EN</item>
-        <item>USA</item>
-    </string-array>
-
 
     <string-array name="dropdownFortniteStats">
         <item>All</item>

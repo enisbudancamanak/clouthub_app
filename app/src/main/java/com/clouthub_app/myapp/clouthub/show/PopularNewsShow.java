@@ -54,10 +54,7 @@ public class PopularNewsShow extends AppCompatActivity {
     String url;
     int positionCategory;
     int positionCount;
-    int positionCountry;
-    int count;
-    String category;
-    String country;
+    int count=10;
 
     FloatingActionButton scrollTopButton;
 
@@ -83,7 +80,6 @@ public class PopularNewsShow extends AppCompatActivity {
 
 
 
-        //Wenn man runterscrollt werden Top-Menü ausgeblendet und Button zum hochscrollen eingeblendet.
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -100,42 +96,31 @@ public class PopularNewsShow extends AppCompatActivity {
 
         try {
             count = getIntent().getExtras().getInt("count");
-            category = getIntent().getExtras().getString("category");
-            country = getIntent().getExtras().getString("country");
             positionCategory  = getIntent().getExtras().getInt("positionCategory");
             positionCount = getIntent().getExtras().getInt("positionCount");
-            positionCountry = getIntent().getExtras().getInt("positionCountry");
             url  = getIntent().getExtras().getString("url");
         } catch (Exception e) {
+            url = "https://newsapi.org/v2/top-headlines?country=de&pageSize="+count+"&sortBy=popularity&apiKey=37134d9a41c24f379a5c8ecac307e923";
         }
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setSubtitle("Nachrichten");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
 
 
 
         SpinnerAdapter spinnerAdapter = ArrayAdapter.createFromResource(getApplicationContext(), R.array.dropdownMenuPopular, R.layout.spinner_layout);
-        final Spinner categorySpinner =  findViewById(R.id.toolbar_spinner);
-        categorySpinner.setAdapter(spinnerAdapter);
-        categorySpinner.setSelection(positionCategory);
+        final Spinner navigationSpinner =  findViewById(R.id.toolbar_spinner);
+        navigationSpinner.setAdapter(spinnerAdapter);
+        navigationSpinner.setSelection(positionCategory);
 
         SpinnerAdapter spinnerAdapter1 = ArrayAdapter.createFromResource(getApplicationContext(), R.array.dropdownMenuCount, R.layout.spinner_layout);
         final Spinner counterSpinner =  findViewById(R.id.toolbar_spinner_count);
         counterSpinner.setAdapter(spinnerAdapter1);
         counterSpinner.setSelection(positionCount);
 
-        SpinnerAdapter spinnerAdapter2 = ArrayAdapter.createFromResource(getApplicationContext(), R.array.dropdownMenuCountry, R.layout.spinner_layout);
-        final Spinner countrySpinner =  findViewById(R.id.toolbar_spinner_country);
-        countrySpinner.setAdapter(spinnerAdapter2);
-        countrySpinner.setSelection(positionCountry);
-
-
-
-
-
-        //Handlung was beim swipen passiert, in diesem Falle werden die News aktualisiert.
         final SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.swipeLayout);
         swipeRefreshLayout.setColorSchemeResources(R.color.refresh,R.color.refresh1, R.color.refresh2);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -155,111 +140,49 @@ public class PopularNewsShow extends AppCompatActivity {
 
 
 
-        countrySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(countrySpinner.getSelectedItemId()==0 && !country.equals("de")){
-                    finish();
-                    Intent intent = new Intent(PopularNewsShow.this, PopularNewsShow.class);
-                    intent.putExtra("url", "https://newsapi.org/v2/top-headlines?country=de&pageSize="+count+"&sortBy="+category+"&apiKey=37134d9a41c24f379a5c8ecac307e923");
-                    intent.putExtra("positionCount", positionCount);
-                    intent.putExtra("positionCategory", positionCategory);
-                    intent.putExtra("count", count);
-                    intent.putExtra("category", category);
-                    intent.putExtra("country", "de");
-                    intent.putExtra("positionCountry", i);
-                    startActivity(intent);
-                }
-                if(countrySpinner.getSelectedItemId()==1 && !country.equals("gb")){
-                    finish();
-                    Intent intent = new Intent(PopularNewsShow.this, PopularNewsShow.class);
-                    intent.putExtra("url", "https://newsapi.org/v2/top-headlines?country=gb&pageSize="+count+"&sortBy="+category+"&apiKey=37134d9a41c24f379a5c8ecac307e923");
-                    intent.putExtra("positionCount", positionCount);
-                    intent.putExtra("positionCategory", positionCategory);
-                    intent.putExtra("count", count);
-                    intent.putExtra("category", category);
-                    intent.putExtra("country", "gb");
-                    intent.putExtra("positionCountry", i);
-                    startActivity(intent);
-                }
-                if(countrySpinner.getSelectedItemId()==2 && !country.equals("us")){
-                    finish();
-                    Intent intent = new Intent(PopularNewsShow.this, PopularNewsShow.class);
-                    intent.putExtra("url", "https://newsapi.org/v2/top-headlines?country=us&pageSize="+count+"&sortBy="+category+"&apiKey=37134d9a41c24f379a5c8ecac307e923");
-                    intent.putExtra("positionCount", positionCount);
-                    intent.putExtra("positionCategory", positionCategory);
-                    intent.putExtra("count", count);
-                    intent.putExtra("category", category);
-                    intent.putExtra("country", "us");
-                    intent.putExtra("positionCountry", i);
-                    startActivity(intent);
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
-        //Die Handlung die bestimmt wie viele News angezeigt werden (Count).
         counterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if(counterSpinner.getSelectedItemId()==0 && count!=10){
                     finish();
                     Intent intent = new Intent(PopularNewsShow.this, PopularNewsShow.class);
-                    intent.putExtra("url", "https://newsapi.org/v2/top-headlines?country="+country+"&pageSize=10&sortBy="+category+"&apiKey=37134d9a41c24f379a5c8ecac307e923");
+                    intent.putExtra("url", url);
                     intent.putExtra("positionCount", i);
                     intent.putExtra("positionCategory", positionCategory);
                     intent.putExtra("count", 10);
-                    intent.putExtra("category", category);
-                    intent.putExtra("country", country);
-                    intent.putExtra("positionCountry", positionCountry);
                     startActivity(intent);
                 } else if(counterSpinner.getSelectedItemId()==1 && count!=20){
                     finish();
                     Intent intent = new Intent(PopularNewsShow.this, PopularNewsShow.class);
-                    intent.putExtra("url", "https://newsapi.org/v2/top-headlines?country="+country+"&pageSize=20&sortBy="+category+"&apiKey=37134d9a41c24f379a5c8ecac307e923");
+                    intent.putExtra("url", url);
                     intent.putExtra("positionCount", i);
                     intent.putExtra("positionCategory", positionCategory);
                     intent.putExtra("count", 20);
-                    intent.putExtra("category", category);
-                    intent.putExtra("country", country);
-                    intent.putExtra("positionCountry", positionCountry);
                     startActivity(intent);
                 } else if(counterSpinner.getSelectedItemId()==2 && count!=30){
                     finish();
                     Intent intent = new Intent(PopularNewsShow.this, PopularNewsShow.class);
-                    intent.putExtra("url", "https://newsapi.org/v2/top-headlines?country="+country+"&pageSize=30&sortBy="+category+"&apiKey=37134d9a41c24f379a5c8ecac307e923");
+                    intent.putExtra("url", url);
                     intent.putExtra("positionCount", i);
                     intent.putExtra("positionCategory", positionCategory);
                     intent.putExtra("count", 30);
-                    intent.putExtra("category", category);
-                    intent.putExtra("country", country);
-                    intent.putExtra("positionCountry", positionCountry);
+                    startActivity(intent);
                     startActivity(intent);
                 } else if(counterSpinner.getSelectedItemId()==3 && count!=40){
                     finish();
                     Intent intent = new Intent(PopularNewsShow.this, PopularNewsShow.class);
-                    intent.putExtra("url", "https://newsapi.org/v2/top-headlines?country="+country+"&pageSize=40&sortBy="+category+"&apiKey=37134d9a41c24f379a5c8ecac307e923");
+                    intent.putExtra("url", url);
                     intent.putExtra("positionCount", i);
                     intent.putExtra("positionCategory", positionCategory);
                     intent.putExtra("count", 40);
-                    intent.putExtra("category", category);
-                    intent.putExtra("country", country);
-                    intent.putExtra("positionCountry", positionCountry);
                     startActivity(intent);
                 } else if(counterSpinner.getSelectedItemId()==4 && count!=50){
                     finish();
                     Intent intent = new Intent(PopularNewsShow.this, PopularNewsShow.class);
-                    intent.putExtra("url", "https://newsapi.org/v2/top-headlines?country="+country+"&pageSize=50&sortBy="+category+"&apiKey=37134d9a41c24f379a5c8ecac307e923");
+                    intent.putExtra("url", url);
                     intent.putExtra("positionCategory", positionCategory);
                     intent.putExtra("positionCount", i);
                     intent.putExtra("count", 50);
-                    intent.putExtra("category", category);
-                    intent.putExtra("country", country);
-                    intent.putExtra("positionCountry", positionCountry);
                     startActivity(intent);
                 }
             }
@@ -270,55 +193,46 @@ public class PopularNewsShow extends AppCompatActivity {
             }
         });
 
-            //Kategorien-Spinner
-            categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+
+
+        navigationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    if(categorySpinner.getSelectedItemId()==0 && !category.equals("popularity")){
-                        finish();
-                        Intent i = new Intent(PopularNewsShow.this, PopularNewsShow.class);
-                        i.putExtra("url", "https://newsapi.org/v2/top-headlines?country="+country+"&pageSize="+count+"&sortBy=popularity&apiKey=37134d9a41c24f379a5c8ecac307e923");
-                        i.putExtra("positionCategory", position);
-                        i.putExtra("positionCount", positionCount);
-                        i.putExtra("count", count);
-                        i.putExtra("category", "popularity");
-                        i.putExtra("country", country);
-                        i.putExtra("positionCountry", positionCountry);
-                        startActivity(i);
-                    } else if(categorySpinner.getSelectedItemId()==1 && !category.equals("business")) {
-                        finish();
-                        Intent i = new Intent(PopularNewsShow.this, PopularNewsShow.class);
-                        i.putExtra("url", "https://newsapi.org/v2/top-headlines?country="+country+"&pageSize="+count+"&category=business&apiKey=37134d9a41c24f379a5c8ecac307e923");
-                        i.putExtra("positionCategory", position);
-                        i.putExtra("positionCount", positionCount);
-                        i.putExtra("count", count);
-                        i.putExtra("category", "business");
-                        i.putExtra("country", country);
-                        i.putExtra("positionCountry", positionCountry);
-                        startActivity(i);
-                    } else if(categorySpinner.getSelectedItemId()==2 && !category.equals("sport")) {
-                        finish();
-                        Intent i = new Intent(PopularNewsShow.this, PopularNewsShow.class);
-                        i.putExtra("url", "https://newsapi.org/v2/top-headlines?country="+country+"&pageSize="+count+"&category=sport&apiKey=37134d9a41c24f379a5c8ecac307e923");
-                        i.putExtra("positionCategory", position);
-                        i.putExtra("positionCount", positionCount);
-                        i.putExtra("count", count);
-                        i.putExtra("category", "sport");
-                        i.putExtra("country", country);
-                        i.putExtra("positionCountry", positionCountry);
-                        startActivity(i);
-                    } else if(categorySpinner.getSelectedItemId()==3 && !category.equals("technology")) {
-                        finish();
-                        Intent i = new Intent(PopularNewsShow.this, PopularNewsShow.class);
-                        i.putExtra("url", "https://newsapi.org/v2/top-headlines?country="+country+"&pageSize="+count+"&category=technology&apiKey=37134d9a41c24f379a5c8ecac307e923");
-                        i.putExtra("positionCategory", position);
-                        i.putExtra("positionCount", positionCount);
-                        i.putExtra("count", count);
-                        i.putExtra("category", "technology");
-                        i.putExtra("country", country);
-                        i.putExtra("positionCountry", positionCountry);
-                        startActivity(i);
-                    }
+                if(navigationSpinner.getSelectedItemId()==0 && !url.equals("https://newsapi.org/v2/top-headlines?country=de&pageSize="+count+"&sortBy=popularity&apiKey=37134d9a41c24f379a5c8ecac307e923")){
+                    finish();
+                    Intent i = new Intent(PopularNewsShow.this, PopularNewsShow.class);
+                    i.putExtra("url", "https://newsapi.org/v2/top-headlines?country=de&pageSize="+count+"&sortBy=popularity&apiKey=37134d9a41c24f379a5c8ecac307e923");
+                    i.putExtra("positionCategory", position);
+                    i.putExtra("positionCount", positionCount);
+                    i.putExtra("count", count);
+                    startActivity(i);
+                } else if(navigationSpinner.getSelectedItemId()==1 && !url.equals("https://newsapi.org/v2/top-headlines?country=de&pageSize="+count+"&category=business&apiKey=37134d9a41c24f379a5c8ecac307e923")) {
+                    finish();
+                    Intent i = new Intent(PopularNewsShow.this, PopularNewsShow.class);
+                    i.putExtra("url", "https://newsapi.org/v2/top-headlines?country=de&pageSize="+count+"&category=business&apiKey=37134d9a41c24f379a5c8ecac307e923");
+                    i.putExtra("positionCategory", position);
+                    i.putExtra("positionCount", positionCount);
+                    i.putExtra("count", count);
+                    startActivity(i);
+                } else if(navigationSpinner.getSelectedItemId()==2 && !url.equals("https://newsapi.org/v2/top-headlines?country=de&pageSize="+count+"&category=sport&apiKey=37134d9a41c24f379a5c8ecac307e923")) {
+                    finish();
+                    Intent i = new Intent(PopularNewsShow.this, PopularNewsShow.class);
+                    i.putExtra("url", "https://newsapi.org/v2/top-headlines?country=de&pageSize="+count+"&category=sport&apiKey=37134d9a41c24f379a5c8ecac307e923");
+                    i.putExtra("positionCategory", position);
+                    i.putExtra("positionCount", positionCount);
+                    i.putExtra("count", count);
+                    startActivity(i);
+                } else if(navigationSpinner.getSelectedItemId()==3 && !url.equals("https://newsapi.org/v2/top-headlines?country=de&pageSize="+count+"&category=technology&apiKey=37134d9a41c24f379a5c8ecac307e923")) {
+                    finish();
+                    Intent i = new Intent(PopularNewsShow.this, PopularNewsShow.class);
+                    i.putExtra("url", "https://newsapi.org/v2/top-headlines?country=de&pageSize="+count+"&category=technology&apiKey=37134d9a41c24f379a5c8ecac307e923");
+                    i.putExtra("positionCategory", position);
+                    i.putExtra("positionCount", positionCount);
+                    i.putExtra("count", count);
+                    startActivity(i);
+                }
             }
 
             @Override
@@ -341,17 +255,23 @@ public class PopularNewsShow extends AppCompatActivity {
 
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_popular_news, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.aboutMenu:
+                startActivity(new Intent(PopularNewsShow.this, AboutActivity.class));
+                overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 
-
-    //Die Funktion um die Navigatonsleiste, welches fürs Handeln beim Klicken eines Menüpunktes eine Reaktion gibt.
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
@@ -375,9 +295,6 @@ public class PopularNewsShow extends AppCompatActivity {
             };
 
 
-    //JSON-Abfrage um entsprechende Daten von dem JSONArray aus der URL abzufragen
-    //Anschließend werden diese Daten in eine Liste gesetzt
-    //Und in die RecyclerView-Klasse weitergeleitet womit die Liste mit den Daten geladen wird.
     private void jsonrequestPopularNews(String url) {
 
         requestPopularNews = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -387,9 +304,7 @@ public class PopularNewsShow extends AppCompatActivity {
                 try {
                     JSONArray jsonArray = response.getJSONArray("articles");
 
-                    //Die For-Schleife weil es ein Array ist, welches solange wie die Länge des Arrays geht.
                     for(int i = 0; i < jsonArray.length(); i++){
-
                         PopularNews popularNews = new PopularNews();
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                         popularNews.setPublishedAt(jsonObject.getString("publishedAt"));
@@ -427,13 +342,12 @@ public class PopularNewsShow extends AppCompatActivity {
     }
 
 
-    //Die Methode um die Liste in das RecyclerView zu laden.
     private void setuprecyclerviewPopularNews(List<PopularNews> popularNews) {
 
         RecyclerViewAdapterPopularNews myadapter = new RecyclerViewAdapterPopularNews(PopularNewsShow.this,popularNews) ;
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(myadapter);
-            Toast.makeText(this, "News erfolgreich ausgelesen!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "News erfolgreich ausgelesen!", Toast.LENGTH_SHORT).show();
 
 
 

@@ -19,7 +19,7 @@
         <item>Trends</item>
         <item>Business</item>
         <item>Sport</item>
-        <item>Technologie</item>
+        <item>Elektronik</item>
     </string-array>
 
     <string-array name="dropdownMenuCount">
@@ -28,6 +28,12 @@
         <item>30</item>
         <item>40</item>
         <item>50</item>
+    </string-array>
+
+    <string-array name="dropdownMenuCountry">
+        <item>DE</item>
+        <item>EN</item>
+        <item>USA</item>
     </string-array>
 
 

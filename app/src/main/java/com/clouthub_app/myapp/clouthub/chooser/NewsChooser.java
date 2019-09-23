@@ -81,6 +81,7 @@ public class NewsChooser extends AppCompatActivity {
                     i.putExtra("url", "https://newsapi.org/v2/top-headlines?country=de&pageSize=10&sortBy=popularity&apiKey=37134d9a41c24f379a5c8ecac307e923");
                     i.putExtra("count", 10);
                     i.putExtra("category", "popularity");
+                    i.putExtra("country", "de");
                     startActivity(i);
                 } else {
                     Toast.makeText(NewsChooser.this, "Überprüfen Sie Ihre Internetverbindung", Toast.LENGTH_SHORT).show();

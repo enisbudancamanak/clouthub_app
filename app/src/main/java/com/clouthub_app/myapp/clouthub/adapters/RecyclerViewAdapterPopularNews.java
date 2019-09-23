@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.clouthub_app.myapp.clouthub.activities.PopularNewsActivity;
 import com.clouthub_app.myapp.clouthub.show.PopularNewsShow;
@@ -87,13 +88,19 @@ public class RecyclerViewAdapterPopularNews extends RecyclerView.Adapter<Recycle
         holder.tv_name.setText(mData.get(position).getTitle());
 
 
-        // Load Image from the internet and set it into Imageview using Glide
+        // Lädt Bilder aus dem Internet und setzt es in ein ImageView mithilfe von Glide
+        // Falls die BildURL leer ist wird ein Placeholder-Bild an der Stelle gesetzt
 
         if (mData.get(position).getUrlImage().equals("null") || mData.get(position).getUrlImage().isEmpty()) {
             holder.img_thumbnail.setImageResource(R.drawable.ic_no_picture);
         } else {
-            Glide.with(mContext).load(mData.get(position).getUrlImage()).apply(option).into(holder.img_thumbnail);
+            Glide.with(mContext).load(mData.get(position).getUrlImage()).apply(new RequestOptions()
+                    .diskCacheStrategy(DiskCacheStrategy.DATA)
+                    .apply(option)
+            ).into(holder.img_thumbnail);
         }
+
+
 
 
 

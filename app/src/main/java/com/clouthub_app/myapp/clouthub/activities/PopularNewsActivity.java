@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.clouthub_app.myapp.clouthub.R;
 
@@ -143,14 +144,19 @@ public class PopularNewsActivity extends AppCompatActivity {
         RequestOptions requestOptions = new RequestOptions().centerCrop().placeholder(R.drawable.loading_shape).error(R.drawable.loading_shape);
 
 
-        // set image using Glide
+        // Lädt Bilder aus dem Internet und setzt es in ein ImageView mithilfe von Glide
+        // Falls die BildURL leer ist wird ein Placeholder-Bild an der Stelle gesetzt
 
         if(urlImage.equals("null") || urlImage.isEmpty()){
             thumbnail_aa.setImageResource(R.drawable.ic_no_picture);
         } else {
-            Glide.with(this).load(urlImage).apply(requestOptions).into(thumbnail_aa);
+            Glide.with(this).load(urlImage).apply(new RequestOptions()
+                    .diskCacheStrategy(DiskCacheStrategy.DATA)
+                    .apply(requestOptions)
+            ).into(thumbnail_aa);
 
         }
+
     }
 
     @Override

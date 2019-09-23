@@ -54,7 +54,8 @@ public class PopularNewsShow extends AppCompatActivity {
     String url;
     int positionCategory;
     int positionCount;
-    int count=10;
+    int count;
+    String category;
 
     FloatingActionButton scrollTopButton;
 
@@ -80,6 +81,7 @@ public class PopularNewsShow extends AppCompatActivity {
 
 
 
+        //Wenn man runterscrollt werden Top-Menü ausgeblendet und Button zum hochscrollen eingeblendet.
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -96,11 +98,11 @@ public class PopularNewsShow extends AppCompatActivity {
 
         try {
             count = getIntent().getExtras().getInt("count");
+            category = getIntent().getExtras().getString("category");
             positionCategory  = getIntent().getExtras().getInt("positionCategory");
             positionCount = getIntent().getExtras().getInt("positionCount");
             url  = getIntent().getExtras().getString("url");
         } catch (Exception e) {
-            url = "https://newsapi.org/v2/top-headlines?country=de&pageSize="+count+"&sortBy=popularity&apiKey=37134d9a41c24f379a5c8ecac307e923";
         }
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -121,6 +123,8 @@ public class PopularNewsShow extends AppCompatActivity {
         counterSpinner.setAdapter(spinnerAdapter1);
         counterSpinner.setSelection(positionCount);
 
+
+        //Handlung was beim swipen passiert, in diesem Falle werden die News aktualisiert.
         final SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.swipeLayout);
         swipeRefreshLayout.setColorSchemeResources(R.color.refresh,R.color.refresh1, R.color.refresh2);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -140,49 +144,54 @@ public class PopularNewsShow extends AppCompatActivity {
 
 
 
+        //Die Handlung die bestimmt wie viele News angezeigt werden (Count).
         counterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if(counterSpinner.getSelectedItemId()==0 && count!=10){
                     finish();
                     Intent intent = new Intent(PopularNewsShow.this, PopularNewsShow.class);
-                    intent.putExtra("url", url);
+                    intent.putExtra("url", "https://newsapi.org/v2/top-headlines?country=de&pageSize=10&sortBy="+category+"&apiKey=37134d9a41c24f379a5c8ecac307e923");
                     intent.putExtra("positionCount", i);
                     intent.putExtra("positionCategory", positionCategory);
                     intent.putExtra("count", 10);
+                    intent.putExtra("category", category);
                     startActivity(intent);
                 } else if(counterSpinner.getSelectedItemId()==1 && count!=20){
                     finish();
                     Intent intent = new Intent(PopularNewsShow.this, PopularNewsShow.class);
-                    intent.putExtra("url", url);
+                    intent.putExtra("url", "https://newsapi.org/v2/top-headlines?country=de&pageSize=20&sortBy="+category+"&apiKey=37134d9a41c24f379a5c8ecac307e923");
                     intent.putExtra("positionCount", i);
                     intent.putExtra("positionCategory", positionCategory);
                     intent.putExtra("count", 20);
+                    intent.putExtra("category", category);
                     startActivity(intent);
                 } else if(counterSpinner.getSelectedItemId()==2 && count!=30){
                     finish();
                     Intent intent = new Intent(PopularNewsShow.this, PopularNewsShow.class);
-                    intent.putExtra("url", url);
+                    intent.putExtra("url", "https://newsapi.org/v2/top-headlines?country=de&pageSize=30&sortBy="+category+"&apiKey=37134d9a41c24f379a5c8ecac307e923");
                     intent.putExtra("positionCount", i);
                     intent.putExtra("positionCategory", positionCategory);
                     intent.putExtra("count", 30);
-                    startActivity(intent);
+                    intent.putExtra("category", category);
                     startActivity(intent);
                 } else if(counterSpinner.getSelectedItemId()==3 && count!=40){
                     finish();
                     Intent intent = new Intent(PopularNewsShow.this, PopularNewsShow.class);
-                    intent.putExtra("url", url);
+                    intent.putExtra("url", "https://newsapi.org/v2/top-headlines?country=de&pageSize=40&sortBy="+category+"&apiKey=37134d9a41c24f379a5c8ecac307e923");
                     intent.putExtra("positionCount", i);
                     intent.putExtra("positionCategory", positionCategory);
                     intent.putExtra("count", 40);
+                    intent.putExtra("category", category);
                     startActivity(intent);
                 } else if(counterSpinner.getSelectedItemId()==4 && count!=50){
                     finish();
                     Intent intent = new Intent(PopularNewsShow.this, PopularNewsShow.class);
-                    intent.putExtra("url", url);
+                    intent.putExtra("url", "https://newsapi.org/v2/top-headlines?country=de&pageSize=50&sortBy="+category+"&apiKey=37134d9a41c24f379a5c8ecac307e923");
                     intent.putExtra("positionCategory", positionCategory);
                     intent.putExtra("positionCount", i);
                     intent.putExtra("count", 50);
+                    intent.putExtra("category", category);
                     startActivity(intent);
                 }
             }
@@ -198,39 +207,45 @@ public class PopularNewsShow extends AppCompatActivity {
 
         navigationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
+
+            //Handlung bei den Option-Punkten festlegen
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    if(navigationSpinner.getSelectedItemId()==0 && !url.equals("https://newsapi.org/v2/top-headlines?country=de&pageSize="+count+"&sortBy=popularity&apiKey=37134d9a41c24f379a5c8ecac307e923")){
+                    if(navigationSpinner.getSelectedItemId()==0 && !category.equals("popularity")){
                         finish();
                         Intent i = new Intent(PopularNewsShow.this, PopularNewsShow.class);
                         i.putExtra("url", "https://newsapi.org/v2/top-headlines?country=de&pageSize="+count+"&sortBy=popularity&apiKey=37134d9a41c24f379a5c8ecac307e923");
                         i.putExtra("positionCategory", position);
                         i.putExtra("positionCount", positionCount);
                         i.putExtra("count", count);
+                        i.putExtra("category", "popularity");
                         startActivity(i);
-                    } else if(navigationSpinner.getSelectedItemId()==1 && !url.equals("https://newsapi.org/v2/top-headlines?country=de&pageSize="+count+"&category=business&apiKey=37134d9a41c24f379a5c8ecac307e923")) {
+                    } else if(navigationSpinner.getSelectedItemId()==1 && !category.equals("business")) {
                         finish();
                         Intent i = new Intent(PopularNewsShow.this, PopularNewsShow.class);
                         i.putExtra("url", "https://newsapi.org/v2/top-headlines?country=de&pageSize="+count+"&category=business&apiKey=37134d9a41c24f379a5c8ecac307e923");
                         i.putExtra("positionCategory", position);
                         i.putExtra("positionCount", positionCount);
                         i.putExtra("count", count);
+                        i.putExtra("category", "business");
                         startActivity(i);
-                    } else if(navigationSpinner.getSelectedItemId()==2 && !url.equals("https://newsapi.org/v2/top-headlines?country=de&pageSize="+count+"&category=sport&apiKey=37134d9a41c24f379a5c8ecac307e923")) {
+                    } else if(navigationSpinner.getSelectedItemId()==2 && !category.equals("sport")) {
                         finish();
                         Intent i = new Intent(PopularNewsShow.this, PopularNewsShow.class);
                         i.putExtra("url", "https://newsapi.org/v2/top-headlines?country=de&pageSize="+count+"&category=sport&apiKey=37134d9a41c24f379a5c8ecac307e923");
                         i.putExtra("positionCategory", position);
                         i.putExtra("positionCount", positionCount);
                         i.putExtra("count", count);
+                        i.putExtra("category", "sport");
                         startActivity(i);
-                    } else if(navigationSpinner.getSelectedItemId()==3 && !url.equals("https://newsapi.org/v2/top-headlines?country=de&pageSize="+count+"&category=technology&apiKey=37134d9a41c24f379a5c8ecac307e923")) {
+                    } else if(navigationSpinner.getSelectedItemId()==3 && !category.equals("technology")) {
                         finish();
                         Intent i = new Intent(PopularNewsShow.this, PopularNewsShow.class);
                         i.putExtra("url", "https://newsapi.org/v2/top-headlines?country=de&pageSize="+count+"&category=technology&apiKey=37134d9a41c24f379a5c8ecac307e923");
                         i.putExtra("positionCategory", position);
                         i.putExtra("positionCount", positionCount);
                         i.putExtra("count", count);
+                        i.putExtra("category", "technology");
                         startActivity(i);
                     }
             }
@@ -255,23 +270,17 @@ public class PopularNewsShow extends AppCompatActivity {
 
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_popular_news, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.aboutMenu:
-                startActivity(new Intent(PopularNewsShow.this, AboutActivity.class));
-                overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
 
+
+    //Die Funktion um die Navigatonsleiste, welches fürs Handeln beim Klicken eines Menüpunktes eine Reaktion gibt.
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
@@ -295,6 +304,9 @@ public class PopularNewsShow extends AppCompatActivity {
             };
 
 
+    //JSON-Abfrage um entsprechende Daten von dem JSONArray aus der URL abzufragen
+    //Anschließend werden diese Daten in eine Liste gesetzt
+    //Und in die RecyclerView-Klasse weitergeleitet womit die Liste mit den Daten geladen wird.
     private void jsonrequestPopularNews(String url) {
 
         requestPopularNews = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -304,7 +316,9 @@ public class PopularNewsShow extends AppCompatActivity {
                 try {
                     JSONArray jsonArray = response.getJSONArray("articles");
 
+                    //Die For-Schleife weil es ein Array ist, welches solange wie die Länge des Arrays geht.
                     for(int i = 0; i < jsonArray.length(); i++){
+
                         PopularNews popularNews = new PopularNews();
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                         popularNews.setPublishedAt(jsonObject.getString("publishedAt"));
@@ -342,6 +356,7 @@ public class PopularNewsShow extends AppCompatActivity {
     }
 
 
+    //Die Methode um die Liste in das RecyclerView zu laden.
     private void setuprecyclerviewPopularNews(List<PopularNews> popularNews) {
 
         RecyclerViewAdapterPopularNews myadapter = new RecyclerViewAdapterPopularNews(PopularNewsShow.this,popularNews) ;
